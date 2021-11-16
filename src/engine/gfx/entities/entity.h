@@ -1,5 +1,10 @@
 #define MAX_VERTICES 100000
 
+/* 
+-- ENTITY --
+The entity is a base class for rendering hard-coded vertex placements
+*/
+
 class Entity {
 private:
     mi::Matr4 model_matrix;

@@ -8,6 +8,11 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 
+out vec3 _normal;
+out vec3 fragp;
+
 void main() {
+    fragp = (model * vec4(position, 1.0)).xyz;
+    _normal = normalize(mat3(transpose(inverse(model))) * normal);
     gl_Position = projection * view * model * vec4(position, 1.0);
 }

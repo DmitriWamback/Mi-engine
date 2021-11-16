@@ -1,3 +1,8 @@
+/* 
+-- SHADER --
+The shader is used for loading special programs that determine the shape and color of an object
+*/
+
 std::string BASE_SHADER_PATH = "src/engine/gfx/shaders/glsl/";
 
 class Shader {
@@ -63,6 +68,11 @@ public:
             matr.r4.x, matr.r4.y, matr.r4.z, matr.r4.w
         };
         glUniformMatrix4fv(loc, 1, GL_FALSE, dat);
+    }
+
+    void setVec3(std::string name, mi::Vec3 vect) {
+        int loc = glGetUniformLocation(program, name.c_str());
+        glUniform3f(loc, vect.x, vect.y, vect.z);
     }
 
     void use() {

@@ -71,7 +71,7 @@ public:
         shader.setMatr4("model", model);
 
         glBindVertexArray(buf.vao);
-        glDrawArrays(GL_LINE_STRIP, 0, 36);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
     }
 };

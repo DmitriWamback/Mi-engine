@@ -35,13 +35,16 @@ int main() {
     MI_addShader(debugShader);
     MI_addShader(debugShader2);
 
+    mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
+
     for (int x = 0; x < 100; x++) {
         for (int z = 0; z < 100; z++) {
-            mi::Vec3 position = mi::Vec3(x - 50.0, floor(sin(x/2.0) + cos(z/2.0)), z - 50.0);
+            mi::Vec3 position = mi::Vec3(x - 50.0, floor(sin(x/4.0)*2 + cos(z/4.0)*2), z - 50.0);
 
             Entity* en = new Cube(buffer);
             en->position = position;
             en->rotation = mi::Vec3(0.0);
+            MI_addStaticCamera(scene1, shadowCamera);
             MI_entityAssignShaderCode(en, debugShader);
             MI_sceneAddEntity(scene1, en);
         }

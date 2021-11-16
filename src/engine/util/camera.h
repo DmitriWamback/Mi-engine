@@ -1,3 +1,8 @@
+/* 
+-- CAMERA --
+The camera is the main utility to move around within a 3D space
+*/
+
 namespace mi {
 
     class Camera {

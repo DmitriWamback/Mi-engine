@@ -3,10 +3,16 @@
 
 #include "entitylib.h"
 
-#include "util/camera.h"
-#include "util/scene.h"
+#include "gfx/texture/texture.h"
 #include "gfx/fbo/framebuf.h"
-#include "gfx/fbo/shadowbuf.h"
+#include "util/camera.h"
+#include "util/static_camera.h"
+#include "util/scene.h"
+
+/* 
+-- ENGINE --
+The engine is a way to communicate to all other files with ease
+*/
 
 namespace mi_core {
     std::map<std::string, Scene> scenes;
@@ -52,6 +58,11 @@ namespace mi_input {
     }
 }
 
+
+void MI_addStaticCamera(Scene scene, mi::StaticCamera camera) {
+    scene.add_static_camera(camera);
+}
+
 void MI_entityAssignShaderCode(Entity* entity, Shader shader) {
     entity->shaderToUse = shader.shaderName;
 }
@@ -72,6 +83,8 @@ void MI_sceneAddEntity(Scene scene, Entity* entity) {
 
 void MI_startMainLoop(std::string scene_to_render) {
     Scene scene = mi_core::scenes[scene_to_render];
+
+    scene.__MI_ENGINE_BEGUN();
 
     glEnable(GL_DEPTH_TEST);
 
@@ -96,6 +109,11 @@ void MI_startMainLoop(std::string scene_to_render) {
 #endif
 
         mi_input::keyPress();
+
+        /* ANY MAIN GAME FUNCTIONALITY HERE */
+        // GETTING SHADOW DEPTH MAP
+        mi::RenderTexture depthMap;
+
         scene.render_all(mi_input::movement_motion, mi_input::camera_rotation_movement);
         mi_input::camera_rotation_movement = mi::Vec2(0.0);
 

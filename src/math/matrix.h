@@ -120,4 +120,17 @@ mi::Matr4 rotate(mi::Vec3 r_degrees) {
     return rotation_matr;
 }
 
+mi::Matr4 orthographic(float left, float right, float bottom, float top, float zfar, float znear) {
+
+    float rl = 1.f / (right - left);
+    float tb = 1.f / (top - bottom);
+    float fn = 1.f / (zfar - znear);
+
+    return mi::Matr4(
+        mi::Vec4(2.0 * rl,          0,                    0,                       0.0),
+        mi::Vec4(0,                 2.0 * tb,             0,                       0.0),
+        mi::Vec4(0,                 0,            -2.0 * fn,                       0.0),
+        mi::Vec4(-(right + left) * rl, -(top + bottom) * tb, -(zfar + znear) * fn, 1.0));
+}
+
 #endif
