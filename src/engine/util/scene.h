@@ -8,14 +8,14 @@ namespace mi_core {
 class Scene {
 private:
 
-public:
     Entity* allEntities[__SCENE_MAX_ENTITIES];
 
     mi::Matr4 projection;
     mi::Matr4 view;
-    mi::Matr4 model;
 
     mi::Camera camera;
+
+public:
     std::string scene_name;
 
     Scene() {}
@@ -26,7 +26,6 @@ public:
 
         projection = perspective(90.0, 1.0, 1000.0, 0.1);
         view = lookat(mi::Vec3(5.0, 5.0, 5.0), mi::Vec3(0.0, 0.0, 0.0), mi::Vec3(0.0, 1.0, 0.0));
-        model = rotate(mi::Vec3(30.0, 60.0, 90.0));
     }
     
     void renderEntityFromShaderCode(mi::Vec2 motion, mi::Vec2 camera_rotation) {
@@ -48,6 +47,22 @@ public:
 
             entity->render(shader);
         }
+    }
+
+    mi::Vec3 get_camera_position() {
+        return camera.position;
+    }
+
+    mi::Vec3 get_camera_look_direction() {
+        return camera.look_direction;
+    }
+
+    mi::Matr4 get_projection() {
+        return camera.projection;
+    }
+
+    mi::Matr4 get_view() {
+        return camera.view;
     }
 
     void add_entity(Entity* entity) {
