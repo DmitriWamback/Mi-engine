@@ -22,7 +22,8 @@ float calculateShadow() {
 
     float closest = texture(depthMap, projectionCoords.st).r;
     float current = projectionCoords.z;
-
+    
+    // BIAS = 0.05 / CAMERA ZFAR
     float shadow = current-0.00003333 > closest ? 1.0 : 0.0;
 
     if (projectionCoords.x > 1.0) shadow = 0.0;
