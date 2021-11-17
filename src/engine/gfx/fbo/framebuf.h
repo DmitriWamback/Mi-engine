@@ -16,35 +16,40 @@ namespace mi {
         uint32_t tex_id;
         uint32_t fbo;
 
+        int WIDTH, HEIGHT;
+
         BUFFER_TYPE type;
 
-        Framebuffer() {
-            type = STANDARD;
+        Framebuffer() {}
 
-            glGenFramebuffers(1, &fbo);
-            glGenTextures(1, &tex_id);
+        Framebuffer(int WIDTH, int HEIGHT) {
+            type = STANDARD;
         }
     };
     /* classes inheriting from the Framebuffer class*/
 
-    class Shadowbuffer: public Framebuffer {
+    class Depthbuffer: public Framebuffer {
     private:
-
-        int SHADOW_WIDTH = 1000;
-        int SHADOW_HEIGHT = 1000;
     
     public:
 
-        Shadowbuffer() {
+        Depthbuffer(int WIDTH, int HEIGHT) {
 
             type = DEPTH;
+            this->WIDTH = WIDTH;
+            this->HEIGHT = HEIGHT;
+            glGenFramebuffers(1, &fbo);
+            glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+            glGenTextures(1, &tex_id);
+
+            std::cout << this->WIDTH << std::endl;
 
             glBindTexture(GL_TEXTURE_2D, tex_id);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, this->WIDTH, this->HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
             float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
             glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 

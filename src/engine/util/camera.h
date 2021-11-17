@@ -16,6 +16,8 @@ namespace mi {
 
         mi::Matr4 projection;
         mi::Matr4 view;
+        mi::Matr4 lightSpaceMatrix_projection;
+        mi::Matr4 lightSpaceMatrix_view;
 
         mi::Vec2 rotation;
 
@@ -25,11 +27,12 @@ namespace mi {
             rotation = mi::Vec2();
             up = mi::Vec3(0.0, 1.0, 0.0);
 
-            projection = perspective(90.0, 1.0, 1000.0, 0.1);
+            projection = perspective(80.0, 1.0, 1000.0, 0.1);
             view = lookat(position, position + look_direction, up);
         };
 
         void rotateCamera(float xdir, float ydir) {
+            
             rotation.x -= xdir * 0.25;
             rotation.y += ydir * 0.25;
 

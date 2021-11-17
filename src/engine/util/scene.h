@@ -20,20 +20,10 @@ private:
     Entity* allEntities[__SCENE_MAX_ENTITIES];
     mi::StaticCamera static_cameras[__SCENE_MAX_STATIC_CAMERAS];
 
-    mi::Matr4 projection;
-    mi::Matr4 view;
-
     mi::Camera camera;
     Shader depthShader;
 
-    mi::RenderTexture renderSceneThroughFrameBuffer(mi::StaticCamera c, mi::Framebuffer* framebuffer) {
-
-        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
-        
-        if (framebuffer->type == mi::DEPTH) {
-
-        }
-    }
+    mi::Vec3 camera_pos = mi::Vec3();
 
 public:
     std::string scene_name;
@@ -43,9 +33,6 @@ public:
     Scene(std::string scene_name) {
 
         this->scene_name = scene_name;
-
-        projection = perspective(90.0, 1.0, 1000.0, 0.1);
-        view = lookat(mi::Vec3(5.0, 5.0, 5.0), mi::Vec3(0.0, 0.0, 0.0), mi::Vec3(0.0, 1.0, 0.0));
     }
     
     void renderEntityFromShaderCode(mi::Vec2 motion, mi::Vec2 camera_rotation) {
@@ -62,6 +49,10 @@ public:
             shader.setVec3("camera_position", camera.position);
             shader.setMatr4("projection", camera.projection);
             shader.setMatr4("view", camera.view);
+            shader.setMatr4("lightSpaceMatrix_projection", camera.lightSpaceMatrix_projection);
+            shader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
+            shader.setVec3("directional_shadow_light_position", camera_pos);
+            shader.setInt("main_tex", 1);
 
             entity->render(shader);
         }
@@ -83,18 +74,30 @@ public:
         return camera.view;
     }
 
-    mi::RenderTexture load_rendered_scene(std::string camera_to_render, mi::Framebuffer* framebuffer) {
+    mi::RenderTexture load_rendered_scene(mi::StaticCamera cam, mi::Framebuffer* framebuffer) {
+        
+        glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
 
-        mi::StaticCamera camera;
+        camera_pos = cam.position;
+        
+        if (framebuffer->type == mi::DEPTH) {
+            depthShader.use();
+            depthShader.setMatr4("lightSpaceMatrix_projection", cam.projection);
+            depthShader.setMatr4("lightSpaceMatrix_view", cam.view);
 
-        for (int c = 0; c < nb_cameras; c++) {
-            
-            if (static_cameras[c].camera_name == camera_to_render) {
-                camera.camera_name;
-                break;
+            camera.lightSpaceMatrix_projection = cam.projection;
+            camera.lightSpaceMatrix_view = cam.view;
+            glClear(GL_DEPTH_BUFFER_BIT);
+
+            for (int i = 0; i < nb_entities; i++) {
+                Entity* entity = allEntities[i];
+                entity->render(depthShader);
             }
         }
-        renderSceneThroughFrameBuffer(camera, framebuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        return mi::RenderTexture(framebuffer->tex_id);
     };
 
     void add_entity(Entity* entity) {
@@ -113,6 +116,6 @@ public:
     
 
     void __MI_ENGINE_BEGUN() {
-        depthShader = Shader("shadow/vDepthMap.glsl", "shadow/fDepthMap.glsl", "DEPTH SHADER");
+        depthShader = Shader("shadow/vDepth.glsl", "shadow/fDepth.glsl", "DEPTH SHADER");
     }
 };

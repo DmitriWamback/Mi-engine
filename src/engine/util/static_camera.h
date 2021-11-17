@@ -24,7 +24,7 @@ namespace mi {
 
         STATICCAMERAPROPERTIES_PERSPECTIVE() {}
 
-        STATICCAMERAPROPERTIES_PERSPECTIVE(float fovdeg     = 90.0f, 
+        STATICCAMERAPROPERTIES_PERSPECTIVE(float fovdeg     = 90.0, 
                                            float aspect     = 1.0, 
                                            float zfar       = 1000.0, 
                                            float znear      = 0.0, 
@@ -55,13 +55,13 @@ namespace mi {
         Vec3 look_target;
         Vec3 local_up;
 
-        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left              = -1, 
-                                            float right             =  1, 
-                                            float top               =  1, 
-                                            float bottom            = -1,
-                                            float zfar              = 1000.0,
+        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left              = -100.0, 
+                                            float right             =  100.0, 
+                                            float top               =  100.0, 
+                                            float bottom            = -100.0,
+                                            float zfar              = 1500.0,
                                             float znear             = 0.1,
-                                            Vec3 position           = Vec3(10.0, 10.0, 10.0), 
+                                            Vec3 position           = Vec3(200.0, 100.0, 100.0), 
                                             Vec3 look_target        = Vec3(0.0), 
                                             Vec3 local_up           = Vec3(0.0, 1.0, 0.0)) {
 
@@ -78,13 +78,13 @@ namespace mi {
     };
     
     class StaticCamera {
-    private:
+    public:
+
+        Vec3 position;
 
         CAMERA_TYPE type;
         Matr4 projection;
         Matr4 view;
-
-    public:
 
         std::string camera_name;
         bool isActive = true;
@@ -104,6 +104,7 @@ namespace mi {
                                       orthographic_prop.znear);
 
             view = lookat(orthographic_prop.position, orthographic_prop.look_target, orthographic_prop.local_up);
+            position = orthographic_prop.position;
         }
 
         StaticCamera(STATICCAMERAPROPERTIES_PERSPECTIVE perspective_prop, std::string name) {
@@ -118,6 +119,7 @@ namespace mi {
                 perspective_prop.znear);
             
             view = lookat(perspective_prop.position, perspective_prop.look_target, perspective_prop.local_up);
+            position = perspective_prop.position;
         }
     };
 }

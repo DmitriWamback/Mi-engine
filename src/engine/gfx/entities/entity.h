@@ -32,7 +32,7 @@ public:
         return model_matrix;
     }
 
-    virtual void render(Shader shader) {
+    virtual void render(Shader &shader) {
         shader.use();
         model_matrix = scale(mi::Vec3(1.0));
 

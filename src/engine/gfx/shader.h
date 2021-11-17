@@ -75,6 +75,11 @@ public:
         glUniform3f(loc, vect.x, vect.y, vect.z);
     }
 
+    void setInt(std::string name, int a) {
+        int loc = glGetUniformLocation(program, name.c_str());
+        glUniform1i(loc, a);
+    }
+
     void use() {
         glUseProgram(program);
     }

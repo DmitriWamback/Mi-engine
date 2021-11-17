@@ -39,11 +39,10 @@ int main() {
 
     for (int x = 0; x < 100; x++) {
         for (int z = 0; z < 100; z++) {
-            mi::Vec3 position = mi::Vec3(x - 50.0, floor(sin(x/4.0)*2 + cos(z/4.0)*2), z - 50.0);
+            mi::Vec3 position = mi::Vec3(x - 50.0, floor(mi::noise(x/32.0, z/32.0, 1453.10)*18.0), z - 50.0);
 
             Entity* en = new Cube(buffer);
             en->position = position;
-            en->rotation = mi::Vec3(0.0);
             MI_addStaticCamera(scene1, shadowCamera);
             MI_entityAssignShaderCode(en, debugShader);
             MI_sceneAddEntity(scene1, en);
