@@ -40,5 +40,5 @@ void main() {
     vec3 diffuse = n * vec3(1.0, 0.0, 0.0);
 
     vec3 col = vec3(1.0, 1.0, 1.0) * diffuse * calculateShadow() + ambient;
-    fragc = vec4(col,1.0);
+    fragc = vec4(col,1.0) * texture(depthMap, i.uv).r;
 }
