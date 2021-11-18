@@ -22,9 +22,8 @@ float calculateShadow() {
 
     float closest = texture(depthMap, projectionCoords.st).r;
     float current = projectionCoords.z;
-    
-    // BIAS = 0.05 / CAMERA ZFAR
-    float shadow = current-0.00003333 > closest ? 1.0 : 0.0;
+
+    float shadow = current-0.000005 > closest ? 1.0 : 0.0;
 
     if (projectionCoords.x > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;
@@ -35,16 +34,13 @@ void main() {
 
     vec3 ambient = vec3(0.25, 0.25, 0.35);
 
-    float n          = max(dot(normalize(directional_shadow_light_position - i.fragp), normalize(i.normal)), 0.2);
-    float shadowDiff = max(dot(normalize(directional_shadow_light_position), normalize(i.normal)), 0.0);
+    float dotD = dot(normalize(directional_shadow_light_position - i.fragp), normalize(i.normal));
+    float n    = dot(normalize(directional_shadow_light_position), normalize(i.normal));
 
-    vec3 diffuse = n * vec3(1.0, 0.0, 0.0);
+    vec3 a = normalize(cross(normalize(i.normal), normalize(directional_shadow_light_position - i.fragp)));
+    
+    vec3 diffuse = dotD * vec3(1.0, 0.0, 0.0) * calculateShadow();
 
-    vec3 col = vec3(1.0, 1.0, 1.0) * diffuse * calculateShadow() + ambient;
-<<<<<<< HEAD
-    fragc = vec4(col,1.0) * texture(depthMap, i.uv).r;
-}
-=======
+    vec3 col = vec3(1.0, 0.0, 0.0) * diffuse + ambient;
     fragc = vec4(col,1.0);
 }
->>>>>>> fe0d26fb29a8abcb48e48e9be32c303a4bbe7a48

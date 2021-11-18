@@ -6,6 +6,7 @@
 The scene is a way to easily organize and render several places
 */
 
+float t = 0;
 
 namespace mi_core {
     std::map<std::string, Shader> all_shaders;
@@ -79,15 +80,19 @@ public:
         glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
 
+        mi::Vec3 pos = mi::Vec3(sin(t)*250, 50, cos(t)*250);
+        mi::Matr4 v = lookat(pos, mi::Vec3(0.0), mi::Vec3(0.0, 1.0, 0.0));
+
+        cam.position = pos;
         camera_pos = cam.position;
         
         if (framebuffer->type == mi::DEPTH) {
             depthShader.use();
             depthShader.setMatr4("lightSpaceMatrix_projection", cam.projection);
-            depthShader.setMatr4("lightSpaceMatrix_view", cam.view);
+            depthShader.setMatr4("lightSpaceMatrix_view", v);
 
             camera.lightSpaceMatrix_projection = cam.projection;
-            camera.lightSpaceMatrix_view = cam.view;
+            camera.lightSpaceMatrix_view = v;
             glClear(GL_DEPTH_BUFFER_BIT);
 
             for (int i = 0; i < nb_entities; i++) {
@@ -97,6 +102,7 @@ public:
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+        t+=0.01;
         return mi::RenderTexture(framebuffer->tex_id);
     };
 
