@@ -42,7 +42,7 @@ void main() {
     float n                 = max(dot(nDSLP, nSN), 0.25);
 
     vec3 diffuse = dotD * n * vec3(1.0, 1.0, 1.0) * calculateShadow();
-    if (perpendicular > -0.075 && perpendicular < 0.075) diffuse = vec3(0.0);
+    if (perpendicular > -0.095 && perpendicular < 0.095) diffuse = vec3(0.0);
 
     vec3 col = vec3(1.0, 1.0, 1.0) * diffuse + ambient;
     fragc = vec4(col,1.0) * texture(main_tex, i.uv);
