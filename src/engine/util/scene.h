@@ -54,6 +54,7 @@ public:
             shader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
             shader.setVec3("directional_shadow_light_position", camera_pos);
             shader.setInt("main_tex", 1);
+            shader.setInt("depthMap", 0);
 
             entity->render(shader);
         }

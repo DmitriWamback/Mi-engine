@@ -37,15 +37,29 @@ int main() {
 
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
-    for (int x = 0; x < 100; x++) {
-        for (int z = 0; z < 100; z++) {
-            mi::Vec3 position = mi::Vec3(x - 50.0, floor(mi::noise(x/32.0, z/32.0, 1453.10)*18.0), z - 50.0);
+    #define DEBUG_SEED 1421.40
+    #define s 30
 
-            Entity* en = new Cube(buffer);
-            en->position = position;
-            MI_addStaticCamera(scene1, shadowCamera);
-            MI_entityAssignShaderCode(en, debugShader);
-            MI_sceneAddEntity(scene1, en);
+    for (int x = 0; x < s; x++) {
+        for (int y = 0; y < s; y++) {
+            for (int z = 0; z < s; z++) {
+
+                float xNoise, yNoise, zNoise;
+
+                xNoise = mi::noise(y/6.2, z/6.2, DEBUG_SEED);
+                yNoise = mi::noise(x/6.2, z/6.2, DEBUG_SEED);
+                zNoise = mi::noise(x/6.2, y/6.2, DEBUG_SEED);
+
+                if (xNoise + yNoise + zNoise > 0.5) {
+                    mi::Vec3 position = mi::Vec3(x - s/2, y - s/2, z - s/2);
+
+                    Entity* en = new Cube(buffer);
+                    en->position = position;
+                    MI_addStaticCamera(scene1, shadowCamera);
+                    MI_entityAssignShaderCode(en, debugShader);
+                    MI_sceneAddEntity(scene1, en);
+                }
+            }
         }
     }
     MI_startMainLoop(scene1.scene_name);

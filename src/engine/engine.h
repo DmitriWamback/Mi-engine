@@ -92,7 +92,7 @@ void MI_startMainLoop(std::string scene_to_render) {
     mi::Framebuffer* depth = new mi::Depthbuffer(10000, 10000);
 
     /* TEXTURE DEFINITION HERE */
-    //mi::Texture texture = mi::Texture("/images/hello.png");
+    mi::Texture texture = mi::Texture("src/engine/gfx/texture/brick.jpg");
 
     while (!glfwWindowShouldClose(main_window)) {
 
@@ -124,11 +124,11 @@ void MI_startMainLoop(std::string scene_to_render) {
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);
-        //glActiveTexture(GL_TEXTURE1);
-        //glBindTexture(GL_TEXTURE_2D, texture.tex_id);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texture.tex_id);
         scene.render_all(mi_input::movement_motion, mi_input::camera_rotation_movement);
-        mi_input::camera_rotation_movement = mi::Vec2(0.0);
 
+        mi_input::camera_rotation_movement = mi::Vec2(0.0);
         glfwPollEvents();
         glfwSwapBuffers(main_window);
     }
