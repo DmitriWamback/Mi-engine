@@ -39,6 +39,7 @@ int main() {
 
     #define DEBUG_SEED 1421.40
     #define s 30
+    #define FREQ 7.2
 
     for (int x = 0; x < s; x++) {
         for (int y = 0; y < s; y++) {
@@ -46,9 +47,9 @@ int main() {
 
                 float xNoise, yNoise, zNoise;
 
-                xNoise = mi::noise(y/6.2, z/6.2, DEBUG_SEED);
-                yNoise = mi::noise(x/6.2, z/6.2, DEBUG_SEED);
-                zNoise = mi::noise(x/6.2, y/6.2, DEBUG_SEED);
+                xNoise = mi::noise(y/FREQ, z/FREQ, DEBUG_SEED);
+                yNoise = mi::noise(x/FREQ, z/FREQ, DEBUG_SEED);
+                zNoise = mi::noise(x/FREQ, y/FREQ, DEBUG_SEED);
 
                 if (xNoise + yNoise + zNoise > 0.5) {
                     mi::Vec3 position = mi::Vec3(x - s/2, y - s/2, z - s/2);
