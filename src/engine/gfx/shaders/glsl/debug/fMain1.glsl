@@ -37,9 +37,9 @@ void main() {
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
 
-    float dotD              = max(dot(normalize(directional_shadow_light_position - i.fragp), nSN), 0.25);
+    float dotD              = max(dot(normalize(directional_shadow_light_position - i.fragp), normalize(i.normal)), 0.25);
     float perpendicular     = dot(nDSLP, nSN);
-    float n                 = max(nDSLP, nSN), 0.25);
+    float n                 = max(dot(nDSLP, nSN), 0.25);
 
     vec3 diffuse = dotD * n * vec3(1.0, 1.0, 1.0) * calculateShadow();
     if (perpendicular > -0.075 && perpendicular < 0.075) diffuse = vec3(0.0);
