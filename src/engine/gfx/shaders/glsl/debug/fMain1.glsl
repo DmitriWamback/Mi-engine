@@ -32,7 +32,7 @@ float calculateShadow() {
 
 void main() {
 
-    vec3 ambient = vec3(0.25);
+    vec3 ambient = vec3(0.25, 0.25, 0.35);
 
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
@@ -41,9 +41,11 @@ void main() {
     float perpendicular     = dot(nDSLP, nSN);
     float n                 = max(dot(nDSLP, nSN), 0.25);
 
-    vec3 diffuse = dotD * n * vec3(1.0, 1.0, 1.0) * calculateShadow();
+    //                        LIGHT COLOR
+    vec3 diffuse = dotD * n * vec3(1.0, 1.0, 0.0) * calculateShadow();
     if (perpendicular > -0.095 && perpendicular < 0.095) diffuse = vec3(0.0);
-
+               
+    //         OBJECT COLOR
     vec3 col = vec3(1.0, 1.0, 1.0) * diffuse + ambient;
     fragc = vec4(col,1.0) * texture(main_tex, i.uv);
 }
