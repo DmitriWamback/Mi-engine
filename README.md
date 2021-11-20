@@ -13,7 +13,7 @@
 ## CURRENT "IN DEVELOPMENT" UTILITIES
 <ul>
     <li>Physically based rendering (PBR)</li>
-    <li>Model loader</li>
+    <li>Model loader (OBJ format)</li>
     <li>Inheritable Scene class</li>
     <li>UI and 2D rendering engine</li>
 </ul>
