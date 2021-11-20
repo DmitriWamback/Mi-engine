@@ -87,12 +87,13 @@ namespace mi {
         Matr4 view;
 
         std::string camera_name;
-        bool isActive = true;
+        bool isActive;
 
         StaticCamera() {}
 
         StaticCamera(STATICCAMERAPROPERTIES_ORTHOGRAPHIC orthographic_prop, std::string name) {
             
+            isActive = true;
             camera_name = name;
             type = ORTHOGRAPHIC;
 
@@ -109,6 +110,7 @@ namespace mi {
 
         StaticCamera(STATICCAMERAPROPERTIES_PERSPECTIVE perspective_prop, std::string name) {
 
+            isActive = true;
             camera_name = name;
             type = PERSPECTIVE;
 

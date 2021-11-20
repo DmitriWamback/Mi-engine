@@ -15,8 +15,8 @@ namespace mi_core {
 class Scene {
 private:
 
-    int nb_entities = 0;
-    int nb_cameras = 0;
+    int nb_entities;
+    int nb_cameras;
 
     Entity* allEntities[__SCENE_MAX_ENTITIES];
     mi::StaticCamera static_cameras[__SCENE_MAX_STATIC_CAMERAS];
@@ -24,7 +24,7 @@ private:
     mi::Camera camera;
     Shader depthShader;
 
-    mi::Vec3 camera_pos = mi::Vec3();
+    mi::Vec3 camera_pos;
 
 public:
     std::string scene_name;
@@ -34,6 +34,8 @@ public:
     Scene(std::string scene_name) {
 
         this->scene_name = scene_name;
+        nb_entities = 0;
+        nb_cameras = 0;
     }
     
     void renderEntityFromShaderCode(mi::Vec2 motion, mi::Vec2 camera_rotation) {
@@ -104,8 +106,6 @@ public:
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glCullFace(GL_BACK);
 
-        t+=0.1;
-        std::cout << t << std::endl;
         return mi::RenderTexture(framebuffer->tex_id);
     };
 
