@@ -20,7 +20,7 @@ g++ -arch x86_64 -framework OpenGL -I $GLFW_INC \
                 #-L $RS_LIB $RS_LIB/libmi_model_loader.dylib \
                 src/main.cpp
 
-# wind
+# Wind
 g++ -arch x86_64 -I $GLFW_INC \
                 -L $GLFW_LIB $GLFW_LIB/libglfw.lib \
                 $GLFW_LIB/libglfw.3.3.lib $GLFW_LIB/libglfw.3.lib \
