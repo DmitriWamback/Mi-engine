@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 
 /* Custom libraries */
+#include "engine/extern.h"
 // MATH
 #include "math/vector.h"
 #include "math/matrix.h"
@@ -37,9 +38,9 @@ int main() {
 
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
-    #define DEBUG_SEED 1421.40
-    #define s 30
-    #define FREQ 7.2
+    #define DEBUG_SEED 14121.40
+    #define s 40
+    #define FREQ 10.2
 
     for (int x = 0; x < s; x++) {
         for (int y = 0; y < s; y++) {
@@ -51,7 +52,7 @@ int main() {
                 yNoise = mi::noise(x/FREQ, z/FREQ, DEBUG_SEED);
                 zNoise = mi::noise(x/FREQ, y/FREQ, DEBUG_SEED);
 
-                if (xNoise + yNoise + zNoise > 0.5) {
+                if (xNoise + yNoise + zNoise > 0.8) {
                     mi::Vec3 position = mi::Vec3(x - s/2, y - s/2, z - s/2);
 
                     Entity* en = new Cube(buffer);

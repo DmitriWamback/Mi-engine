@@ -1,0 +1,1 @@
+/Users/newtest/Documents/Projects/c++/myengine/src/engine/extern/rs/modelLoader/target/release/libmi_model_loader.dylib: /Users/newtest/Documents/Projects/c++/myengine/src/engine/extern/rs/modelLoader/src/main.rs

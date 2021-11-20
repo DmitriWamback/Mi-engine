@@ -1,4 +1,4 @@
-*.sh
+/src/begin.sh
 a.out
 .DS_Store
 /.vscode/

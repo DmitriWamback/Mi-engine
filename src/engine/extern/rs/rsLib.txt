@@ -1,0 +1,2 @@
+cargo run --manifest-path src/engine/extern/rs/modelLoader/Cargo.toml --release
+GET LIBRARY AT [...]/target/release/lib[...].dylib

@@ -30,7 +30,9 @@ float calculateShadow() {
     float scale = pow(MAX_PCF_SHADOW + abs(MIN_PCF_SHADOW) + 1, 2);
 
     float shadow = 0;
-    // current-0.000005 > closest ? 1.0 : 0.0;
+    float bias = max(0.000005 * (1.0 - dot(normalize(i.normal), normalize(directional_shadow_light_position - i.fragp))), 0.0000045);
+    shadow =  current-bias > closest ? 1.0 : 0.0;
+    /*
     vec2 texelSize = 1.0 / textureSize(depthMap, 0);
 
     for(int x = MIN_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
@@ -40,6 +42,7 @@ float calculateShadow() {
         }    
     }
     shadow /= scale;
+    */
 
     if (projectionCoords.x > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;
@@ -48,20 +51,33 @@ float calculateShadow() {
 
 void main() {
 
-    vec3 ambient = vec3(0.25, 0.25, 0.35);
+    vec3 ambient = vec3(0.25, 0.25, 0.4);
 
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
 
-    float dotD              = max(dot(normalize(directional_shadow_light_position - i.fragp), normalize(i.normal)), 0.25);
+    float dotD              = max(dot(normalize(directional_shadow_light_position - i.fragp), nSN), 0.55);
     float perpendicular     = dot(nDSLP, nSN);
-    float n                 = max(dot(nDSLP, nSN), 0.25);
-
+    float n                 = max(dot(nDSLP, nSN), 0.55);
+    
     //                        LIGHT COLOR
     vec3 diffuse = dotD * n * vec3(1.0, 1.0, 0.0) * calculateShadow();
-    if (perpendicular > -0.095 && perpendicular < 0.095) diffuse = vec3(0.0);
+
+    float parallel = dot(
+        normalize(vec3(
+            directional_shadow_light_position.x,
+            0,
+            directional_shadow_light_position.z
+        )),
+        normalize(vec3(
+            i.normal.x,
+            0,
+            i.normal.z
+        )));
+    if (perpendicular >= -0.195 && perpendicular <= 0.195) diffuse = vec3(0.0);
+    //if (parallel > -2.5 && parallel < 0.5) diffuse = vec3(0.0);
                
     //         OBJECT COLOR
     vec3 col = vec3(1.0, 1.0, 1.0) * diffuse + ambient;
-    fragc = vec4(col,1.0) * texture(main_tex, i.uv);
+    fragc = vec4(col,1.0) * texture(main_tex, i.uv / 6);
 }

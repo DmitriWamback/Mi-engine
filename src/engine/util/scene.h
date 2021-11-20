@@ -81,7 +81,9 @@ public:
         glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
 
+        cam.position = mi::Vec3(sin(t)*300, 150, cos(t)*100);
         camera_pos = cam.position;
+        cam.view = lookat(camera_pos, mi::Vec3(0.0), mi::Vec3(0.0, 1.0, 0.0));
         
         if (framebuffer->type == mi::DEPTH) {
             depthShader.use();
