@@ -1,3 +1,5 @@
+GLenum RENDER_OPTION = GL_TRIANGLES;
+
 #include "gfx/shader.h"
 #include "util/renderbuf.h"
 
@@ -87,7 +89,7 @@ void MI_startMainLoop(std::string scene_to_render) {
     scene.__MI_ENGINE_BEGUN();
 
     glEnable(GL_DEPTH_TEST);
-
+    
     mi::StaticCamera orthographic_camera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
     mi::Framebuffer* depth = new mi::Depthbuffer(10000, 10000);
 

@@ -65,13 +65,13 @@ public:
     void render(Shader &shader) {
         shader.use();
 
-        convert_to_model_matrix();
+        create_model_matrix();
         mi::Matr4 model = get_model();
 
         shader.setMatr4("model", model);
 
         glBindVertexArray(buf.vao);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawArrays(RENDER_OPTION, 0, 36);
         glBindVertexArray(0);
     }
 };

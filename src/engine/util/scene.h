@@ -81,7 +81,7 @@ public:
         glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
 
-        cam.position = mi::Vec3(sin(t)*300, 150, cos(t)*100);
+        cam.position = mi::Vec3(sin(8.5)*300, 150, cos(8.5)*100);
         camera_pos = cam.position;
         cam.view = lookat(camera_pos, mi::Vec3(0.0), mi::Vec3(0.0, 1.0, 0.0));
         
@@ -104,7 +104,8 @@ public:
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glCullFace(GL_BACK);
 
-        t+=0.01;
+        t+=0.1;
+        std::cout << t << std::endl;
         return mi::RenderTexture(framebuffer->tex_id);
     };
 

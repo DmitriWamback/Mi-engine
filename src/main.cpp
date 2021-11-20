@@ -31,9 +31,9 @@ int main() {
     Entity* e = new Cube(buffer);
 
     /* SHADER DEFINITIONS HERE */
-    Shader debugShader("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
-    Shader debugShader2("debug/vMain.glsl", "debug/fMain2.glsl", "YELLOW");
-    MI_addShader(debugShader);
+    Shader shadowShader("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
+    Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
+    MI_addShader(shadowShader);
     MI_addShader(debugShader2);
 
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
@@ -58,7 +58,7 @@ int main() {
                     Entity* en = new Cube(buffer);
                     en->position = position;
                     MI_addStaticCamera(scene1, shadowCamera);
-                    MI_entityAssignShaderCode(en, debugShader);
+                    MI_entityAssignShaderCode(en, shadowShader);
                     MI_sceneAddEntity(scene1, en);
                 }
             }

@@ -24,7 +24,7 @@ public:
         size = mi::Vec3(1.0);
     }
 
-    void convert_to_model_matrix() {
+    void create_model_matrix() {
         model_matrix = rotate(rotation) * scale(size / 2.0) * translate(position);
     }
 
