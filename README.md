@@ -4,15 +4,15 @@
 <p>The <code>src/begin_temp.sh</code> shows the necessary libs used to compile and run the engine</p>
 
 ## AVAILABLE UTILITIES:
-<li>
-    <p>Framebuffers</p>
-    <p>Textures</p>
-    <p>3D Movement, world and rendering</p>
-</li>
+<ul>
+    <li>Framebuffers</li>
+    <li>Textures</li>
+    <li>3D Movement, world and rendering</li>
+</ul>
 
 ## CURRENT "IN DEVELOPMENT" UTILITIES
-<li>
-    <p>Physically based rendering (PBR)</p>
-    <p>Model loader</p>
-    <p>Inheritable Scene class</p>
-</li>
+<ul>
+    <li>Physically based rendering (PBR)</li>
+    <li>Model loader</li>
+    <li>Inheritable Scene class</li>
+</ul>
