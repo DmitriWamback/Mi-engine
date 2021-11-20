@@ -30,19 +30,17 @@ float calculateShadow() {
     float scale = pow(MAX_PCF_SHADOW + abs(MIN_PCF_SHADOW) + 1, 2);
 
     float shadow = 0;
-    float bias = max(0.000005 * (1.0 - dot(normalize(i.normal), normalize(directional_shadow_light_position - i.fragp))), 0.0000045);
-    shadow =  current-bias > closest ? 1.0 : 0.0;
-    /*
+    float bias = max(0.000005 * (1.0 - dot(normalize(i.normal), normalize(directional_shadow_light_position - i.fragp))), 0.000005);
+    //shadow = current-0.0000005 > closest ? 1.0 : 0.0;
     vec2 texelSize = 1.0 / textureSize(depthMap, 0);
 
     for(int x = MIN_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
         for (int y = MIN_PCF_SHADOW; y <= MAX_PCF_SHADOW; ++y) {
             float pcfDepth = texture(depthMap, projectionCoords.xy + vec2(x, y) * texelSize).r; 
-            shadow += current - 0.000005 > pcfDepth ? 1.0 : 0.0;        
+            shadow += current - 0.0000005 > pcfDepth ? 1.0 : 0.0;        
         }    
     }
     shadow /= scale;
-    */
 
     if (projectionCoords.x > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;
@@ -56,12 +54,12 @@ void main() {
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
 
-    float dotD              = max(dot(normalize(directional_shadow_light_position - i.fragp), nSN), 0.55);
+    float dotD              = max(dot(normalize(directional_shadow_light_position - i.fragp), nSN), 0.0);
     float perpendicular     = dot(nDSLP, nSN);
     float n                 = max(dot(nDSLP, nSN), 0.55);
     
     //                        LIGHT COLOR
-    vec3 diffuse = dotD * n * vec3(1.0, 1.0, 0.0) * calculateShadow();
+    vec3 diffuse = dotD * vec3(1.0, 1.0, 0.0) * calculateShadow();
 
     float parallel = dot(
         normalize(vec3(
@@ -74,7 +72,7 @@ void main() {
             0,
             i.normal.z
         )));
-    if (perpendicular >= -0.195 && perpendicular <= 0.195) diffuse = vec3(0.0);
+    //if (perpendicular >= -0.195 && perpendicular <= 0.1) diffuse = vec3(0.0);
     //if (parallel > -2.5 && parallel < 0.5) diffuse = vec3(0.0);
                
     //         OBJECT COLOR

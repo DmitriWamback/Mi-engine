@@ -86,6 +86,8 @@ public:
         cam.view = lookat(camera_pos, mi::Vec3(0.0), mi::Vec3(0.0, 1.0, 0.0));
         
         if (framebuffer->type == mi::DEPTH) {
+
+            glCullFace(GL_FRONT);
             depthShader.use();
             depthShader.setMatr4("lightSpaceMatrix_projection", cam.projection);
             depthShader.setMatr4("lightSpaceMatrix_view", cam.view);
@@ -100,6 +102,7 @@ public:
             }
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glCullFace(GL_BACK);
 
         t+=0.01;
         return mi::RenderTexture(framebuffer->tex_id);

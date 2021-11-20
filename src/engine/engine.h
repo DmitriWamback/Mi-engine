@@ -93,6 +93,7 @@ void MI_startMainLoop(std::string scene_to_render) {
 
     /* TEXTURE DEFINITION HERE */
     mi::Texture texture = mi::Texture("src/engine/gfx/texture/brick.jpg");
+    glEnable(GL_CULL_FACE);
 
     while (!glfwWindowShouldClose(main_window)) {
 
