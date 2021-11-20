@@ -1,4 +1,5 @@
 /src/begin.sh
 a.out
 .DS_Store
+/src/engine/gfx/texture/stb_image.h
 /.vscode/
