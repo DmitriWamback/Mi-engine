@@ -15,4 +15,5 @@
     <li>Physically based rendering (PBR)</li>
     <li>Model loader</li>
     <li>Inheritable Scene class</li>
+    <li>UI and 2D rendering engine</li>
 </ul>
