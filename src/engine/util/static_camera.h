@@ -22,8 +22,6 @@ namespace mi {
         Vec3 look_target;
         Vec3 local_up;
 
-        STATICCAMERAPROPERTIES_PERSPECTIVE() {}
-
         STATICCAMERAPROPERTIES_PERSPECTIVE(float fovdeg     = 90.0, 
                                            float aspect     = 1.0, 
                                            float zfar       = 1000.0, 
@@ -61,7 +59,7 @@ namespace mi {
                                             float bottom            = -50.0,
                                             float zfar              = 6000.0,
                                             float znear             = 0.1,
-                                            Vec3 position           = Vec3(100.0, 150.0, 50.0), 
+                                            Vec3 position           = Vec3(sin(8.5) * 300, 150.0, cos(8.5) * 100), 
                                             Vec3 look_target        = Vec3(0.0), 
                                             Vec3 local_up           = Vec3(0.0, 1.0, 0.0)) {
 

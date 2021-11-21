@@ -20,6 +20,8 @@ namespace mi_core {
     std::map<std::string, Scene> scenes;
 }
 
+bool isDebugButtonDown;
+
 GLFWwindow* main_window;
 
 namespace mi_input {
@@ -45,6 +47,15 @@ namespace mi_input {
         if (glfwGetKey(main_window, GLFW_KEY_S) == GLFW_PRESS) movement_motion.x = -1;
         if (glfwGetKey(main_window, GLFW_KEY_A) == GLFW_PRESS) movement_motion.y = -1;
         if (glfwGetKey(main_window, GLFW_KEY_D) == GLFW_PRESS) movement_motion.y =  1;
+
+        if (glfwGetKey(main_window, GLFW_KEY_E) == GLFW_PRESS && !isDebugButtonDown) {
+            if (RENDER_OPTION == GL_TRIANGLES) RENDER_OPTION = GL_LINE_STRIP;
+            else RENDER_OPTION = GL_TRIANGLES;
+            isDebugButtonDown = true;
+        }
+        if (glfwGetKey(main_window, GLFW_KEY_E) == GLFW_RELEASE && isDebugButtonDown) {
+            isDebugButtonDown = false;
+        }
     }
 
     void mouseMove(GLFWwindow* wind, double xposition, double yposition) {
@@ -94,7 +105,7 @@ void MI_startMainLoop(std::string scene_to_render) {
     mi::Framebuffer* depth = new mi::Depthbuffer(10000, 10000);
 
     /* TEXTURE DEFINITION HERE */
-    mi::Texture texture = mi::Texture("src/engine/gfx/texture/brick.jpg");
+    mi::Texture texture = mi::Texture("src/engine/gfx/texture/metallic.png");
     glEnable(GL_CULL_FACE);
 
     while (!glfwWindowShouldClose(main_window)) {
