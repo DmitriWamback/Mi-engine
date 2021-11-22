@@ -42,8 +42,6 @@ namespace mi {
             glBindFramebuffer(GL_FRAMEBUFFER, fbo);
             glGenTextures(1, &tex_id);
 
-            std::cout << this->WIDTH << std::endl;
-
             glBindTexture(GL_TEXTURE_2D, tex_id);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, this->WIDTH, this->HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
             glGenerateMipmap(GL_TEXTURE_2D);

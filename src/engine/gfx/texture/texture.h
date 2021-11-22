@@ -19,8 +19,6 @@ namespace mi {
 
             unsigned char* data = stbi_load(file_path, &width, &height, &channels, 0);
             if (data) {
-                std::cout << "FOUND\n";
-
                 glGenTextures(1, &tex_id);
                 glBindTexture(GL_TEXTURE_2D, tex_id);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

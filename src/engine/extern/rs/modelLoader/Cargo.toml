@@ -6,4 +6,3 @@ author = "Dmitri Wamback"
 [lib]
 crate-type = ["cdylib"]
 path = "src/lib.rs"
-

@@ -1,5 +1,6 @@
 GLenum RENDER_OPTION = GL_TRIANGLES;
 
+#include <thread>
 #include "gfx/shader.h"
 #include "util/renderbuf.h"
 
@@ -10,6 +11,7 @@ GLenum RENDER_OPTION = GL_TRIANGLES;
 #include "util/camera.h"
 #include "util/static_camera.h"
 #include "util/scene.h"
+#include "util/scenes.h"
 
 /* 
 -- ENGINE --
@@ -69,6 +71,11 @@ namespace mi_input {
 
         camera_last_mouse_position = mi::Vec2(xposition, yposition);
     }
+}
+
+namespace mi_utility {
+
+    
 }
 
 

@@ -45,7 +45,6 @@ public:
 
         for (int en = 0; en < nb_entities; en++) {
             Entity* entity = allEntities[en];
-
             Shader shader = mi_core::all_shaders[entity->shaderToUse];
 
             shader.use();

@@ -27,7 +27,7 @@ Scene scene1 = Scene("hello");
 #define DEBUG_SEED 14121.40
 #define s 70
 
-#define FREQ 12.2
+#define FREQ 19.2
 
 float get_noise_density_at(int x, int y, int z, float seed) {
     float xNoise, yNoise, zNoise;
@@ -41,8 +41,9 @@ float get_noise_density_at(int x, int y, int z, float seed) {
 int main() {
     __engineBegin();
 
-    renderbuf buffer = renderbuf();
-    Entity* e = new Cube(buffer);
+    renderbuf cbuffer = renderbuf();
+    renderbuf mesh_buf = renderbuf();
+    mi::Mesh mesh = mi::Mesh(mesh_buf);
 
     /* SHADER DEFINITIONS HERE */
     Shader shadowShader("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
@@ -72,7 +73,8 @@ int main() {
                 if (density > 0.8 && has_empty_space) {
                     mi::Vec3 position = mi::Vec3(x - s/2, y - s/2, z - s/2);
 
-                    Entity* en = new Cube(buffer);
+                    Entity* en = new Cube(cbuffer);
+                    mesh.add_entity(en, position, mi::Vec3(), mi::Vec3(1.0));
                     en->position = position;
                     MI_addStaticCamera(scene1, shadowCamera);
                     MI_entityAssignShaderCode(en, shadowShader);

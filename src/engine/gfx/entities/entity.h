@@ -5,6 +5,13 @@
 The entity is a base class for rendering hard-coded vertex placements
 */
 
+
+namespace mi {
+    enum ENTITYTYPE {
+        CUBE, MESH
+    };
+}
+
 class Entity {
 private:
     mi::Matr4 model_matrix;
@@ -17,6 +24,7 @@ public:
     mi::Vec3 size;
     
     renderbuf buf;
+    mi::ENTITYTYPE type;
 
     Entity() {
         position = mi::Vec3();
@@ -38,4 +46,7 @@ public:
 
         shader.setMatr4("model", model_matrix);
     }
+
+    virtual float* get_vertices() {}
+    virtual int get_vertex_length() {}
 };

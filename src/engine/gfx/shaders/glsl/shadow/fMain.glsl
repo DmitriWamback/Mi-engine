@@ -16,8 +16,8 @@ uniform vec3 camera_position;
 uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
-#define MIN_PCF_SHADOW -2
-#define MAX_PCF_SHADOW 2
+#define MIN_PCF_SHADOW -1
+#define MAX_PCF_SHADOW 1
 
 #define pi 3.14159265349
 #define TEXTURE_SCALE 1.0
@@ -76,10 +76,12 @@ void main() {
 
     float shadow = calculateShadow();
 
-    vec3 objectColor = vec3(1.0);
-    vec3 lightColor = vec3(1.0, 0.9, 0.4);
+    vec3 objectColor = vec3(1.0, 0.5, 0.4);
+    vec3 lightColor = vec3(1.0, 0.9, 0.4) * 10.0;
 
-    float metallic = texture(main_tex, i.uv / TEXTURE_SCALE).r;
+    vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
+
+    float metallic = main.r;
     float roughness = metallic / 2.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
@@ -95,7 +97,7 @@ void main() {
     float dist = pow(length(directional_shadow_light_position - i.fragp), 2);
     float attenuation = 1.0 / dist;
 
-    vec3 radiance = lightColor * attenuation * 10000.0;
+    vec3 radiance = lightColor * attenuation * 500.0;
     float NdV = max(dot(nSN, viewDirection), 0.0000001);
     float NdL = max(dot(nSN, lightDirection), 0.0000001);
     float HdV = max(dot(halfway, viewDirection), 0.0);
@@ -112,16 +114,15 @@ void main() {
 
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
-
+    
     col += (kD * objectColor / pi + specular) * radiance * NdL;
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
     col *= shadow;
-    col += vec3(texture(main_tex, i.uv / TEXTURE_SCALE).r) * min((1.0 - shadow), 0.2);
+    col += vec3(main.r)/5.0 * min((1.0 - shadow), 0.2);
 
     vec3 diffuse = dotD * lightColor * shadow;
                
-    //         OBJECT COLOR
     vec3 final_col = col * objectColor * diffuse + ambient;
     fragc = vec4(col, 1.0);
 }
