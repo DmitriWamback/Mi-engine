@@ -117,7 +117,7 @@ void main() {
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
     col *= shadow;
-    col += vec3(main.r)/5.0 * min((1.0 - shadow), 0.5);
+    col += vec3(main.r)/5.0 * min((1.0 - shadow), 0.6);
 
     vec3 diffuse = dotD * lightColor * shadow;
                

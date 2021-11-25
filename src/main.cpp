@@ -25,7 +25,7 @@
 mi_inheritable::Scene scene1 = mi_inheritable::Scene("hello");
 
 #define DEBUG_SEED 14121.40
-#define s 100
+#define s 40
 
 #define FREQ 19.2
 
@@ -54,7 +54,11 @@ int main() {
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
     float seed = rand() % 100000;
-    float CUBE_SIZE = 1;
+    //seed = 32193;
+    float CUBE_SIZE = 0.5;
+    float _density = 0.5;
+
+    std::cout << seed << std::endl;
 
     for (int x = 0; x < s; x++) {
         for (int y = 0; y < s; y++) {
@@ -69,9 +73,9 @@ int main() {
                 float back  = get_noise_density_at(x, y, z+1, seed);
 
                 bool has_empty_space = false;
-                if (up <= 0.8 || down <= 0.8 || left <= 0.8 || right <= 0.8 || front <= 0.8 || back <= 0.8) has_empty_space = true;
+                if (up <= _density || down <= _density || left <= _density || right <= _density || front <= _density || back <= _density) has_empty_space = true;
 
-                if (density > 0.8 && has_empty_space) {
+                if (density > _density && has_empty_space) {
                     mi::Vec3 position = mi::Vec3((x - s/2) * CUBE_SIZE, (y - s/2) * CUBE_SIZE, (z - s/2) * CUBE_SIZE);
 
                     mi_inheritable::Entity* en = new Cube(cbuffer);

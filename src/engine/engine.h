@@ -113,7 +113,7 @@ void MI_startMainLoop(std::string scene_to_render) {
 
     /* TEXTURE DEFINITION HERE */
     mi::Texture texture = mi::Texture("src/engine/gfx/texture/metallic.png");
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 
     while (!glfwWindowShouldClose(main_window)) {
 
@@ -171,7 +171,7 @@ void __engineBegin() {
 
     glewExperimental = GL_TRUE;
     glewInit();
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
     glfwSetCursorPosCallback(main_window, mi_input::mouseMove);
     glfwSetMouseButtonCallback(main_window, mi_input::mouseDown);
