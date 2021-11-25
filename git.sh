@@ -1,5 +1,7 @@
 COMMIT_MESSAGE=$1
 
 git add .
-git commit -m $COMMIT_MESSAGE
+
+echo $COMMIT_MESSAGE
+git commit -m "$COMMIT_MESSAGE"
 git push

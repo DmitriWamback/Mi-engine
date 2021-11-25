@@ -76,9 +76,14 @@ namespace mi {
     };
     
     class StaticCamera {
+    private:
+        Vec3 start_position;
+        Vec3 start_target;
+
     public:
 
         Vec3 position;
+        Vec3 target;
 
         CAMERA_TYPE type;
         Matr4 projection;
@@ -104,6 +109,9 @@ namespace mi {
 
             view = lookat(orthographic_prop.position, orthographic_prop.look_target, orthographic_prop.local_up);
             position = orthographic_prop.position;
+            target = orthographic_prop.look_target;
+            start_position = position;
+            start_target = target;
         }
 
         StaticCamera(STATICCAMERAPROPERTIES_PERSPECTIVE perspective_prop, std::string name) {
@@ -120,6 +128,27 @@ namespace mi {
             
             view = lookat(perspective_prop.position, perspective_prop.look_target, perspective_prop.local_up);
             position = perspective_prop.position;
+            target = perspective_prop.look_target;
+            start_position = position;
+            start_target = target;
+        }
+
+        Vec3 get_start_position() {
+            return start_position;
+        }
+
+        Vec3 get_start_target() {
+            return start_target;
+        }
+
+        void set_position(mi::Vec3 position) {
+            this->position = position;
+            view = lookat(this->position, this->target, Vec3(0.0, 1.0, 0.0));
+        }
+
+        void set_target(mi::Vec3 target) {
+            this->target = target;
+            view = lookat(this->position, this->target, Vec3(0.0, 1.0, 0.0));
         }
     };
 }

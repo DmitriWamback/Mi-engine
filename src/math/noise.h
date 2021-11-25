@@ -61,13 +61,28 @@ namespace mi {
         int A = p[x1] + y1, AA = p[A] + z1, AB = p[A + 1] + z1,      // HASH COORDINATES OF
             B = p[x1 + 1] + y1, BA = p[B] + z1, BB = p[B + 1] + z1;      // THE 8 CUBE CORNERS,
 
-        return lerp(z2, lerp(y2, lerp(x2, gradient(p[AA], x, y, z),
-                                          gradient(p[BA], x - 1, y, z)),
-                                 lerp(x2, gradient(p[AB], x, y - 1, z),
-                                          gradient(p[BB], x - 1, y - 1, z))),
-                        lerp(y2, lerp(x2, gradient(p[AA + 1], x, y, z - 1),
-                                          gradient(p[BA + 1], x - 1, y, z - 1)),
-                                 lerp(x2, gradient(p[AB + 1], x, y - 1, z - 1),
+        return lerp(z2, lerp(y2, lerp(x2, gradient(p[AA],     x,     y,     z),
+                                          gradient(p[BA],     x - 1, y,     z)),
+                                 lerp(x2, gradient(p[AB],     x,     y - 1, z),
+                                          gradient(p[BB],     x - 1, y - 1, z))),
+                        lerp(y2, lerp(x2, gradient(p[AA + 1], x,     y,     z - 1),
+                                          gradient(p[BA + 1], x - 1, y,     z - 1)),
+                                 lerp(x2, gradient(p[AB + 1], x,     y - 1, z - 1),
                                           gradient(p[BB + 1], x - 1, y - 1, z - 1))));
+    }
+
+    double noise_layer(float x, float y, float lacunarity, float persistance, float seed, int octaves) {
+
+        float n = 0;
+        float ampl = 10;
+        float freq = 10;
+
+        for (int i = 0; i < octaves; i++) {
+            n += noise(x / freq, y / freq, seed) * ampl;
+            freq *= lacunarity;
+            ampl *= persistance;
+        }
+
+        return n;
     }
 }

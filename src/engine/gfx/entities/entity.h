@@ -12,41 +12,44 @@ namespace mi {
     };
 }
 
-class Entity {
-private:
-    mi::Matr4 model_matrix;
+namespace mi_inheritable {
 
-public:
-    std::string shaderToUse;
+    class Entity {
+    private:
+        mi::Matr4 model_matrix;
 
-    mi::Vec3 position;
-    mi::Vec3 rotation;
-    mi::Vec3 size;
-    
-    renderbuf buf;
-    mi::ENTITYTYPE type;
+    public:
+        std::string shaderToUse;
 
-    Entity() {
-        position = mi::Vec3();
-        rotation = mi::Vec3();
-        size = mi::Vec3(1.0);
-    }
+        mi::Vec3 position;
+        mi::Vec3 rotation;
+        mi::Vec3 size;
+        
+        renderbuf buf;
+        mi::ENTITYTYPE type;
 
-    void create_model_matrix() {
-        model_matrix = rotate(rotation) * scale(size / 2.0) * translate(position);
-    }
+        Entity() {
+            position = mi::Vec3();
+            rotation = mi::Vec3();
+            size = mi::Vec3(1.0);
+        }
 
-    mi::Matr4 get_model() {
-        return model_matrix;
-    }
+        void create_model_matrix() {
+            model_matrix = rotate(rotation) * scale(size / 2.0) * translate(position);
+        }
 
-    virtual void render(Shader &shader) {
-        shader.use();
-        model_matrix = scale(mi::Vec3(1.0));
+        mi::Matr4 get_model() {
+            return model_matrix;
+        }
 
-        shader.setMatr4("model", model_matrix);
-    }
+        virtual void render(Shader &shader) {
+            shader.use();
+            model_matrix = scale(mi::Vec3(1.0));
 
-    virtual float* get_vertices() {}
-    virtual int get_vertex_length() {}
-};
+            shader.setMatr4("model", model_matrix);
+        }
+
+        virtual float* get_vertices() {}
+        virtual int get_vertex_length() {}
+    };
+}

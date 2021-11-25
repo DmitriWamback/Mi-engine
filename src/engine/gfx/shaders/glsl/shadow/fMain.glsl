@@ -9,7 +9,6 @@ in VERTEX {
     vec2 uv;
     vec4 fragpl;
 } i;
-vec3 lightPosition = vec3(100.0);
 uniform vec3 directional_shadow_light_position;
 
 uniform vec3 camera_position;
@@ -75,13 +74,12 @@ float calculateShadow() {
 void main() {
 
     float shadow = calculateShadow();
-
-    vec3 objectColor = vec3(1.0, 0.5, 0.4);
-    vec3 lightColor = vec3(1.0, 0.9, 0.4) * 10.0;
-
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
-    float metallic = main.r;
+    vec3 objectColor = vec3(1.0);
+    vec3 lightColor = vec3(1.0, 0.9, 0.4);
+
+    float metallic = main.g * shadow;
     float roughness = metallic / 2.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
@@ -94,10 +92,10 @@ void main() {
     vec3 viewDirection = normalize(camera_position - i.fragp);
     vec3 lightDirection = normalize(directional_shadow_light_position - i.fragp);
     vec3 halfway = normalize(viewDirection + lightDirection);
-    float dist = pow(length(directional_shadow_light_position - i.fragp), 2);
+    float dist = pow(length(directional_shadow_light_position - i.fragp), 1);
     float attenuation = 1.0 / dist;
 
-    vec3 radiance = lightColor * attenuation * 500.0;
+    vec3 radiance = lightColor * attenuation * 100.0;
     float NdV = max(dot(nSN, viewDirection), 0.0000001);
     float NdL = max(dot(nSN, lightDirection), 0.0000001);
     float HdV = max(dot(halfway, viewDirection), 0.0);
@@ -119,7 +117,7 @@ void main() {
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
     col *= shadow;
-    col += vec3(main.r)/5.0 * min((1.0 - shadow), 0.2);
+    col += vec3(main.r)/5.0 * min((1.0 - shadow), 0.5);
 
     vec3 diffuse = dotD * lightColor * shadow;
                

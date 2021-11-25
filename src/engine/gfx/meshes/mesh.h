@@ -1,9 +1,9 @@
 namespace mi {
 
-    class Mesh: public Entity {
+    class Mesh: public mi_inheritable::Entity {
     public:
 
-        void sync_add_entity(Entity* entity, mi::Vec3 at_position, mi::Vec3 rotation, mi::Vec3 msize) {
+        void sync_add_entity(mi_inheritable::Entity* entity, mi::Vec3 at_position, mi::Vec3 rotation, mi::Vec3 msize) {
 
         }
 
@@ -16,7 +16,7 @@ namespace mi {
             type = mi::MESH;
         }
 
-        void add_entity(Entity* entity, mi::Vec3 at_position, mi::Vec3 rotation, mi::Vec3 msize) {
+        void add_entity(mi_inheritable::Entity* entity, mi::Vec3 at_position, mi::Vec3 rotation, mi::Vec3 msize) {
             float* vertices = entity->get_vertices();
             int size = entity->get_vertex_length();
             vertex_count += size;
@@ -55,7 +55,7 @@ namespace mi {
         }
     };
     
-    class Mesh_ibo: public Entity {
+    class Mesh_ibo: public mi_inheritable::Entity {
 
     };
 }

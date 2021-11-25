@@ -19,7 +19,7 @@ The engine is a way to communicate to all other files with ease
 */
 
 namespace mi_core {
-    std::map<std::string, Scene> scenes;
+    std::map<std::string, mi_inheritable::Scene> scenes;
 }
 
 bool isDebugButtonDown;
@@ -79,11 +79,11 @@ namespace mi_utility {
 }
 
 
-void MI_addStaticCamera(Scene scene, mi::StaticCamera camera) {
+void MI_addStaticCamera(mi_inheritable::Scene scene, mi::StaticCamera camera) {
     scene.add_static_camera(camera);
 }
 
-void MI_entityAssignShaderCode(Entity* entity, Shader shader) {
+void MI_entityAssignShaderCode(mi_inheritable::Entity* entity, Shader shader) {
     entity->shaderToUse = shader.shaderName;
 }
 
@@ -91,7 +91,7 @@ void MI_addShader(Shader shader) {
     mi_core::all_shaders[shader.shaderName] = shader;
 }
 
-void MI_sceneAddEntity(Scene scene, Entity* entity) {
+void MI_sceneAddEntity(mi_inheritable::Scene scene, mi_inheritable::Entity* entity) {
     if (mi_core::scenes.find(scene.scene_name) == mi_core::scenes.end()) {
         scene.add_entity(entity);
         mi_core::scenes[scene.scene_name] = scene;
@@ -102,14 +102,14 @@ void MI_sceneAddEntity(Scene scene, Entity* entity) {
 }   
 
 void MI_startMainLoop(std::string scene_to_render) {
-    Scene scene = mi_core::scenes[scene_to_render];
+    mi_inheritable::Scene scene = mi_core::scenes[scene_to_render];
 
     scene.__MI_ENGINE_BEGUN();
 
     glEnable(GL_DEPTH_TEST);
     
     mi::StaticCamera orthographic_camera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
-    mi::Framebuffer* depth = new mi::Depthbuffer(10000, 10000);
+    mi_inheritable::Framebuffer* depth = new mi_inheritable::Depthbuffer(10000, 10000);
 
     /* TEXTURE DEFINITION HERE */
     mi::Texture texture = mi::Texture("src/engine/gfx/texture/metallic.png");

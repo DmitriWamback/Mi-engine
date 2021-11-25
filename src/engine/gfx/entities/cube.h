@@ -1,4 +1,4 @@
-class Cube: public Entity {
+class Cube: public mi_inheritable::Entity {
 public:
 
     float vertices[288] = {
