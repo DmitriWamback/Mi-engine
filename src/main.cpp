@@ -56,7 +56,7 @@ int main() {
 
     float seed = rand() % 100000;
     //seed = 32193;
-    float CUBE_SIZE = 0.5;
+    float CUBE_SIZE = 0.1;
     float _density = 0.4;
 
     std::cout << seed << std::endl;
