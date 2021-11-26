@@ -7,10 +7,9 @@ namespace mi {
 
         Skybox() {}
         
-        Skybox(renderbuf buffer) {
+        Skybox(renderbuf buffer, std::string images[]) {
             this->buf = buffer;
+            cubemap = mi::CubeMap(images);
         }
-
-        
     };
 }

@@ -10,7 +10,6 @@ GLenum RENDER_OPTION = GL_TRIANGLES;
 #include "util/camera.h"
 #include "util/static_camera.h"
 #include "util/scene.h"
-#include "util/scenes.h"
 
 /* 
 -- ENGINE --
@@ -18,7 +17,7 @@ The engine is a way to communicate to all other files with ease
 */
 
 namespace mi_core {
-    std::map<std::string, mi_inheritable::Scene> scenes;
+    std::map<std::string, mi_inheritable::Scene*> scenes;
 }
 
 bool isDebugButtonDown;
@@ -72,105 +71,104 @@ namespace mi_input {
     }
 }
 
-namespace mi_utility {
+namespace mi_engine {
 
-    
-}
-
-void MI_addStaticCamera(mi_inheritable::Scene scene, mi::StaticCamera camera) {
-    scene.add_static_camera(camera);
-}
-
-void MI_entityAssignShaderCode(mi_inheritable::Entity* entity, Shader shader) {
-    entity->shaderToUse = shader.shaderName;
-}
-
-void MI_addShader(Shader shader) {
-    mi_core::all_shaders[shader.shaderName] = shader;
-}
-
-void MI_sceneAddEntity(mi_inheritable::Scene scene, mi_inheritable::Entity* entity) {
-    if (mi_core::scenes.find(scene.scene_name) == mi_core::scenes.end()) {
-        scene.add_entity(entity);
-        mi_core::scenes[scene.scene_name] = scene;
+    // SEGMENTATION FAULT HERE!!
+    void MI_addStaticCamera(mi_inheritable::Scene* scene, mi::StaticCamera camera) {
+        scene->add_static_camera(camera);
     }
-    else {
-        mi_core::scenes[scene.scene_name].add_entity(entity);
+
+    void MI_entityAssignShaderCode(mi_inheritable::Entity* entity, Shader shader) {
+        entity->shaderToUse = shader.shaderName;
     }
-}   
 
-void MI_startMainLoop(std::string scene_to_render) {
-    mi_inheritable::Scene scene = mi_core::scenes[scene_to_render];
+    void MI_addShader(Shader shader) {
+        mi_core::all_shaders[shader.shaderName] = shader;
+    }
 
-    scene.__MI_ENGINE_BEGUN();
+    void MI_sceneAddEntity(mi_inheritable::Scene* scene, mi_inheritable::Entity* entity) {
+        if (mi_core::scenes.find(scene->scene_name) == mi_core::scenes.end()) {
+            scene->add_entity(entity);
+            mi_core::scenes[scene->scene_name] = scene;
+        }
+        else {
+            mi_core::scenes[scene->scene_name]->add_entity(entity);
+        }
+    }   
 
-    glEnable(GL_DEPTH_TEST);
-    
-    mi::StaticCamera orthographic_camera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
-    mi_inheritable::Framebuffer* depth = new mi::Depthbuffer(10000, 10000);
+    void MI_startMainLoop(std::string scene_to_render) {
+        mi_inheritable::Scene* scene = mi_core::scenes[scene_to_render];
 
-    /* TEXTURE DEFINITION HERE */
-    mi::Texture texture = mi::Texture("src/engine/gfx/texture/metallic.png");
-    //glEnable(GL_CULL_FACE);
+        scene->__MI_ENGINE_BEGUN();
 
-    while (!glfwWindowShouldClose(main_window)) {
+        glEnable(GL_DEPTH_TEST);
+        
+        mi::StaticCamera orthographic_camera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
+        mi_inheritable::Framebuffer* depth = new mi::Depthbuffer(10000, 10000);
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        /* TEXTURE DEFINITION HERE */
+        mi::Texture texture = mi::Texture("src/engine/gfx/texture/metallic.png");
+        glEnable(GL_CULL_FACE);
 
-        int width;
-        int height;
+        while (!glfwWindowShouldClose(main_window)) {
 
-        glfwGetWindowSize(main_window, &width, &height);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        mi_input::keyPress();
+            int width;
+            int height;
 
-        /* ANY MAIN GAME FUNCTIONALITY HERE */
-        // GETTING SHADOW DEPTH MAP
-        mi::RenderTexture depthMap = scene.load_rendered_scene(orthographic_camera, depth);
+            glfwGetWindowSize(main_window, &width, &height);
+
+            mi_input::keyPress();
+
+            /* ANY MAIN GAME FUNCTIONALITY HERE */
+            // GETTING SHADOW DEPTH MAP
+            mi::RenderTexture depthMap = scene->load_rendered_scene(orthographic_camera, depth);
 
 #ifdef __APPLE__
 
-        if (width > height) glViewport(0, -abs(width-height), width*2, width*2);
-        else glViewport(-abs(width-height), 0, height*2, height*2);
+            if (width > height) glViewport(0, -abs(width-height), width*2, width*2);
+            else glViewport(-abs(width-height), 0, height*2, height*2);
 #else
-    
-        if (width > height) glViewport(0, -abs(width-height)/2, width, width);
-        else glViewport(-abs(width-height)/2, 0, height, height);
+        
+            if (width > height) glViewport(0, -abs(width-height)/2, width, width);
+            else glViewport(-abs(width-height)/2, 0, height, height);
 #endif
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.0, 0.0, 0.0, 1.0);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClearColor(0.0, 0.0, 0.0, 1.0);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture.tex_id);
-        scene.render_all(mi_input::movement_motion, mi_input::camera_rotation_movement);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, texture.tex_id);
+            scene->render_all(mi_input::movement_motion, mi_input::camera_rotation_movement);
 
-        mi_input::camera_rotation_movement = mi::Vec2(0.0);
-        glfwPollEvents();
-        glfwSwapBuffers(main_window);
+            mi_input::camera_rotation_movement = mi::Vec2(0.0);
+            glfwPollEvents();
+            glfwSwapBuffers(main_window);
+        }
     }
-}
 
-void __engineBegin() {
-    
-    if (!glfwInit()) std::cout << "couldn't initialize GLFW\n";
+    void __engineBegin() {
+        
+        if (!glfwInit()) std::cout << "couldn't initialize GLFW\n";
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
-    main_window = glfwCreateWindow(1200, 800, "Test", NULL, NULL);
-    glfwMakeContextCurrent(main_window);
+        main_window = glfwCreateWindow(1200, 800, "Test", NULL, NULL);
+        glfwMakeContextCurrent(main_window);
 
-    glewExperimental = GL_TRUE;
-    glewInit();
-    glEnable(GL_CULL_FACE);
+        glewExperimental = GL_TRUE;
+        glewInit();
+        glEnable(GL_CULL_FACE);
 
-    glfwSetCursorPosCallback(main_window, mi_input::mouseMove);
-    glfwSetMouseButtonCallback(main_window, mi_input::mouseDown);
+        glfwSetCursorPosCallback(main_window, mi_input::mouseMove);
+        glfwSetMouseButtonCallback(main_window, mi_input::mouseDown);
+    }
 }

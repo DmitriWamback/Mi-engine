@@ -19,10 +19,11 @@
 #include "math/noise.h"
 // ENGINE
 #include "engine/engine.h"
+#include "scenes/main_scene.h"
 
 /* Main method */
 
-mi_inheritable::Scene scene1 = mi_inheritable::Scene("hello");
+mi_inheritable::Scene* scene1 = new MainScene("Hello");
 
 #define s 60
 
@@ -38,17 +39,18 @@ float get_noise_density_at(int x, int y, int z, float seed) {
 }
 
 int main() {
-    __engineBegin();
+
+    mi_engine::__engineBegin();
 
     renderbuf cbuffer = renderbuf();
     renderbuf mesh_buf = renderbuf();
-    mi::Mesh mesh = mi::Mesh(mesh_buf);
+    //mi::Mesh mesh = mi::Mesh(mesh_buf);
 
     /* SHADER DEFINITIONS HERE */
     Shader shadowShader("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
     Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
-    MI_addShader(shadowShader);
-    MI_addShader(debugShader2);
+    mi_engine::MI_addShader(shadowShader);
+    mi_engine::MI_addShader(debugShader2);
 
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
@@ -58,6 +60,8 @@ int main() {
     float _density = 0.4;
 
     std::cout << seed << std::endl;
+
+    mi_engine::MI_addStaticCamera(scene1, shadowCamera);
 
     for (int x = 0; x < s; x++) {
         for (int y = 0; y < s; y++) {
@@ -78,15 +82,13 @@ int main() {
                     mi::Vec3 position = mi::Vec3((x - s/2) * CUBE_SIZE, (y - s/2) * CUBE_SIZE, (z - s/2) * CUBE_SIZE);
 
                     mi_inheritable::Entity* en = new Cube(cbuffer);
-                    mesh.add_entity(en, position, mi::Vec3(), mi::Vec3(1.0));
                     en->position = position;
                     en->size = mi::Vec3(CUBE_SIZE);
-                    MI_addStaticCamera(scene1, shadowCamera);
-                    MI_entityAssignShaderCode(en, shadowShader);
-                    MI_sceneAddEntity(scene1, en);
+                    mi_engine::MI_entityAssignShaderCode(en, shadowShader);
+                    mi_engine::MI_sceneAddEntity(scene1, en);
                 }
             }
         }
     }
-    MI_startMainLoop(scene1.scene_name);
+    mi_engine::MI_startMainLoop(scene1->scene_name);
 }
