@@ -7,6 +7,8 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 
+uniform vec3 camera_position;
+
 out VERTEX {
     vec3 normal;
     vec3 tex_dir;
@@ -18,5 +20,5 @@ void main() {
     o.fragp = (model * vec4(vertex, 1.0)).xyz;
     o.tex_dir = normalize(normal);
     o.normal = normalize(mat3(transpose(inverse(model))) * normal);
-    gl_Position = projection * view * vec4(o.fragp, 1.0);
+    gl_Position = projection * view * vec4(o.fragp + camera_position, 1.0);
 }
