@@ -29,11 +29,14 @@ namespace mi_inheritable {
             type = mi_enum::BUFTYPE_STANDARD;
         }
     };
-    /* classes inheriting from the Framebuffer class*/
+}
 
-    class Depthbuffer: public Framebuffer {
+/* classes inheriting from the Framebuffer class*/
+
+namespace mi {
+    class Depthbuffer: public mi_inheritable::Framebuffer {
     private:
-    
+
     public:
 
         Depthbuffer(int WIDTH, int HEIGHT) {

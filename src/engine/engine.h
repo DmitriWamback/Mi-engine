@@ -108,7 +108,7 @@ void MI_startMainLoop(std::string scene_to_render) {
     glEnable(GL_DEPTH_TEST);
     
     mi::StaticCamera orthographic_camera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
-    mi_inheritable::Framebuffer* depth = new mi_inheritable::Depthbuffer(10000, 10000);
+    mi_inheritable::Framebuffer* depth = new mi::Depthbuffer(10000, 10000);
 
     /* TEXTURE DEFINITION HERE */
     mi::Texture texture = mi::Texture("src/engine/gfx/texture/metallic.png");
