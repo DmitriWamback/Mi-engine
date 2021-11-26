@@ -15,7 +15,6 @@ uniform vec3 camera_position;
 uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
-#define MIN_PCF_SHADOW -1
 #define MAX_PCF_SHADOW 1
 
 #define pi 3.14159265349
@@ -52,14 +51,14 @@ float calculateShadow() {
     float current = projectionCoords.z;
 
 
-    float scale = pow(MAX_PCF_SHADOW + abs(MIN_PCF_SHADOW) + 1, 2);
+    float scale = pow(MAX_PCF_SHADOW*2 + 1, 2);
 
     float shadow = 0;
     //shadow = current-0.000008333 > closest ? 1.0 : 0.0;
     vec2 texelSize = 1.0 / textureSize(depthMap, 0);
 
-    for(int x = MIN_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
-        for (int y = MIN_PCF_SHADOW; y <= MAX_PCF_SHADOW; ++y) {
+    for(int x = -MAX_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
+        for (int y = -MAX_PCF_SHADOW; y <= MAX_PCF_SHADOW; ++y) {
             float pcfDepth = texture(depthMap, projectionCoords.xy + vec2(x, y) * texelSize).r; 
             shadow += current - 0.000008 > pcfDepth ? 1.0 : 0.0;        
         }    
