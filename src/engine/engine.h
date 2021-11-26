@@ -78,7 +78,6 @@ namespace mi_utility {
     
 }
 
-
 void MI_addStaticCamera(mi_inheritable::Scene scene, mi::StaticCamera camera) {
     scene.add_static_camera(camera);
 }
