@@ -66,7 +66,7 @@ float calculateShadow() {
     }
     shadow /= scale;
 
-    if (projectionCoords.x > 1.0) shadow = 0.0;
+    if (projectionCoords.z > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;
     return shadow;
 }
@@ -85,7 +85,7 @@ void main() {
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
     vec3 col = vec3(0.0);
 
-    vec3 ambient = vec3(0.25, 0.25, 0.4);
+    vec3 shadow_ambient = vec3(0.15, 0.15, 0.35);
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
 
@@ -112,15 +112,15 @@ void main() {
 
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
+
+    float inverse_shadow = 1 - shadow;
     
     col += (kD * objectColor / pi + specular) * radiance * NdL;
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
     col *= shadow;
-    col += vec3(main.r)/5.0 * min((1.0 - shadow), 0.6);
+    col += main.rgb/5.0 * min(inverse_shadow, 0.8) + ((inverse_shadow/9.0) * shadow_ambient);
 
     vec3 diffuse = dotD * lightColor * shadow;
-               
-    vec3 final_col = col * objectColor * diffuse + ambient;
     fragc = vec4(col, 1.0);
 }

@@ -25,7 +25,7 @@
 
 mi_inheritable::Scene* scene1 = new MainScene("Hello");
 
-#define s 60
+#define s 50
 
 #define FREQ 19.2
 
@@ -56,7 +56,7 @@ int main() {
 
     float seed = rand() % 100000;
     //seed = 32193;
-    float CUBE_SIZE = 0.1;
+    float CUBE_SIZE = 1.5;
     float _density = 0.4;
 
     std::cout << seed << std::endl;
