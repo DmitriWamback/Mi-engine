@@ -128,7 +128,7 @@ void MI_startMainLoop(std::string scene_to_render) {
         // GETTING SHADOW DEPTH MAP
         mi::RenderTexture depthMap = scene.load_rendered_scene(orthographic_camera, depth);
 
-#ifndef __APPLE__
+#ifdef __APPLE__
 
         if (width > height) glViewport(0, -abs(width-height), width*2, width*2);
         else glViewport(-abs(width-height), 0, height*2, height*2);
