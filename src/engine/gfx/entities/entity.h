@@ -6,9 +6,9 @@ The entity is a base class for rendering hard-coded vertex placements
 */
 
 
-namespace mi {
+namespace mi_enum {
     enum ENTITYTYPE {
-        CUBE, MESH
+        ENT_CUBE, ENT_MESH
     };
 }
 
@@ -28,7 +28,7 @@ namespace mi_inheritable {
         mi::Vec3 size;
         
         renderbuf buf;
-        mi::ENTITYTYPE type;
+        mi_enum::ENTITYTYPE type;
 
         Entity() {
 
