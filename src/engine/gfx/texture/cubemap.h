@@ -7,6 +7,7 @@ namespace mi {
         
         CubeMap() {}
 
+        // Load a cube map with images in the following order: RIGHT, LEFT, TOP, BOTTOM, BACK, FRONT
         CubeMap(std::string image_paths[]) {
 
             glGenTextures(1, &tex_id);
