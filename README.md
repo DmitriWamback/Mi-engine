@@ -8,14 +8,15 @@
     <li>Framebuffers</li>
     <li>Textures</li>
     <li>3D Movement, world and rendering</li>
+    <li>Physically based rendering (PBR)</li>
 </ul>
 
 ## CURRENT "IN DEVELOPMENT" UTILITIES
 <ul>
-    <li>Physically based rendering (PBR)</li>
     <li>Model loader (OBJ format)</li>
     <li>Inheritable Scene class</li>
     <li>UI and 2D rendering engine</li>
+    <li>Cube maps</li>
 </ul>
 
 ## CURRENT OVERLOOK
