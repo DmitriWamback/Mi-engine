@@ -1,7 +1,12 @@
 class MainScene: public mi_inheritable::Scene {
 public:
 
+    mi::Texture tex;
+    mi_inheritable::Framebuffer* fb;
+
     MainScene(std::string n) {
+
+        // Initialize state
         this->scene_name = n;
         nb_entities = 0;
         nb_cameras = 0;
@@ -9,7 +14,16 @@ public:
 
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
 
-        move_camera(motion, rotation);
+        move_camera(motion, rotation); // IMPORTANT
+
+        // MAIN GAME LOOP HERE
+        mi::RenderTexture depthMap = load_rendered_scene(static_cameras[0], fb);
+        reset_viewport();
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, tex.tex_id);
 
         for (int en = 0; en < nb_entities; en++) {
             mi_inheritable::Entity* entity = allEntities[en];
@@ -27,5 +41,11 @@ public:
 
             entity->render(shader);
         }
+    }
+
+    // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
+    void mi_engine_begun() {
+        tex = mi::Texture("src/engine/gfx/texture/metallic.png");
+        fb = new mi::Depthbuffer(10000, 10000);
     }
 };

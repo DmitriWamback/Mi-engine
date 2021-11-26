@@ -41,10 +41,10 @@ namespace mi_inheritable {
             camera.rotateCamera(camera_rotation.x, camera_rotation.y);
             camera.moveCamera(1.0, motion);
         }
-        
-        virtual void SceneMainLoop(mi::Vec2 motion, mi::Vec2 camera_rotation) {
 
-        }
+        virtual void mi_engine_begun() {}
+        
+        virtual void SceneMainLoop(mi::Vec2 motion, mi::Vec2 camera_rotation) {}
 
         mi::Vec3 get_camera_position() {
             return camera.position;
@@ -93,6 +93,22 @@ namespace mi_inheritable {
             return mi::RenderTexture(framebuffer->tex_id);
         }
 
+        void reset_viewport() {
+#ifdef __APPLE__
+            int width;
+            int height;
+
+            glfwGetWindowSize(main_window, &width, &height);
+            
+            if (width > height) glViewport(0, -abs(width-height), width*2, width*2);
+            else glViewport(-abs(width-height), 0, height*2, height*2);
+#else
+        
+            if (width > height) glViewport(0, -abs(width-height)/2, width, width);
+            else glViewport(-abs(width-height)/2, 0, height, height);
+#endif
+        }
+
         void add_entity(Entity* entity) {
             allEntities[nb_entities] = entity;
             nb_entities++;
@@ -110,6 +126,7 @@ namespace mi_inheritable {
         
 
         void __MI_ENGINE_BEGUN() {
+            mi_engine_begun();
             depthShader = Shader("shadow/vDepth.glsl", "shadow/fDepth.glsl", "DEPTH SHADER");
         }
     };

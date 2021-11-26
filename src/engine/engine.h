@@ -1,4 +1,5 @@
 GLenum RENDER_OPTION = GL_TRIANGLES;
+GLFWwindow* main_window;
 
 #include <thread>
 #include "gfx/shader.h"
@@ -21,8 +22,6 @@ namespace mi_core {
 }
 
 bool isDebugButtonDown;
-
-GLFWwindow* main_window;
 
 namespace mi_input {
 
@@ -102,46 +101,17 @@ namespace mi_engine {
         scene->__MI_ENGINE_BEGUN();
 
         glEnable(GL_DEPTH_TEST);
-        
-        mi::StaticCamera orthographic_camera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
-        mi_inheritable::Framebuffer* depth = new mi::Depthbuffer(10000, 10000);
-
-        /* TEXTURE DEFINITION HERE */
-        mi::Texture texture = mi::Texture("src/engine/gfx/texture/metallic.png");
         glEnable(GL_CULL_FACE);
 
         while (!glfwWindowShouldClose(main_window)) {
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            int width;
-            int height;
-
-            glfwGetWindowSize(main_window, &width, &height);
-
             mi_input::keyPress();
-
-            /* ANY MAIN GAME FUNCTIONALITY HERE */
-            // GETTING SHADOW DEPTH MAP
-            mi::RenderTexture depthMap = scene->load_rendered_scene(orthographic_camera, depth);
-
-#ifdef __APPLE__
-
-            if (width > height) glViewport(0, -abs(width-height), width*2, width*2);
-            else glViewport(-abs(width-height), 0, height*2, height*2);
-#else
-        
-            if (width > height) glViewport(0, -abs(width-height)/2, width, width);
-            else glViewport(-abs(width-height)/2, 0, height, height);
-#endif
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClearColor(0.0, 0.0, 0.0, 1.0);
 
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, texture.tex_id);
             scene->render_all(mi_input::movement_motion, mi_input::camera_rotation_movement);
 
             mi_input::camera_rotation_movement = mi::Vec2(0.0);
