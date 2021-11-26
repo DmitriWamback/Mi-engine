@@ -1,4 +1,6 @@
 #include "gfx/entities/entity.h"
+#include "gfx/texture/texture.h"
+#include "gfx/texture/cubemap.h"
 #include "gfx/entities/cube.h"
 #include "gfx/meshes/mesh.h"
 #include "util/skybox.h"

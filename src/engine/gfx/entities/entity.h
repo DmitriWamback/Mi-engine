@@ -49,7 +49,7 @@ namespace mi_inheritable {
             shader.setMatr4("model", model_matrix);
         }
 
-        virtual float* get_vertices() {}
-        virtual int get_vertex_length() {}
+        virtual float* get_vertices() { return nullptr; }
+        virtual int get_vertex_length() { return 0; }
     };
 }

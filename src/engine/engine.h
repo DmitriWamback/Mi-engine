@@ -6,7 +6,6 @@ GLenum RENDER_OPTION = GL_TRIANGLES;
 
 #include "entitylib.h"
 
-#include "gfx/texture/texture.h"
 #include "gfx/fbo/framebuf.h"
 #include "util/camera.h"
 #include "util/static_camera.h"
