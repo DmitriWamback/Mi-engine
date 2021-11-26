@@ -24,7 +24,7 @@
 
 mi_inheritable::Scene scene1 = mi_inheritable::Scene("hello");
 
-#define s 90
+#define s 60
 
 #define FREQ 19.2
 

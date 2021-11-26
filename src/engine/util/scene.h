@@ -101,7 +101,7 @@ namespace mi_inheritable {
 
                 for (int i = 0; i < nb_entities; i++) {
                     Entity* entity = allEntities[i];
-                    entity->render(depthShader);
+                    if (entity->usesDepthBuffer) entity->render(depthShader);
                 }
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
