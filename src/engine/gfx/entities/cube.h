@@ -48,7 +48,7 @@ public:
     Cube(renderbuf buffer) {
         this->buf = buffer;
 
-        type = mi::CUBE;
+        type = mi_enum::ENT_CUBE;
 
         glBindVertexArray(buf.vao);
         glBindBuffer(GL_ARRAY_BUFFER, buf.vbo);

@@ -13,7 +13,7 @@ namespace mi {
 
         Mesh(renderbuf buffer) {
             this->buf = buffer;
-            type = mi::MESH;
+            type = mi_enum::ENT_MESH;
         }
 
         void add_entity(mi_inheritable::Entity* entity, mi::Vec3 at_position, mi::Vec3 rotation, mi::Vec3 msize) {
