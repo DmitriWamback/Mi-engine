@@ -6,7 +6,7 @@ SNDFILE_LIB=src/vendor/OSX/sndfile
 
 RS_LIB=libs
 
-g++ -arch x86_64 -framework OpenGL -I $GLFW_INC \
+g++ -arch x86_64 -framework OpenGL -framework OpenAL -I $GLFW_INC \
                 -L $GLFW_LIB $GLFW_LIB/libglfw.dylib \
                 $GLFW_LIB/libglfw.3.3.dylib $GLFW_LIB/libglfw.3.dylib \
                 -I $GLEW_INC \
