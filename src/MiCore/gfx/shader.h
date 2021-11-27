@@ -3,7 +3,7 @@
 The shader is used for loading special programs that determine the shape and color of an object
 */
 
-std::string BASE_SHADER_PATH = "src/engine/gfx/shaders/glsl/";
+std::string BASE_SHADER_PATH = "src/res/shaders/glsl/";
 
 class Shader {
 public:
@@ -24,8 +24,8 @@ public:
         std::ifstream _vs, _fs;
         std::stringstream vss, fss;
 
-        _vs.open(std::string("src/engine/gfx/shaders/glsl/").append(vertexShaderPath));
-        _fs.open(std::string("src/engine/gfx/shaders/glsl/").append(fragmentShaderPath));
+        _vs.open(std::string("src/res/shaders/glsl/").append(vertexShaderPath));
+        _fs.open(std::string("src/res/shaders/glsl/").append(fragmentShaderPath));
         vss << _vs.rdbuf();
         fss << _fs.rdbuf();
 
