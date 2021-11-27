@@ -71,20 +71,23 @@ namespace mi_input {
 
 namespace mi_engine {
 
-    // SEGMENTATION FAULT HERE!!
-    void MI_addStaticCamera(mi_inheritable::Scene* scene, mi::StaticCamera camera) {
+    // Adds a static camera to a given scene
+    void MiCoreAddStaticCamera(mi_inheritable::Scene* scene, mi::StaticCamera camera) {
         scene->add_static_camera(camera);
     }
 
-    void MI_entityAssignShaderCode(mi_inheritable::Entity* entity, Shader shader) {
+    // Assigns an entity a shader to use when being rendered
+    void MiCoreEntityAssignShaderCode(mi_inheritable::Entity* entity, Shader shader) {
         entity->shaderToUse = shader.shaderName;
     }
 
-    void MI_addShader(Shader shader) {
+    // Adds a shader to the engine
+    void MiCoreAddShader(Shader shader) {
         mi_core::all_shaders[shader.shaderName] = shader;
     }
 
-    void MI_sceneAddEntity(mi_inheritable::Scene* scene, mi_inheritable::Entity* entity) {
+    // Adds an entity to a scene
+    void MiCoreSceneAddEntity(mi_inheritable::Scene* scene, mi_inheritable::Entity* entity) {
         if (mi_core::scenes.find(scene->scene_name) == mi_core::scenes.end()) {
             scene->add_entity(entity);
             mi_core::scenes[scene->scene_name] = scene;
@@ -94,7 +97,8 @@ namespace mi_engine {
         }
     }   
 
-    void MI_startMainLoop(std::string scene_to_render) {
+    // Runs the engine with a given scene identification
+    void MiCoreStartMainLoop(std::string scene_to_render) {
         mi_inheritable::Scene* scene = mi_core::scenes[scene_to_render];
 
         scene->__MI_ENGINE_BEGUN();
@@ -122,7 +126,8 @@ namespace mi_engine {
         }
     }
 
-    void __engineBegin() {
+    // Initializes Mi
+    void MiCoreBegin() {
         
         if (!glfwInit()) std::cout << "couldn't initialize GLFW\n";
 

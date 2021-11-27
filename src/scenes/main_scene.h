@@ -12,6 +12,12 @@ public:
         nb_cameras = 0;
     }
 
+    // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
+    void mi_engine_begun() {
+        tex = mi::Texture("src/res/images/metallic.png");
+        fb = new mi::Depthbuffer(10000, 10000);
+    }
+
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
 
         move_camera(motion, rotation); // IMPORTANT
@@ -41,11 +47,5 @@ public:
 
             entity->render(shader);
         }
-    }
-
-    // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
-    void mi_engine_begun() {
-        tex = mi::Texture("src/res/images/metallic.png");
-        fb = new mi::Depthbuffer(10000, 10000);
     }
 };
