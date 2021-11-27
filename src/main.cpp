@@ -58,6 +58,19 @@ int main() {
     mi_inheritable::Entity* skybox = new mi::Skybox(mesh_buf, faces);
     skybox->size = mi::Vec3(100.0);
 
+
+    struct mi_audio::ADOPROP prop;
+    prop.looped = true;
+    prop.pitch = 1.0;
+    prop.position = mi::Vec3();
+    prop.velocity = mi::Vec3();
+    prop.volume = 10.0;
+
+    //mi_audio::AudioSource source = mi_audio::AudioSource(prop, "file", "DRM");
+
+    //mi_engine::MiCoreAddAudioSource(source);
+    //mi_engine::MiCorePlaySource(source.name);
+
     /* SHADER DEFINITIONS HERE */
     Shader shadowShader("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
     Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
@@ -69,7 +82,7 @@ int main() {
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
     float seed = rand() % 100000;
-    //seed = 32193;
+    seed = 21913;
     float CUBE_SIZE = 1.0;
     float _density = 0.4;
 

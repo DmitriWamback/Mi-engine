@@ -2,6 +2,7 @@ GLFW_INC=
 GLFW_LIB=
 GLEW_INC=
 GLEW_LIB=
+SNDFILE_LIB=src/vendor/OSX/sndfile
 
 RS_LIB=libs
 
@@ -10,6 +11,7 @@ g++ -arch x86_64 -framework OpenGL -I $GLFW_INC \
                 $GLFW_LIB/libglfw.3.3.dylib $GLFW_LIB/libglfw.3.dylib \
                 -I $GLEW_INC \
                 -L $GLEW_LIB $GLEW_LIB/libGLEW.2.2.0.dylib $GLEW_LIB/libGLEW.2.2.dylib $GLEW_LIB/libGLEW.a $GLEW_LIB/libGLEW.dylib \
+                -L $SNDFILE_LIB $SNDFILE_LIB/scUBlibsndfile.a
                 src/main.cpp
 
 ./a.out

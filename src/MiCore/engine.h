@@ -11,6 +11,8 @@ GLFWwindow* main_window;
 #include "util/static_camera.h"
 #include "util/scene.h"
 
+#include "audio/audio_manager.h"
+
 /* 
 -- ENGINE --
 The engine is a way to communicate to all other files with ease
@@ -18,6 +20,7 @@ The engine is a way to communicate to all other files with ease
 
 namespace mi_core {
     std::map<std::string, mi_inheritable::Scene*> scenes;
+    std::map<std::string, mi_audio::AudioSource> sources;
 }
 
 bool isDebugButtonDown;
@@ -71,6 +74,8 @@ namespace mi_input {
 
 namespace mi_engine {
 
+    mi_audio::AudioPlayer audioPlayer;
+
     // Adds a static camera to a given scene
     void MiCoreAddStaticCamera(mi_inheritable::Scene* scene, mi::StaticCamera camera) {
         scene->add_static_camera(camera);
@@ -79,6 +84,18 @@ namespace mi_engine {
     // Assigns an entity a shader to use when being rendered
     void MiCoreEntityAssignShaderCode(mi_inheritable::Entity* entity, Shader shader) {
         entity->shaderToUse = shader.shaderName;
+    }
+
+    void MiCoreAddAudioSource(mi_audio::AudioSource source) {
+        mi_core::sources[source.name] = source;
+    }
+
+    void MiCorePlaySource(std::string source_name) {
+        audioPlayer.PlaySound(mi_core::sources[source_name]);
+    }
+
+    void MiCoreStopSource(std::string source_name) {
+        audioPlayer.StopSound(mi_core::sources[source_name]);
     }
 
     // Adds a shader to the engine
