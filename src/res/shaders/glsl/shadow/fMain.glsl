@@ -54,13 +54,12 @@ float calculateShadow() {
     float scale = pow(MAX_PCF_SHADOW*2 + 1, 2);
 
     float shadow = 0;
-    //shadow = current-0.000008333 > closest ? 1.0 : 0.0;
+    //shadow = current-0.0000008333 > closest ? 1.0 : 0.0;
     vec2 texelSize = 1.0 / textureSize(depthMap, 0);
-
     for(int x = -MAX_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
         for (int y = -MAX_PCF_SHADOW; y <= MAX_PCF_SHADOW; ++y) {
             float pcfDepth = texture(depthMap, projectionCoords.xy + vec2(x, y) * texelSize).r; 
-            shadow += current - 0.000008 > pcfDepth ? 1.0 : 0.0;        
+            shadow += current - 0.0000008333 > pcfDepth ? 1.0 : 0.0;        
         }    
     }
     shadow /= scale;
@@ -111,14 +110,15 @@ void main() {
 
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
+    float _dotD = dot(lightDirection, nSN);
 
     float inverse_shadow = 1 - shadow;
     
     col += (kD * objectColor / pi + specular) * radiance * NdL;
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
-    col *= shadow;
-    col += main.rgb/5.0 * min(inverse_shadow, 0.8) + ((inverse_shadow/9.0) * shadow_ambient);
+    col *= shadow * _dotD;
+    col += main.rgb * min(inverse_shadow, 0.1);
 
     vec3 diffuse = dotD * lightColor * shadow;
     fragc = vec4(col, 1.0);
