@@ -17,6 +17,7 @@
     <li>Model loader (OBJ format)</li>
     <li>UI and 2D rendering engine (to be done at a later date)</li>
     <li>Cube maps</li>
+    <li>Audio</li>
 </ul>
 
 ## CURRENT OVERLOOK
