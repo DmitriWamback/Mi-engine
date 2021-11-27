@@ -31,7 +31,6 @@ public:
 
         std::string _vss = vss.str();
         std::string _fss = fss.str();
-
         const char* vSRC = _vss.c_str();
         const char* fSRC = _fss.c_str();
 
