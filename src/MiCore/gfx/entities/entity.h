@@ -34,8 +34,8 @@ namespace mi_inheritable {
 
             usesDepthBuffer = true;
 
-            position = mi::Vec3();
-            rotation = mi::Vec3();
+            position = mi::Vec3(0.0);
+            rotation = mi::Vec3(0.0);
             size = mi::Vec3(1.0);
         }
 
@@ -56,5 +56,6 @@ namespace mi_inheritable {
 
         virtual float* get_vertices() { return nullptr; }
         virtual int get_vertex_length() { return 0; }
+        virtual void initialize() {}
     };
 }

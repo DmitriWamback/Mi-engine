@@ -6,8 +6,9 @@ The framebuffer is used to determine how a scene should be rendered to a render 
 namespace mi_enum {
 
     enum BUFFERTYPE {
-        BUFTYPE_STANDARD = 0x008C,
-        BUFTYPE_DEPTH    = 0x008D
+        BUFTYPE_STANDARD            = 0x008C,
+        BUFTYPE_DEPTH               = 0x008D,
+        BUFTYPE_POINTDEPTH          = 0x008E
     };
 
 }

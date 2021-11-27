@@ -1,4 +1,4 @@
-#define __SCENE_MAX_ENTITIES 100000
+#define __SCENE_MAX_ENTITIES 5000000
 #define __SCENE_MAX_STATIC_CAMERAS 10
 
 /* 
@@ -99,7 +99,7 @@ namespace mi_inheritable {
             int height;
 
             glfwGetWindowSize(main_window, &width, &height);
-            
+
             if (width > height) glViewport(0, -abs(width-height), width*2, width*2);
             else glViewport(-abs(width-height), 0, height*2, height*2);
 #else

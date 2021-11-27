@@ -12,20 +12,20 @@
 #include <GLFW/glfw3.h>
 
 /* Custom libraries */
-#include "engine/extern.h"
+#include "MiCore/extern.h"
 // MATH
 #include "math/vector.h"
 #include "math/matrix.h"
 #include "math/noise.h"
 // ENGINE
-#include "engine/engine.h"
+#include "MiCore/engine.h"
 #include "scenes/main_scene.h"
 
 /* Main method */
 
 mi_inheritable::Scene* scene1 = new MainScene("Hello");
 
-#define s 50
+#define s 60
 
 #define FREQ 19.2
 
@@ -44,24 +44,40 @@ int main() {
 
     renderbuf cbuffer = renderbuf();
     renderbuf mesh_buf = renderbuf();
-    //mi::Mesh mesh = mi::Mesh(mesh_buf);
+    mi::Mesh mesh = mi::Mesh(mesh_buf);
+
+    std::string faces[6] = {
+        "src/engine/gfx/texture/brick.jpg",
+        "src/engine/gfx/texture/brick.jpg",
+        "src/engine/gfx/texture/brick.jpg",
+        "src/engine/gfx/texture/brick.jpg",
+        "src/engine/gfx/texture/brick.jpg",
+        "src/engine/gfx/texture/brick.jpg"
+    };
+
+    mi_inheritable::Entity* skybox = new mi::Skybox(mesh_buf, faces);
+    skybox->size = mi::Vec3(100.0);
 
     /* SHADER DEFINITIONS HERE */
     Shader shadowShader("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
     Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
+    Shader skyboxShader("skybox/vMain.glsl", "skybox/fMain.glsl", "SKYBOX");
     mi_engine::MI_addShader(shadowShader);
     mi_engine::MI_addShader(debugShader2);
+    mi_engine::MI_addShader(skyboxShader);
 
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
     float seed = rand() % 100000;
     //seed = 32193;
-    float CUBE_SIZE = 1.5;
+    float CUBE_SIZE = 1.0;
     float _density = 0.4;
 
     std::cout << seed << std::endl;
 
     mi_engine::MI_addStaticCamera(scene1, shadowCamera);
+    mi_engine::MI_entityAssignShaderCode(skybox, debugShader2);
+    mi_engine::MI_sceneAddEntity(scene1, skybox);
 
     for (int x = 0; x < s; x++) {
         for (int y = 0; y < s; y++) {
@@ -84,11 +100,17 @@ int main() {
                     mi_inheritable::Entity* en = new Cube(cbuffer);
                     en->position = position;
                     en->size = mi::Vec3(CUBE_SIZE);
+                    mesh.add_entity(en);
                     mi_engine::MI_entityAssignShaderCode(en, shadowShader);
                     mi_engine::MI_sceneAddEntity(scene1, en);
                 }
             }
         }
     }
+    mesh.initialize();
+    mi_inheritable::Entity* m = &mesh;
+    //mi_engine::MI_entityAssignShaderCode(m, shadowShader);
+    //mi_engine::MI_sceneAddEntity(scene1, m);
+
     mi_engine::MI_startMainLoop(scene1->scene_name);
 }

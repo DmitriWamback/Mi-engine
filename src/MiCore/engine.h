@@ -7,7 +7,6 @@ GLFWwindow* main_window;
 
 #include "entitylib.h"
 
-#include "gfx/fbo/framebuf.h"
 #include "util/camera.h"
 #include "util/static_camera.h"
 #include "util/scene.h"
@@ -104,7 +103,7 @@ namespace mi_engine {
         glEnable(GL_CULL_FACE);
 
         glEnable(GL_MULTISAMPLE);  
-        glfwWindowHint(GLFW_SAMPLES, 4);
+        glfwWindowHint(GLFW_SAMPLES, 14);
 
         while (!glfwWindowShouldClose(main_window)) {
 

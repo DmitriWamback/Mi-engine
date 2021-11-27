@@ -18,15 +18,18 @@ namespace mi {
 
             for (int i = 0; i < 6; i++) {
                 dat = stbi_load(image_paths[i].c_str(), &width, &height, &channels, 0);
-                if (channels == 3) {
-                    glTexImage2D(
-                        GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
-                        0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, dat);
-                }
-                else if (channels == 4) {
-                    glTexImage2D(
-                        GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
-                        0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, dat);
+                if (dat) {
+                    if (channels == 3) {
+                        glTexImage2D(
+                            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
+                            0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, dat);
+                    }
+                    else if (channels == 4) {
+                        glTexImage2D(
+                            GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
+                            0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, dat);
+                    }
+                    stbi_image_free(dat);
                 }
             }
 

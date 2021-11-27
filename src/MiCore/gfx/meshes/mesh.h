@@ -12,34 +12,30 @@ namespace mi {
         std::vector<float> debug_vertices;
 
         Mesh(renderbuf buffer) {
+            vertex_count = 0;
             this->buf = buffer;
             type = mi_enum::ENT_MESH;
         }
 
-        void add_entity(mi_inheritable::Entity* entity, mi::Vec3 at_position, mi::Vec3 rotation, mi::Vec3 msize) {
+        void add_entity(mi_inheritable::Entity* entity) {
             float* vertices = entity->get_vertices();
             int size = entity->get_vertex_length();
             vertex_count += size;
-            all_vertices = new float[vertex_count];
-
-            //std::thread obj(&mi::Mesh::sync_add_entity, this, entity, at_position, rotation, msize);
-
-            /*
+            
             for (int i = 0; i < size; i++) {
-                
                 if ((i+8) % 8 == 0)
-                    debug_vertices.push_back(vertices[i] * msize.x + at_position.x);
+                    debug_vertices.push_back(vertices[i] * entity->size.x/2.0 + entity->position.x);
                 else if ((i+7) % 8 == 0)
-                    debug_vertices.push_back(vertices[i] * msize.y + at_position.y);
+                    debug_vertices.push_back(vertices[i] * entity->size.y/2.0 + entity->position.y);
                 else if ((i+6) % 8 == 0)
-                    debug_vertices.push_back(vertices[i] * msize.z + at_position.z);
+                    debug_vertices.push_back(vertices[i] * entity->size.z/2.0 + entity->position.z);
                 else
                     debug_vertices.push_back(vertices[i]);
             }
-            for (int i = 0; i < vertex_count; i++) {
-                all_vertices[i] = debug_vertices.at(i);
-            }
+        }
 
+        void initialize() {
+            all_vertices = &debug_vertices[0];
             glBindVertexArray(buf.vao);
             glBindBuffer(GL_ARRAY_BUFFER, buf.vbo);
             glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float), all_vertices, GL_STATIC_DRAW);
@@ -51,7 +47,17 @@ namespace mi {
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
             glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
             glBindVertexArray(0);
-            */
+        }
+
+        void render(Shader &shader) {
+            shader.use();
+            mi::Matr4 model = scale(mi::Vec3(1.0));
+
+            shader.setMatr4("model", model);
+
+            glBindVertexArray(buf.vao);
+            glDrawArrays(RENDER_OPTION, 0, vertex_count / 8);
+            glBindVertexArray(0);
         }
     };
     

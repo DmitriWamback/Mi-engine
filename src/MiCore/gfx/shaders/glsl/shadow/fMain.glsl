@@ -78,8 +78,8 @@ void main() {
     vec3 objectColor = vec3(1.0);
     vec3 lightColor = vec3(1.0, 0.9, 0.4);
 
-    float metallic = main.g * shadow;
-    float roughness = metallic / 2.0;
+    float metallic = main.r * shadow;
+    float roughness = metallic / 12.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
     vec3 col = vec3(0.0);
