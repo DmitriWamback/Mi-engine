@@ -13,18 +13,18 @@ public:
     }
 
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
-    void mi_engine_begun() {
+    void MiEngineBegun() {
         tex = mi::Texture("src/res/images/metallic.png");
         fb = new mi::Depthbuffer(10000, 10000);
     }
 
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
 
-        move_camera(motion, rotation); // IMPORTANT
+        MoveCamera(motion, rotation); // IMPORTANT
 
         // MAIN GAME LOOP HERE
-        mi::RenderTexture depthMap = load_rendered_scene(static_cameras[0], fb);
-        reset_viewport();
+        mi::RenderTexture depthMap = LoadSceneThroughFB(static_cameras[0], fb);
+        ResetViewport();
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);

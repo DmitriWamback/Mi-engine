@@ -37,32 +37,32 @@ namespace mi_inheritable {
             nb_cameras = 0;
         }
 
-        void move_camera(mi::Vec2 motion, mi::Vec2 camera_rotation) {
+        void MoveCamera(mi::Vec2 motion, mi::Vec2 camera_rotation) {
             camera.rotateCamera(camera_rotation.x, camera_rotation.y);
             camera.moveCamera(1.0, motion);
         }
 
-        virtual void mi_engine_begun() {}
+        virtual void MiEngineBegun() {}
         
         virtual void SceneMainLoop(mi::Vec2 motion, mi::Vec2 camera_rotation) {}
 
-        mi::Vec3 get_camera_position() {
+        mi::Vec3 GetCameraPosition() {
             return camera.position;
         }
 
-        mi::Vec3 get_camera_look_direction() {
+        mi::Vec3 GetCameraLookDirection() {
             return camera.look_direction;
         }
 
-        mi::Matr4 get_projection() {
+        mi::Matr4 GetProjection() {
             return camera.projection;
         }
 
-        mi::Matr4 get_view() {
+        mi::Matr4 GetView() {
             return camera.view;
         }
 
-        virtual mi::RenderTexture load_rendered_scene(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer) {
+        virtual mi::RenderTexture LoadSceneThroughFB(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer) {
             
             glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
             glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
@@ -93,7 +93,7 @@ namespace mi_inheritable {
             return mi::RenderTexture(framebuffer->tex_id);
         }
 
-        void reset_viewport() {
+        void ResetViewport() {
 #ifdef __APPLE__
             int width;
             int height;
@@ -109,24 +109,24 @@ namespace mi_inheritable {
 #endif
         }
 
-        void add_entity(Entity* entity) {
+        void AddEntity(Entity* entity) {
             allEntities[nb_entities] = entity;
             nb_entities++;
         }
 
-        void add_static_camera(mi::StaticCamera static_camera) {
+        void AddStaticCamera(mi::StaticCamera static_camera) {
             std::cout << nb_cameras << " Here" << std::endl;
             static_cameras[nb_cameras] = static_camera;
             nb_cameras++;
         }
 
-        void render_all(mi::Vec2 motion, mi::Vec2 camera_rotation) {
+        void RenderAll(mi::Vec2 motion, mi::Vec2 camera_rotation) {
             SceneMainLoop(motion, camera_rotation);
         }
         
 
         void __MI_ENGINE_BEGUN() {
-            mi_engine_begun();
+            MiEngineBegun();
             depthShader = Shader("shadow/vDepth.glsl", "shadow/fDepth.glsl", "DEPTH SHADER");
         }
     };

@@ -78,7 +78,7 @@ namespace mi_engine {
 
     // Adds a static camera to a given scene
     void MiCoreAddStaticCamera(mi_inheritable::Scene* scene, mi::StaticCamera camera) {
-        scene->add_static_camera(camera);
+        scene->AddStaticCamera(camera);
     }
 
     // Assigns an entity a shader to use when being rendered
@@ -106,11 +106,11 @@ namespace mi_engine {
     // Adds an entity to a scene
     void MiCoreSceneAddEntity(mi_inheritable::Scene* scene, mi_inheritable::Entity* entity) {
         if (mi_core::scenes.find(scene->scene_name) == mi_core::scenes.end()) {
-            scene->add_entity(entity);
+            scene->AddEntity(entity);
             mi_core::scenes[scene->scene_name] = scene;
         }
         else {
-            mi_core::scenes[scene->scene_name]->add_entity(entity);
+            mi_core::scenes[scene->scene_name]->AddEntity(entity);
         }
     }   
 
@@ -135,7 +135,7 @@ namespace mi_engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClearColor(0.0, 0.0, 0.0, 1.0);
 
-            scene->render_all(mi_input::movement_motion, mi_input::camera_rotation_movement);
+            scene->RenderAll(mi_input::movement_motion, mi_input::camera_rotation_movement);
 
             mi_input::camera_rotation_movement = mi::Vec2(0.0);
             glfwPollEvents();
