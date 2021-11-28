@@ -12,6 +12,7 @@ GLFWwindow* main_window;
 #include "util/scene.h"
 
 #include "audio/audio_manager.h"
+#include "util/mouse.h"
 
 /* 
 -- ENGINE --
@@ -48,6 +49,7 @@ namespace mi_input {
         if (glfwGetKey(main_window, GLFW_KEY_S) == GLFW_PRESS) movement_motion.x = -1;
         if (glfwGetKey(main_window, GLFW_KEY_A) == GLFW_PRESS) movement_motion.y = -1;
         if (glfwGetKey(main_window, GLFW_KEY_D) == GLFW_PRESS) movement_motion.y =  1;
+        if (glfwGetKey(main_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) exit(0);
 
         if (glfwGetKey(main_window, GLFW_KEY_E) == GLFW_PRESS && !isDebugButtonDown) {
             if (RENDER_OPTION == GL_TRIANGLES) RENDER_OPTION = GL_LINE_STRIP;

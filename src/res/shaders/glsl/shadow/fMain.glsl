@@ -16,6 +16,7 @@ uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
 #define MAX_PCF_SHADOW 1
+#define MIN_SHADOW_BRIGHTNESS 0.1
 
 #define pi 3.14159265349
 #define TEXTURE_SCALE 1.0
@@ -66,6 +67,7 @@ float calculateShadow() {
 
     if (projectionCoords.z > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;
+    shadow = max(shadow, MIN_SHADOW_BRIGHTNESS);
     return shadow;
 }
 
@@ -108,17 +110,17 @@ void main() {
     vec3 kD = vec3(1.0) - F;
     kD *= 1.0 - metallic;
 
-    float dotD = max(dot(lightDirection, nSN), 0.0);
+    float dotD = max(dot(lightDirection, nSN), MIN_SHADOW_BRIGHTNESS);
     float n    = max(dot(nDSLP, nSN), 0.55);
-    float _dotD = dot(lightDirection, nSN);
+    float _dotD = max(dot(lightDirection, nSN), MIN_SHADOW_BRIGHTNESS);
 
     float inverse_shadow = 1 - shadow;
     
-    col += (kD * objectColor / pi + specular) * radiance * NdL;
+    col += (kD * objectColor / pi + specular) * radiance * max(NdL, MIN_SHADOW_BRIGHTNESS);
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
-    col *= shadow * _dotD;
-    col += main.rgb * min(inverse_shadow, 0.1);
+    col *= shadow;
+    col += (main.rgb/1.2) * min(inverse_shadow, 0.1);
 
     vec3 diffuse = dotD * lightColor * shadow;
     fragc = vec4(col, 1.0);
