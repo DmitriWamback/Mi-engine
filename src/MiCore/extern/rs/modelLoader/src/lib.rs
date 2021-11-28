@@ -20,6 +20,7 @@ pub extern "C" fn load_model_vertices(file_path: *const c_char) -> *mut f32 {
 
     for s in comp {
         if s.starts_with("v ") {
+            
             let verts = s.split(" ").collect::<Vec<&str>>();
             let x: f32 = verts[1].to_owned().parse::<f32>().unwrap();
             let y: f32 = verts[2].to_owned().parse::<f32>().unwrap();

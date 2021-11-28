@@ -4,7 +4,11 @@ GLEW_INC=
 GLEW_LIB=
 SNDFILE_LIB=src/vendor/WIND/sndfile
 
-RS_LIB=libs
+:: Creating rust lib
+cargo run --manifest-path src/MiCore/extern/rs/modelLoader/Cargo.toml --release
+mv src/MiCore/extern/rs/modelLoader/target/release/libmi_model_loader.lib src/MiLibs
+
+RS_LIB=src/MiLibs
 
 g++ -arch x86_64 -I $GLFW_INC \
                 -L $GLFW_LIB $GLFW_LIB/libglfw.lib \
@@ -12,6 +16,7 @@ g++ -arch x86_64 -I $GLFW_INC \
                 -I $GLEW_INC \
                 -L $GLEW_LIB $GLEW_LIB/libGLEW.2.2.0.lib $GLEW_LIB/libGLEW.2.2.lib $GLEW_LIB/libGLEW.a $GLEW_LIB/libGLEW.lib \
                 -L $SNDFILE_LIB $SNDFILE_LIB/libsndfile-1.lib \
+                -L $RS_LIB $RS_LIB/libmi_model_loader.lib \
                 src/main.cpp
 
 ./a.out
