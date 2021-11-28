@@ -16,7 +16,7 @@ uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
 #define MAX_PCF_SHADOW 1
-#define MIN_SHADOW_BRIGHTNESS 0.2
+#define MIN_SHADOW_BRIGHTNESS 0.1
 
 #define pi 3.14159265349
 #define TEXTURE_SCALE 1.0
@@ -121,6 +121,7 @@ void main() {
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
     col *= max(shadow * dotD, MIN_SHADOW_BRIGHTNESS);
+    col.rgb = max(col.rgb, MIN_SHADOW_BRIGHTNESS);
     col += main.rgb * min((1 - (shadow * _dotD)), 0.1);
 
     vec3 diffuse = dotD * lightColor * shadow;
