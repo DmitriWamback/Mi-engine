@@ -11,5 +11,5 @@ in VERTEX {
 uniform samplerCube cubemap;
 
 void main() {
-    fragc = vec4(1.0);
+    fragc = texture(cubemap, i.tex_dir);
 }

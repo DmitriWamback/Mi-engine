@@ -16,7 +16,7 @@ out VERTEX {
 void main() {
 
     o.fragp = (model * vec4(vertex, 1.0)).xyz;
-    o.tex_dir = normal;
+    o.tex_dir = normalize(vertex);
     o.normal = normalize(mat3(transpose(inverse(model))) * normal);
-    gl_Position = projection * view * model * vec4(vertex, 1.0);
+    gl_Position = projection * view * vec4(vertex, 1.0);
 }

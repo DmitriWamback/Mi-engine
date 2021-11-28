@@ -56,7 +56,8 @@ int main() {
     };
 
     mi_inheritable::Entity* skybox = new mi::Skybox(mesh_buf, faces);
-    skybox->size = mi::Vec3(100.0);
+    skybox->size = mi::Vec3(20.0);
+    skybox->position = mi::Vec3(0.0);
 
 
     struct mi_audio::ADOPROP prop;
@@ -82,14 +83,15 @@ int main() {
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
     float seed = rand() % 100000;
-    seed = 21913;
+    //seed = 21913;
     float CUBE_SIZE = 1.0;
     float _density = 0.1;
 
+    //const float* v = load_model_vertices("src/res/models/tree.obj");
     std::cout << seed << std::endl;
 
     mi_engine::MiCoreAddStaticCamera(scene1, shadowCamera);
-    mi_engine::MiCoreEntityAssignShaderCode(skybox, debugShader2);
+    mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
     for (int x = 0; x < s; x++) {

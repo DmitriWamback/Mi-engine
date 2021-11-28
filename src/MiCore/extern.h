@@ -1,3 +1,3 @@
 extern "C" {
-    const float* load_model(const char* file_path);
+    const float* load_model_vertices(const char* file_path);
 }

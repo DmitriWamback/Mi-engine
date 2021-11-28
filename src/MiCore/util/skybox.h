@@ -55,7 +55,7 @@ namespace mi {
         
         Skybox(renderbuf buffer, std::string images[]) {
             this->buf = buffer;
-            this->usesDepthBuffer = false;
+            //this->usesDepthBuffer = false;
             cubemap = mi::CubeMap(images);
 
             glBindVertexArray(buf.vao);
@@ -76,13 +76,13 @@ namespace mi {
 
             shader.setMatr4("model", model);
 
-            //glDepthMask(GL_FALSE);
+            glDepthMask(GL_FALSE);
             glBindVertexArray(buf.vao);
-            //glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap.tex_id);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap.tex_id);
 
             glDrawArrays(RENDER_OPTION, 0, 36);
             glBindVertexArray(0);
-            //glDepthMask(GL_TRUE);
+            glDepthMask(GL_TRUE);
 
             //glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
         }
