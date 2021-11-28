@@ -16,10 +16,10 @@ uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
 #define MAX_PCF_SHADOW 1
-#define MIN_SHADOW_BRIGHTNESS 0.1
+#define MIN_SHADOW_BRIGHTNESS 0.005
 
 #define pi 3.14159265349
-#define TEXTURE_SCALE 1.0
+#define TEXTURE_SCALE 10.0
 
 float distributionGGX(float NdH, float roughness) {
 
@@ -86,11 +86,11 @@ void main() {
 
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
-    vec3 objectColor = vec3(1.0);
+    vec3 objectColor = main.rgb;
     vec3 lightColor = vec3(1.0, 0.9, 0.4);
 
-    float metallic = main.r * shadow * dotD;
-    float roughness = metallic / 12.0;
+    float metallic = main.r;
+    float roughness = metallic / 5.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
     vec3 col = vec3(0.0);
@@ -121,9 +121,8 @@ void main() {
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
     col *= max(shadow * dotD, MIN_SHADOW_BRIGHTNESS);
-    col.rgb = max(col.rgb, MIN_SHADOW_BRIGHTNESS);
     col += main.rgb * min((1 - (shadow * _dotD)), 0.1);
 
     vec3 diffuse = dotD * lightColor * shadow;
-    fragc = vec4(col, 1.0);
+    fragc = vec4(col + (main.rgb / 5.0), 1.0);
 }

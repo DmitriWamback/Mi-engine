@@ -14,7 +14,7 @@ public:
 
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
-        tex = mi::Texture("src/res/images/metallic.png");
+        tex = mi::Texture("src/res/images/brick.jpg");
         fb = new mi::Depthbuffer(10000, 10000);
     }
 
