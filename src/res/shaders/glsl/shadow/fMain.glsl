@@ -59,8 +59,8 @@ float calculateShadow() {
     
     // BIAS = 0.005 ÷ CAMERA ZFAR
     float bias = 0.005 / 6000.0;
-    float a_bias = max(bias * biasOffset * (1.0 - dot(i.normal, normalize(directional_shadow_light_position - i.fragp))), bias * 10.0);
-    shadow = current-bias > closest ? 1.0 : 0.0;
+    float a_bias = max(bias * 50.0 * (1.0 - dot(i.normal, normalize(directional_shadow_light_position - i.fragp))), bias * 10.0);
+    shadow = current-a_bias > closest ? 1.0 : 0.0;
     
     vec2 texelSize = 2.0 / textureSize(depthMap, 0);
     for(int x = -MAX_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
