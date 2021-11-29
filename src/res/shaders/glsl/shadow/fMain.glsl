@@ -15,11 +15,11 @@ uniform vec3 camera_position;
 uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
-#define MAX_PCF_SHADOW 1
-#define MIN_SHADOW_BRIGHTNESS 0.005
+#define MAX_PCF_SHADOW 2
+#define MIN_SHADOW_BRIGHTNESS 0.00005
 
 #define pi 3.14159265349
-#define TEXTURE_SCALE 10.0
+#define TEXTURE_SCALE 3.0
 
 float distributionGGX(float NdH, float roughness) {
 
@@ -56,7 +56,7 @@ float calculateShadow() {
 
     float shadow = 0;
     //shadow = current-0.0000008333 > closest ? 1.0 : 0.0;
-    vec2 texelSize = 1.0 / textureSize(depthMap, 0);
+    vec2 texelSize = 2.0 / textureSize(depthMap, 0);
     for(int x = -MAX_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
         for (int y = -MAX_PCF_SHADOW; y <= MAX_PCF_SHADOW; ++y) {
             float pcfDepth = texture(depthMap, projectionCoords.xy + vec2(x, y) * texelSize).r; 
