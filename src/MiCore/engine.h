@@ -25,6 +25,7 @@ namespace mi_core {
 }
 
 bool isDebugButtonDown;
+float biasOffset = 0.0;
 
 namespace mi_input {
 
@@ -51,12 +52,22 @@ namespace mi_input {
         if (glfwGetKey(main_window, GLFW_KEY_D) == GLFW_PRESS) movement_motion.y =  1;
         if (glfwGetKey(main_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) exit(0);
 
-        if (glfwGetKey(main_window, GLFW_KEY_E) == GLFW_PRESS && !isDebugButtonDown) {
+        if (glfwGetKey(main_window, GLFW_KEY_R) == GLFW_PRESS && !isDebugButtonDown) {
             if (RENDER_OPTION == GL_TRIANGLES) RENDER_OPTION = GL_LINE_STRIP;
             else RENDER_OPTION = GL_TRIANGLES;
             isDebugButtonDown = true;
         }
-        if (glfwGetKey(main_window, GLFW_KEY_E) == GLFW_RELEASE && isDebugButtonDown) {
+        if (glfwGetKey(main_window, GLFW_KEY_E) == GLFW_PRESS) {
+            biasOffset += 0.1;
+            std::cout << biasOffset << std::endl;
+        }
+        if (glfwGetKey(main_window, GLFW_KEY_Q) == GLFW_PRESS) {
+            biasOffset -= 0.1;
+            std::cout << biasOffset << std::endl;
+        }
+
+
+        if (glfwGetKey(main_window, GLFW_KEY_R) == GLFW_RELEASE && isDebugButtonDown) {
             isDebugButtonDown = false;
         }
     }

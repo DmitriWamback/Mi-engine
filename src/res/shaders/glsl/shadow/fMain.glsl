@@ -18,6 +18,8 @@ uniform sampler2D main_tex;
 #define MAX_PCF_SHADOW 2
 #define MIN_SHADOW_BRIGHTNESS 0.00005
 
+uniform float biasOffset = 1.0;
+
 #define pi 3.14159265349
 #define TEXTURE_SCALE 3.0
 
@@ -53,18 +55,18 @@ float calculateShadow() {
 
 
     float scale = pow(MAX_PCF_SHADOW*2 + 1, 2);
-
     float shadow = 0;
     
     // BIAS = 0.005 ÷ CAMERA ZFAR
     float bias = 0.005 / 6000.0;
-    //shadow = current-0.0000008333 > closest ? 1.0 : 0.0;
-
+    float a_bias = max(bias * biasOffset * (1.0 - dot(i.normal, normalize(directional_shadow_light_position - i.fragp))), bias * 10.0);
+    shadow = current-bias > closest ? 1.0 : 0.0;
+    
     vec2 texelSize = 2.0 / textureSize(depthMap, 0);
     for(int x = -MAX_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
         for (int y = -MAX_PCF_SHADOW; y <= MAX_PCF_SHADOW; ++y) {
             float pcfDepth = texture(depthMap, projectionCoords.xy + vec2(x, y) * texelSize).r; 
-            shadow += current - bias > pcfDepth ? 1.0 : 0.0;        
+            shadow += current - a_bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }
     shadow /= scale;
@@ -81,7 +83,7 @@ void main() {
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
     vec3 viewDirection = normalize(camera_position - i.fragp);
-    vec3 lightDirection = normalize(directional_shadow_light_position - i.fragp);
+    vec3 lightDirection = normalize(directional_shadow_light_position);
 
     float shadow = calculateShadow();
     float dotD = max(dot(lightDirection, nSN), 0.0);

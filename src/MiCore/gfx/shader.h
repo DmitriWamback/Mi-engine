@@ -79,6 +79,11 @@ public:
         glUniform1i(loc, a);
     }
 
+    void setFloat(std::string name, float a) {
+        int loc = glGetUniformLocation(program, name.c_str());
+        glUniform1f(loc, a);
+    }
+
     void use() {
         glUseProgram(program);
     }

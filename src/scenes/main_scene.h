@@ -44,6 +44,7 @@ public:
             shader.setVec3("directional_shadow_light_position", camera_pos);
             shader.setInt("main_tex", 1);
             shader.setInt("depthMap", 0);
+            shader.setFloat("biasOffset", biasOffset);
 
             entity->render(shader);
         }
