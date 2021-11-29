@@ -55,12 +55,16 @@ float calculateShadow() {
     float scale = pow(MAX_PCF_SHADOW*2 + 1, 2);
 
     float shadow = 0;
+    
+    // BIAS = 0.005 ÷ CAMERA ZFAR
+    float bias = 0.005 / 6000.0;
     //shadow = current-0.0000008333 > closest ? 1.0 : 0.0;
+
     vec2 texelSize = 2.0 / textureSize(depthMap, 0);
     for(int x = -MAX_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
         for (int y = -MAX_PCF_SHADOW; y <= MAX_PCF_SHADOW; ++y) {
             float pcfDepth = texture(depthMap, projectionCoords.xy + vec2(x, y) * texelSize).r; 
-            shadow += current - 0.0000008333 > pcfDepth ? 1.0 : 0.0;        
+            shadow += current - bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }
     shadow /= scale;
