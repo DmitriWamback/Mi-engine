@@ -122,6 +122,7 @@ void main() {
     col = pow(col, vec3(1.0 / 5.2));
     col *= max(shadow * dotD, MIN_SHADOW_BRIGHTNESS);
     col += main.rgb * min((1 - (shadow * _dotD)), 0.1);
+    col.r += exp(dotD);
 
     vec3 diffuse = dotD * lightColor * shadow;
     fragc = vec4(col + (main.rgb / 5.0), 1.0);
