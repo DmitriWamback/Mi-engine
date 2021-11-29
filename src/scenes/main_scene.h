@@ -15,7 +15,7 @@ public:
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
         tex = mi::Texture("src/res/images/brick.jpg");
-        fb = new mi::Depthbuffer(10000, 10000);
+        fb = new mi::Depthbuffer(7500, 7500);
     }
 
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
