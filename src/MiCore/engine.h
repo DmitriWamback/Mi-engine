@@ -53,7 +53,7 @@ namespace mi_input {
         if (glfwGetKey(main_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) exit(0);
 
         if (glfwGetKey(main_window, GLFW_KEY_R) == GLFW_PRESS && !isDebugButtonDown) {
-            if (RENDER_OPTION == GL_TRIANGLES) RENDER_OPTION = GL_LINE_STRIP;
+            if (RENDER_OPTION == GL_TRIANGLES) RENDER_OPTION = GL_LINES;
             else RENDER_OPTION = GL_TRIANGLES;
             isDebugButtonDown = true;
         }

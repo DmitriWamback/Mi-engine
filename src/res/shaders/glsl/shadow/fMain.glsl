@@ -21,7 +21,7 @@ uniform sampler2D main_tex;
 uniform float biasOffset = 1.0;
 
 #define pi 3.14159265349
-#define TEXTURE_SCALE 3.0
+#define TEXTURE_SCALE 1.0
 
 float distributionGGX(float NdH, float roughness) {
 
@@ -48,7 +48,7 @@ vec3 fresnelSchlick(float HdV, vec3 base) {
 
 float calculateShadow() {
     
-    vec3 projectionCoords = (i.fragpl.xyz / i.fragpl.w) * 0.5 + 0.5;
+    vec4 projectionCoords = (i.fragpl.xyzw / i.fragpl.w) * 0.5 + 0.5;
 
     float closest = texture(depthMap, projectionCoords.st).r;
     float current = projectionCoords.z;
@@ -58,21 +58,27 @@ float calculateShadow() {
     float shadow = 0;
     
     // BIAS = 0.005 ÷ CAMERA ZFAR
-    float bias = 0.005 / 6000.0;
-    float a_bias = max(bias * 50.0 * (1.0 - dot(i.normal, normalize(directional_shadow_light_position - i.fragp))), bias * 10.0);
-    shadow = current-a_bias > closest ? 1.0 : 0.0;
+    float bias = 0.0375 / 6000.0;
+    float a_bias = max(bias * 3.5 * (1.0 - dot(i.normal, normalize(directional_shadow_light_position))), bias * 0.1);
+    shadow = current-bias > closest ? 1.0 : 0.0;
+
+    float total = 0;
     
-    vec2 texelSize = 2.0 / textureSize(depthMap, 0);
-    for(int x = -MAX_PCF_SHADOW; x <= MAX_PCF_SHADOW; ++x) {
-        for (int y = -MAX_PCF_SHADOW; y <= MAX_PCF_SHADOW; ++y) {
-            float pcfDepth = texture(depthMap, projectionCoords.xy + vec2(x, y) * texelSize).r; 
-            shadow += current - a_bias > pcfDepth ? 1.0 : 0.0;        
+    vec2 texelSize = 1.0 / textureSize(depthMap, 0);
+    for(int s = -MAX_PCF_SHADOW; s <= MAX_PCF_SHADOW; ++s) {
+        for (int t = -MAX_PCF_SHADOW; t <= MAX_PCF_SHADOW; ++t) {
+            float pcfDepth = texture(depthMap, projectionCoords.st + vec2(s, t) * texelSize).r;
+            if (current-a_bias > pcfDepth) {
+                total++;
+            } 
+            //shadow += current - a_bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }
-    shadow /= scale;
+    total /= scale;
+    shadow = total;
 
-    if (projectionCoords.z > 1.0) shadow = 0.0;
-    shadow = 1.0 - shadow;    
+    if (projectionCoords.x > 1.0) shadow = 0.0;
+    shadow = 1.0 - shadow;
     //shadow = max(shadow, MIN_SHADOW_BRIGHTNESS);
     return shadow;
 }
@@ -96,7 +102,7 @@ void main() {
     vec3 lightColor = vec3(1.0, 0.9, 0.4);
 
     float metallic = main.r;
-    float roughness = (1 - metallic) / 5.0;
+    float roughness = (1 - metallic) / 4.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
     vec3 col = vec3(0.0);

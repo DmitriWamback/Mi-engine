@@ -73,7 +73,7 @@ namespace mi_inheritable {
             
             if (framebuffer->type == mi_enum::BUFTYPE_DEPTH) {
 
-                glCullFace(GL_FRONT);
+                //8uihnglCullFace(GL_FRONT);
                 depthShader.use();
                 depthShader.setMatr4("lightSpaceMatrix_projection", cam.projection);
                 depthShader.setMatr4("lightSpaceMatrix_view", cam.view);

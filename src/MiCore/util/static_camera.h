@@ -102,8 +102,8 @@ namespace mi {
 
             projection = orthographic(orthographic_prop.left, 
                                       orthographic_prop.right, 
-                                      -orthographic_prop.bottom, 
-                                      -orthographic_prop.top,
+                                      orthographic_prop.bottom, 
+                                      orthographic_prop.top,
                                       orthographic_prop.zfar,
                                       orthographic_prop.znear);
 

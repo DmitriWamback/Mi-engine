@@ -4,6 +4,8 @@ public:
     mi::Texture tex;
     mi_inheritable::Framebuffer* fb;
 
+    float t;
+
     MainScene(std::string n) {
 
         // Initialize state
@@ -15,7 +17,7 @@ public:
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
         tex = mi::Texture("src/res/images/brick.jpg");
-        fb = new mi::Depthbuffer(7500, 7500);
+        fb = new mi::Depthbuffer(1024*8, 1024*8);
     }
 
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
@@ -25,6 +27,9 @@ public:
         // MAIN GAME LOOP HERE
         mi::RenderTexture depthMap = LoadSceneThroughFB(static_cameras[0], fb);
         ResetViewport();
+
+        //static_cameras[0].set_position(mi::Vec3(sin(t)*300, 50.0, cos(t)*300));
+        //t += 0.1;
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);

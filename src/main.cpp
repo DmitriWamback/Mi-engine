@@ -7,7 +7,7 @@
 
 mi_inheritable::Scene* scene1 = new MainScene("Hello");
 
-#define s 40
+#define s 60
 
 #define FREQ 19.2
 
