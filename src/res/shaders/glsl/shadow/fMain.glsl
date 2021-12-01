@@ -21,7 +21,7 @@ uniform sampler2D main_tex;
 uniform float biasOffset = 1.0;
 
 #define pi 3.14159265349
-#define TEXTURE_SCALE 1.0
+#define TEXTURE_SCALE 5.0
 
 float distributionGGX(float NdH, float roughness) {
 
@@ -58,8 +58,8 @@ float calculateShadow() {
     float shadow = 0;
     
     // BIAS = 0.005 ÷ CAMERA ZFAR
-    float bias = 0.0375 / 6000.0;
-    float a_bias = max(bias * 3.5 * (1.0 - dot(i.normal, normalize(directional_shadow_light_position))), bias * 0.1);
+    float bias = 0.005 / 6000.0;
+    float a_bias = max(bias * 17.5 * (1.0 - max(dot(i.normal, normalize(directional_shadow_light_position)), 0.0)), bias * 0.1);
     shadow = current-bias > closest ? 1.0 : 0.0;
 
     float total = 0;
@@ -68,14 +68,14 @@ float calculateShadow() {
     for(int s = -MAX_PCF_SHADOW; s <= MAX_PCF_SHADOW; ++s) {
         for (int t = -MAX_PCF_SHADOW; t <= MAX_PCF_SHADOW; ++t) {
             float pcfDepth = texture(depthMap, projectionCoords.st + vec2(s, t) * texelSize).r;
-            if (current-a_bias > pcfDepth) {
+            if (current-a_bias*biasOffset*1.5 > pcfDepth) {
                 total++;
             } 
             //shadow += current - a_bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }
     total /= scale;
-    shadow = total;
+    //shadow = total;
 
     if (projectionCoords.x > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;
@@ -101,7 +101,7 @@ void main() {
     vec3 objectColor = main.rgb;
     vec3 lightColor = vec3(1.0, 0.9, 0.4);
 
-    float metallic = main.r;
+    float metallic = 1 - objectColor.r;
     float roughness = (1 - metallic) / 4.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
@@ -132,9 +132,9 @@ void main() {
     col += (kD * objectColor / pi + specular) * radiance * NdL;
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
-    col *= max(shadow * dotD, MIN_SHADOW_BRIGHTNESS);
-    col += main.rgb * min((1 - (shadow * _dotD)), MIN_SHADOW_BRIGHTNESS);
+    col *= max(shadow * _dotD, MIN_SHADOW_BRIGHTNESS);
+    col += objectColor * min((1 - (shadow * _dotD)), MIN_SHADOW_BRIGHTNESS);
 
     vec3 diffuse = dotD * lightColor * shadow;
-    fragc = vec4(col + (main.rgb / 5.0), 1.0);
+    fragc = vec4(col + (objectColor / 5.0), 1.0);
 }
