@@ -62,6 +62,12 @@ namespace mi_inheritable {
             return camera.view;
         }
 
+        mi::StaticCamera FindStaticCameraByName(std::string name) {
+            for (int i = 0; i < nb_cameras; i++) {
+                if (static_cameras[i].camera_name == name) return static_cameras[i];
+            }
+        }
+
         virtual mi::RenderTexture LoadSceneThroughFB(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer) {
             
             glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);

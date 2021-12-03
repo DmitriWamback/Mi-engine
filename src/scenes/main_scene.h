@@ -17,7 +17,7 @@ public:
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
         tex = mi::Texture("src/res/images/brick.jpg");
-        fb = new mi::Depthbuffer(1024*5, 1024*5);
+        fb = new mi::Depthbuffer(1024*10, 1024*10);
     }
 
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
@@ -25,7 +25,8 @@ public:
         MoveCamera(motion, rotation); // IMPORTANT
 
         // MAIN GAME LOOP HERE
-        mi::RenderTexture depthMap = LoadSceneThroughFB(static_cameras[0], fb);
+        mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
+        mi::RenderTexture depthMap = LoadSceneThroughFB(stC, fb);
         ResetViewport();
 
         //static_cameras[0].set_position(mi::Vec3(sin(t)*300, 50.0, cos(t)*300));
@@ -50,6 +51,7 @@ public:
             shader.setInt("main_tex", 1);
             shader.setInt("depthMap", 0);
             shader.setFloat("biasOffset", biasOffset);
+            shader.setFloat("sCameraFarPlane", stC.zfar);
 
             entity->render(shader);
         }

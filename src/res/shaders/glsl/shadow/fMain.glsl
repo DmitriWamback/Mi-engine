@@ -15,10 +15,11 @@ uniform vec3 camera_position;
 uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
-#define MAX_PCF_SHADOW 2
+#define MAX_PCF_SHADOW 1
 #define MIN_SHADOW_BRIGHTNESS 0.00005
 
 uniform float biasOffset = 1.0;
+uniform float sCameraFarPlane;
 
 #define pi 3.14159265349
 #define TEXTURE_SCALE 5.0
@@ -48,7 +49,7 @@ vec3 fresnelSchlick(float HdV, vec3 base) {
 
 float calculateShadow() {
     
-    vec4 projectionCoords = (i.fragpl.xyzw / i.fragpl.w) * 0.5 + 0.5;
+    vec4 projectionCoords = (i.fragpl.xyzw) * 0.5 + 0.5;
 
     float closest = texture(depthMap, projectionCoords.st).r;
     float current = projectionCoords.z;
@@ -56,24 +57,27 @@ float calculateShadow() {
 
     float scale = pow(MAX_PCF_SHADOW*2 + 1, 2);
     float shadow = 0;
+
+    float p = dot(i.normal, normalize(directional_shadow_light_position - i.fragp));
     
     // BIAS = 0.005 ÷ CAMERA ZFAR
-    float bias = 0.005 / 6000.0;
-    float a_bias = max(bias * 17.5 * (1.0 - max(dot(i.normal, normalize(directional_shadow_light_position)), 0.0)), bias * 0.1);
+    float bias = 0.06 / sCameraFarPlane;
+    float a_bias = max(bias * (1.0 - p), bias * 1.05);
     shadow = current-bias > closest ? 1.0 : 0.0;
 
     float total = 0;
-    
-    vec2 texelSize = 1.0 / textureSize(depthMap, 0);
+    /*
+    vec2 texelSize = 4.0 / textureSize(depthMap, 0);
     for(int s = -MAX_PCF_SHADOW; s <= MAX_PCF_SHADOW; ++s) {
         for (int t = -MAX_PCF_SHADOW; t <= MAX_PCF_SHADOW; ++t) {
             float pcfDepth = texture(depthMap, projectionCoords.st + vec2(s, t) * texelSize).r;
-            if (current-a_bias*biasOffset*1.5 > pcfDepth) {
+            if (current-bias > pcfDepth) {
                 total++;
             } 
             //shadow += current - a_bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }
+    */
     total /= scale;
     //shadow = total;
 

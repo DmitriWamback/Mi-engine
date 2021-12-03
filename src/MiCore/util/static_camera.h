@@ -89,6 +89,9 @@ namespace mi {
         Matr4 projection;
         Matr4 view;
 
+        float zfar;
+        float znear;
+
         std::string camera_name;
         bool isActive;
 
@@ -112,6 +115,9 @@ namespace mi {
             target = orthographic_prop.look_target;
             start_position = position;
             start_target = target;
+
+            zfar = orthographic_prop.zfar;
+            znear = orthographic_prop.znear;
         }
 
         StaticCamera(STATICCAMERAPROPERTIES_PERSPECTIVE perspective_prop, std::string name) {
@@ -131,6 +137,9 @@ namespace mi {
             target = perspective_prop.look_target;
             start_position = position;
             start_target = target;
+
+            zfar = perspective_prop.zfar;
+            znear = perspective_prop.znear;
         }
 
         Vec3 get_start_position() {

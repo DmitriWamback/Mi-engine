@@ -16,8 +16,10 @@ out VERTEX {
     vec2 uv;
     vec4 fragpl;
 } o;
+uniform sampler2D main_tex;
 
 void main() {
+    
     o.fragp = (model * vec4(position, 1.0)).xyz;
     o.normal = normalize(mat3(transpose(inverse(model))) * normal);
     o.uv = uv;
