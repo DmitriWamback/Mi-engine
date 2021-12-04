@@ -1,1 +1,1 @@
-/Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rs/model_loader/target/release/mi_model_loader: /Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rs/model_loader/src/main.rs
+/Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rs/model_loader/target/release/mi_model_loader: /Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rs/model_loader/src/lib.rs

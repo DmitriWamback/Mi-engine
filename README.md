@@ -3,6 +3,14 @@
 <p>The stb_image.h file should be added manually to the project</p>
 <p>The <code>src/begin_temp.sh</code> shows the necessary libs used to compile and run the engine</p>
 
+## BUILDING AND COMPILING
+
+<pre>
+    <span class="pl-s1">python3 src/MiCore/extern/py/load_lib.py</span>
+    <span class="pl-s1">sh src/begin_temp.sh # MACOS</span>
+    <span class="pl-s1">src\begin_temp.bat # WINDOWS</span>
+</pre>
+
 ## AVAILABLE UTILITIES:
 <ul>
     <li>Framebuffers</li>
