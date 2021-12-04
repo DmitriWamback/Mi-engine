@@ -8,10 +8,15 @@ OSs = {
     'Windows': 'wind',
     'Linux': 'linux'
 }
-Extensions = {
+CargoExtensions = {
     'macOS': 'cdylib',
     'wind': 'clib',
     'linux': 'clib'
+}
+Extensions = {
+    'macOS': 'dylib',
+    'wind': 'lib',
+    'linux': 'lib'
 }
 
 current_os = OSs[platform.system()]
@@ -45,6 +50,7 @@ def search_dir(_dir: str):
 
     return dirs, toml_files
 
+# Overwriting Rust cargos to include a name and a library 
 def overwrite_cargos(_dirs):
     global default_cargo
 
@@ -58,7 +64,7 @@ def overwrite_cargos(_dirs):
         with open(t, 'w+') as f:
 
             name = f"mi_{t.split('/Cargo.toml')[0].split('/')[-1]}"
-            cargo = default_cargo.replace('CARGO_NAME', f'"{name}"').replace('CARGO_LIB', f'["{Extensions[current_os]}"]')
+            cargo = default_cargo.replace('CARGO_NAME', f'"{name}"').replace('CARGO_LIB', f'["{CargoExtensions[current_os]}"]')
             f.write(cargo)
 
         subprocess.call(['cargo', 'run', '--manifest-path', t, '--release'])
