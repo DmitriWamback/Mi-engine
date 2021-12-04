@@ -31,13 +31,13 @@
     <li>3D Movement, world and rendering</li>
     <li>Physically based rendering (PBR)</li>
     <li>Inheritable Scene class</li>
+    <li>Cubemaps</li>
 </ul>
 
 ## CURRENT "IN DEVELOPMENT" UTILITIES
 <ul>
     <li>Model loader (OBJ format)</li>
     <li>UI and 2D rendering engine (to be done at a later date)</li>
-    <li>Cube maps</li>
     <li>Audio</li>
 </ul>
 
