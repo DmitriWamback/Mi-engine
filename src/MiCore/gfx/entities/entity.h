@@ -8,7 +8,9 @@ The entity is a base class for rendering hard-coded vertex placements
 
 namespace mi_enum {
     enum ENTITYTYPE {
-        ENT_CUBE, ENT_MESH
+        ENT_CUBE = 0, 
+        ENT_MESH = 1, 
+        ENT_SKYBOX = 2
     };
 }
 

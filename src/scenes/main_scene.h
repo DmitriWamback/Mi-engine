@@ -26,8 +26,8 @@ public:
 
         // MAIN GAME LOOP HERE
         mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
-        stC.set_position(stC.get_start_position() + camera.position);
-        stC.set_target(stC.get_start_target() + camera.position);
+        stC.set_position(stC.get_start_position() + mi::Vec3(camera.position.x, 0, camera.position.z));
+        stC.set_target(stC.get_start_target() + mi::Vec3(camera.position.x, 0, camera.position.z));
 
         mi::RenderTexture depthMap = LoadSceneThroughFB(stC, fb);
         ResetViewport();
@@ -40,6 +40,12 @@ public:
         for (int en = 0; en < nb_entities; en++) {
             mi_inheritable::Entity* entity = allEntities[en];
             Shader shader = mi_core::all_shaders[entity->shaderToUse];
+
+            if (entity->type == mi_enum::ENT_SKYBOX) {
+                entity->position = camera.position;
+            }
+
+            if (shader.shaderName == "SKYBOX") glCullFace(GL_FRONT);
 
             shader.use();
             shader.setVec3("camera_position", camera.position);
@@ -54,6 +60,8 @@ public:
             shader.setFloat("sCameraFarPlane", stC.zfar);
 
             entity->render(shader);
+
+            if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);
         }
     }
 };

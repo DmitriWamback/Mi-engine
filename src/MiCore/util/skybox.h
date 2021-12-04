@@ -57,6 +57,7 @@ namespace mi {
             this->buf = buffer;
             //this->usesDepthBuffer = false;
             cubemap = mi::CubeMap(images);
+            type = mi_enum::ENT_SKYBOX;
 
             glBindVertexArray(buf.vao);
             glBindBuffer(GL_ARRAY_BUFFER, buf.vbo);

@@ -11,15 +11,6 @@ mi_inheritable::Scene* scene1 = new MainScene("Hello");
 
 #define FREQ 19.2
 
-float get_noise_density_at(int x, int y, int z, float seed) {
-    float xNoise, yNoise, zNoise;
-    xNoise = mi::noise(y/FREQ, z/FREQ, seed);
-    yNoise = mi::noise(x/FREQ, z/FREQ, seed);
-    zNoise = mi::noise(x/FREQ, y/FREQ, seed);
-
-    return xNoise + yNoise + zNoise;
-}
-
 int main() {
 
     mi_engine::MiCoreBegin();
@@ -38,7 +29,7 @@ int main() {
     };
 
     mi_inheritable::Entity* skybox = new mi::Skybox(mesh_buf, faces);
-    skybox->size = mi::Vec3(20.0);
+    skybox->size = mi::Vec3(1000.0);
     skybox->position = mi::Vec3(0.0);
 
 
@@ -75,38 +66,17 @@ int main() {
     mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
-    for (int x = 0; x < s; x++) {
-        for (int y = 0; y < s; y++) {
-            for (int z = 0; z < s; z++) {
-                
-                float density = get_noise_density_at(x, y, z, seed);
-                float up    = get_noise_density_at(x, y+1, z, seed);
-                float down  = get_noise_density_at(x, y-1, z, seed);
-                float left  = get_noise_density_at(x-1, y, z, seed);
-                float right = get_noise_density_at(x+1, y, z, seed);
-                float front = get_noise_density_at(x, y, z-1, seed);
-                float back  = get_noise_density_at(x, y, z+1, seed);
+    int cubeSize = 30;
+    int xzSize = 5;
 
-                bool has_empty_space = false;
-                if (up <= _density || down <= _density || left <= _density || right <= _density || front <= _density || back <= _density) has_empty_space = true;
-
-                if (density > _density && has_empty_space) {
-                    mi::Vec3 position = mi::Vec3((x - s/2) * CUBE_SIZE, (y - s/2) * CUBE_SIZE, (z - s/2) * CUBE_SIZE);
-
-                    mi_inheritable::Entity* en = new Cube(cbuffer);
-                    en->position = position;
-                    en->size = mi::Vec3(CUBE_SIZE);
-                    mesh.add_entity(en);
-                    mi_engine::MiCoreEntityAssignShaderCode(en, shadowShader);
-                    mi_engine::MiCoreSceneAddEntity(scene1, en);
-                }
-            }
+    for (int x = 0; x < xzSize; x++) {
+        for (int y = 0; y < xzSize; y++) {
+            mi_inheritable::Entity* cubeNoise = new mi::CubeNoise(cbuffer, mi::Vec3((x-(xzSize/2))*cubeSize, 0, (y-(xzSize/2))*cubeSize), cubeSize, seed);
+            
+            mi_engine::MiCoreEntityAssignShaderCode(cubeNoise, shadowShader);
+            mi_engine::MiCoreSceneAddEntity(scene1, cubeNoise);
         }
     }
-    mesh.initialize();
-    mi_inheritable::Entity* m = &mesh;
-    //mi_engine::MI_entityAssignShaderCode(m, shadowShader);
-    //mi_engine::MI_sceneAddEntity(scene1, m);
 
     mi_engine::MiCoreStartMainLoop(scene1->scene_name);
 }

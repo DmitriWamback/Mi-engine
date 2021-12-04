@@ -85,4 +85,13 @@ namespace mi {
 
         return n;
     }
+
+    float get_noise_density_at(int x, int y, int z, float seed, float freq) {
+        float xNoise, yNoise, zNoise;
+        xNoise = mi::noise(y/freq, z/freq, seed);
+        yNoise = mi::noise(x/freq, z/freq, seed);
+        zNoise = mi::noise(x/freq, y/freq, seed);
+
+        return xNoise + yNoise + zNoise;
+    }
 }
