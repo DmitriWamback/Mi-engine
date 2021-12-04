@@ -42,5 +42,4 @@
 </ul>
 
 ## CURRENT OVERLOOK
-<img width="1662" alt="Screen Shot 2021-11-21 at 7 43 12 PM" src="https://user-images.githubusercontent.com/56200546/142786027-e8027000-3079-4af6-ad60-a2f13b0e7ffb.png">
-<img width="1977" alt="Screen Shot 2021-11-21 at 7 43 28 PM" src="https://user-images.githubusercontent.com/56200546/142786031-394e0ae2-5a14-4ff8-9d58-0ef2e3daef6e.png">
+<img width="1804" alt="Screen Shot 2021-12-04 at 2 47 59 PM" src="https://user-images.githubusercontent.com/56200546/144722708-2edf065d-5a96-4224-9cb0-281d74b83b9c.png">
