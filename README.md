@@ -20,6 +20,10 @@
     <span class="pl-s1">src\begin_temp.bat # WINDOWS</span>
 </pre>
 
+### IMPORTANT!
+
+<p>After running the 'src/MiCore/extern/py/load_lib.py' script, move the libmi_[...].lib or dylib into src/MiLibs</p>
+
 ## AVAILABLE UTILITIES:
 <ul>
     <li>Framebuffers</li>
