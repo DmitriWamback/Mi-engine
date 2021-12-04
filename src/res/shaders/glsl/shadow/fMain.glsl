@@ -4,6 +4,7 @@
 out vec4 fragc;
 
 in VERTEX {
+    vec3 originNormal;
     vec3 normal;
     vec3 fragp;
     vec2 uv;
@@ -20,6 +21,7 @@ uniform sampler2D main_tex;
 
 uniform float biasOffset = 1.0;
 uniform float sCameraFarPlane;
+uniform samplerCube skybox;
 
 #define pi 3.14159265349
 #define TEXTURE_SCALE 5.0
@@ -128,14 +130,17 @@ void main() {
     vec3 kD = vec3(1.0) - F;
     kD *= 1.0 - metallic;
 
-    float inverse_shadow = 1 - shadow;
+    vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 2.42);
+    float reflectionIntensity = pow(0.5, 2);
+
+    float shadowIntensity = max(shadow * _dotD, MIN_SHADOW_BRIGHTNESS);
     
     col += (kD * objectColor / pi + specular) * radiance * NdL;
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
-    col *= max(shadow * _dotD, MIN_SHADOW_BRIGHTNESS);
+    col *= shadowIntensity;
     col += objectColor * min((1 - (shadow * _dotD)), MIN_SHADOW_BRIGHTNESS);
 
     vec3 diffuse = dotD * lightColor * shadow;
-    fragc = vec4(col + (objectColor / 5.0), 1.0);
+    fragc = vec4(col + (objectColor / 5.0), 1.0) + texture(skybox, R) * reflectionIntensity * shadowIntensity;
 }

@@ -14,6 +14,8 @@ public:
         nb_cameras = 0;
     }
 
+    mi::CubeMap c;
+
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
         tex = mi::Texture("src/res/images/brick.jpg");
@@ -45,7 +47,11 @@ public:
                 entity->position = camera.position;
             }
 
-            if (shader.shaderName == "SKYBOX") glCullFace(GL_FRONT);
+            if (shader.shaderName == "SKYBOX") {
+                glCullFace(GL_FRONT);
+                mi::Skybox* skybox = dynamic_cast<mi::Skybox*>(entity);
+                c = skybox->cubemap;
+            }
 
             shader.use();
             shader.setVec3("camera_position", camera.position);
@@ -56,9 +62,14 @@ public:
             shader.setVec3("directional_shadow_light_position", camera_pos);
             shader.setInt("main_tex", 1);
             shader.setInt("depthMap", 0);
+            shader.setInt("skybox", 2);
             shader.setFloat("biasOffset", biasOffset);
             shader.setFloat("sCameraFarPlane", stC.zfar);
 
+            if (c.isActive) {
+                glActiveTexture(GL_TEXTURE2);
+                glBindTexture(GL_TEXTURE_CUBE_MAP, c.tex_id);
+            }
             entity->render(shader);
 
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);

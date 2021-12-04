@@ -4,11 +4,14 @@ namespace mi {
     public:
 
         uint32_t tex_id;
+        bool isActive;
         
         CubeMap() {}
 
         // Load a cube map with images in the following order: RIGHT, LEFT, TOP, BOTTOM, BACK, FRONT
         CubeMap(std::string image_paths[]) {
+            
+            isActive = true;
 
             glGenTextures(1, &tex_id);
             glBindTexture(GL_TEXTURE_CUBE_MAP, tex_id);

@@ -11,6 +11,7 @@ uniform mat4 lightSpaceMatrix_projection;
 uniform mat4 lightSpaceMatrix_view;
 
 out VERTEX {
+    vec3 originNormal;
     vec3 normal;
     vec3 fragp;
     vec2 uv;
@@ -20,6 +21,7 @@ uniform sampler2D main_tex;
 
 void main() {
     
+    o.originNormal = normalize(normal);
     o.fragp = (model * vec4(position, 1.0)).xyz;
     o.normal = normalize(mat3(transpose(inverse(model))) * normal);
     o.uv = uv;
