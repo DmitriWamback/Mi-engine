@@ -26,11 +26,11 @@ public:
 
         // MAIN GAME LOOP HERE
         mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
+        stC.set_position(stC.get_start_position() + camera.position);
+        stC.set_target(stC.get_start_target() + camera.position);
+
         mi::RenderTexture depthMap = LoadSceneThroughFB(stC, fb);
         ResetViewport();
-
-        //static_cameras[0].set_position(mi::Vec3(sin(t)*300, 50.0, cos(t)*300));
-        //t += 0.1;
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);

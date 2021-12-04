@@ -53,11 +53,11 @@ namespace mi {
         Vec3 look_target;
         Vec3 local_up;
 
-        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left              = -50.0, 
-                                            float right             =  50.0, 
-                                            float top               =  50.0, 
-                                            float bottom            = -50.0,
-                                            float zfar              = 6000.0,
+        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left              = -30.0, 
+                                            float right             =  30.0, 
+                                            float top               =  30.0, 
+                                            float bottom            = -30.0,
+                                            float zfar              = 10000.0,
                                             float znear             = 0.1,
                                             Vec3 position           = Vec3(sin(8.5) * 300, 150.0, cos(8.5) * 100), 
                                             Vec3 look_target        = Vec3(0.0), 

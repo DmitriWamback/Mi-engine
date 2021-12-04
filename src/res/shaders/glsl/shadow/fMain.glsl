@@ -15,7 +15,7 @@ uniform vec3 camera_position;
 uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
-#define MAX_PCF_SHADOW 1
+#define MAX_PCF_SHADOW 4
 #define MIN_SHADOW_BRIGHTNESS 0.00005
 
 uniform float biasOffset = 1.0;
@@ -48,7 +48,7 @@ vec3 fresnelSchlick(float HdV, vec3 base) {
 }
 
 float calculateShadow() {
-    
+
     vec4 projectionCoords = (i.fragpl.xyzw) * 0.5 + 0.5;
 
     float closest = texture(depthMap, projectionCoords.st).r;
@@ -62,12 +62,11 @@ float calculateShadow() {
     
     // BIAS = 0.005 ÷ CAMERA ZFAR
     float bias = 0.06 / sCameraFarPlane;
-    float a_bias = max(bias * (1.0 - p), bias * 1.05);
+    float a_bias = max(bias * (1.0 - p), bias * biasOffset);
     shadow = current-bias > closest ? 1.0 : 0.0;
 
     float total = 0;
-    /*
-    vec2 texelSize = 4.0 / textureSize(depthMap, 0);
+    vec2 texelSize = 0.4 / textureSize(depthMap, 0);
     for(int s = -MAX_PCF_SHADOW; s <= MAX_PCF_SHADOW; ++s) {
         for (int t = -MAX_PCF_SHADOW; t <= MAX_PCF_SHADOW; ++t) {
             float pcfDepth = texture(depthMap, projectionCoords.st + vec2(s, t) * texelSize).r;
@@ -77,7 +76,6 @@ float calculateShadow() {
             //shadow += current - a_bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }
-    */
     total /= scale;
     //shadow = total;
 
@@ -88,7 +86,6 @@ float calculateShadow() {
 }
 
 void main() {
-
 
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
@@ -102,10 +99,10 @@ void main() {
 
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
-    vec3 objectColor = main.rgb;
+    vec3 objectColor = main.rrr;
     vec3 lightColor = vec3(1.0, 0.9, 0.4);
 
-    float metallic = 1 - objectColor.r;
+    float metallic = objectColor.r;
     float roughness = (1 - metallic) / 4.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
