@@ -3,6 +3,16 @@
 <p>The stb_image.h file should be added manually to the project</p>
 <p>The <code>src/begin_temp.sh</code> shows the necessary libs used to compile and run the engine</p>
 
+## REQUIREMENTS
+<ul>
+    <li>g++</li>
+    <li>python3</li>
+    <li>rustc</li>
+    <li>GLFW 3.3+ (libraries and includes)</li>
+    <li>GLEW 3.2+ (libraries and includes)</li>
+</ul>
+
+
 ## BUILDING AND COMPILING
 
 <pre>
