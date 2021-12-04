@@ -8,8 +8,8 @@
     <li>g++ (C++ compiler)</li>
     <li>python3 (Python compiler)</li>
     <li>rustc (Rust compiler)</li>
-    <li>GLFW 3.3+ (libraries and includes)</li>
-    <li>GLEW 3.2+ (libraries and includes)</li>
+    <li>GLFW 3.0+ (libraries and includes)</li>
+    <li>GLEW 3.0+ (libraries and includes)</li>
 </ul>
 
 
