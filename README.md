@@ -12,7 +12,6 @@
     <li>GLEW 3.0+ (libraries and includes)</li>
 </ul>
 
-
 ## BUILDING AND COMPILING
 
 <pre>
