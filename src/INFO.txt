@@ -1,5 +1,0 @@
-# Create rust lib
-# cargo run --manifest-path src/engine/extern/rs/modelLoader/Cargo.toml --release
-# (Change crate type in the Cargo.toml depending on the OS)
-# Wind: "crate-type = ["clib"]"
-# MacOS: "crate-type = ["cdylib"]"
