@@ -132,7 +132,7 @@ void main() {
     vec3 kD = vec3(1.0) - F;
     kD *= 1.0 - metallic;
 
-    vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 2.42);
+    vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 1.52);
     float reflectionIntensity = pow(0.6, 1);
 
     float shadowIntensity = shadow * dotD;
