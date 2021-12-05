@@ -58,11 +58,11 @@ namespace mi_input {
             isDebugButtonDown = true;
         }
         if (glfwGetKey(main_window, GLFW_KEY_E) == GLFW_PRESS) {
-            biasOffset += 0.1;
+            biasOffset += 0.01;
             std::cout << biasOffset << std::endl;
         }
         if (glfwGetKey(main_window, GLFW_KEY_Q) == GLFW_PRESS) {
-            biasOffset -= 0.1;
+            biasOffset -= 0.01;
             std::cout << biasOffset << std::endl;
         }
 
@@ -134,7 +134,7 @@ namespace mi_engine {
         scene->__MI_ENGINE_BEGUN();
 
         glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
+        //glEnable(GL_CULL_FACE);
 
         glEnable(GL_MULTISAMPLE);  
         glfwWindowHint(GLFW_SAMPLES, 14);

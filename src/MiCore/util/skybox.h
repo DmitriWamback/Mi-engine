@@ -81,7 +81,7 @@ namespace mi {
             glBindVertexArray(buf.vao);
             glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap.tex_id);
 
-            glDrawArrays(RENDER_OPTION, 0, 36);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
             glBindVertexArray(0);
             glDepthMask(GL_TRUE);
 

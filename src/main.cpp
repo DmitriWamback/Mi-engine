@@ -7,10 +7,6 @@
 
 mi_inheritable::Scene* scene1 = new MainScene("Hello");
 
-#define s 60
-
-#define FREQ 19.2
-
 int main() {
 
     mi_engine::MiCoreBegin();
@@ -66,7 +62,7 @@ int main() {
     mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
-    int cubeSize = 30;
+    int cubeSize = 25;
     int xzSize = 5;
 
     for (int x = 0; x < xzSize; x++) {

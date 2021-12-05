@@ -24,7 +24,8 @@ uniform float sCameraFarPlane;
 uniform samplerCube skybox;
 
 #define pi 3.14159265349
-#define TEXTURE_SCALE 5.0
+#define TEXTURE_SCALE 2.0
+#pragma(include("hello")) // this is how to include libraries
 
 float distributionGGX(float NdH, float roughness) {
 
@@ -63,8 +64,9 @@ float calculateShadow() {
     float p = dot(i.normal, normalize(directional_shadow_light_position - i.fragp));
     
     // BIAS = 0.005 ÷ CAMERA ZFAR
-    float bias = 0.06 / sCameraFarPlane;
-    float a_bias = max(bias * (1.0 - p), bias * biasOffset);
+    float bias = 0.06*0.39 / sCameraFarPlane;
+    float a_bias = max(bias * (1.0 - p), bias);
+    float b_bias = max(bias * (1.0 - p), bias * biasOffset);
     shadow = current-bias > closest ? 1.0 : 0.0;
 
     float total = 0;
@@ -72,16 +74,16 @@ float calculateShadow() {
     for(int s = -MAX_PCF_SHADOW; s <= MAX_PCF_SHADOW; ++s) {
         for (int t = -MAX_PCF_SHADOW; t <= MAX_PCF_SHADOW; ++t) {
             float pcfDepth = texture(depthMap, projectionCoords.st + vec2(s, t) * texelSize).r;
-            if (current-bias > pcfDepth) {
+            if (current-b_bias > pcfDepth) {
                 total++;
             } 
             //shadow += current - a_bias > pcfDepth ? 1.0 : 0.0;        
         }    
     }
     total /= scale;
-    //shadow = total;
+    //shadow *= total;
 
-    if (projectionCoords.x > 1.0) shadow = 0.0;
+    if (projectionCoords.z > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;
     //shadow = max(shadow, MIN_SHADOW_BRIGHTNESS);
     return shadow;
@@ -92,7 +94,7 @@ void main() {
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
     vec3 viewDirection = normalize(camera_position - i.fragp);
-    vec3 lightDirection = normalize(directional_shadow_light_position);
+    vec3 lightDirection = normalize(directional_shadow_light_position - i.fragp);
 
     float shadow = calculateShadow();
     float dotD = max(dot(lightDirection, nSN), 0.0);
@@ -131,7 +133,7 @@ void main() {
     kD *= 1.0 - metallic;
 
     vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 2.42);
-    float reflectionIntensity = pow(0.5, 2);
+    float reflectionIntensity = pow(0.5, 1);
 
     float shadowIntensity = max(shadow * _dotD, MIN_SHADOW_BRIGHTNESS);
     

@@ -10,7 +10,8 @@ namespace mi_enum {
     enum ENTITYTYPE {
         ENT_CUBE = 0, 
         ENT_MESH = 1, 
-        ENT_SKYBOX = 2
+        ENT_SKYBOX = 2,
+        ENT_NOISE_CUBE = 3
     };
 }
 

@@ -18,7 +18,7 @@ public:
 
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
-        tex = mi::Texture("src/res/images/brick.jpg");
+        tex = mi::Texture("src/res/images/diamondplate.jpg");
         fb = new mi::Depthbuffer(1024*5, 1024*5);
     }
 
@@ -51,6 +51,11 @@ public:
                 glCullFace(GL_FRONT);
                 mi::Skybox* skybox = dynamic_cast<mi::Skybox*>(entity);
                 c = skybox->cubemap;
+            }
+
+            if (entity->type == mi_enum::ENT_NOISE_CUBE) {
+                mi::CubeNoise* c = dynamic_cast<mi::CubeNoise*>(entity);
+                //c->push_to(mi::Vec3(), 100.0);
             }
 
             shader.use();
