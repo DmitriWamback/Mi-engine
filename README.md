@@ -42,6 +42,7 @@
     <li>Model loader (OBJ format)</li>
     <li>UI and 2D rendering engine (to be done at a later date)</li>
     <li>Audio</li>
+    <li>(GLSL) including external files</li>
 </ul>
 
 ## CURRENT OVERLOOK
