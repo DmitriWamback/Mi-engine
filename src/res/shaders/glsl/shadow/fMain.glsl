@@ -94,7 +94,7 @@ void main() {
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
     vec3 viewDirection = normalize(camera_position - i.fragp);
-    vec3 lightDirection = normalize(directional_shadow_light_position - i.fragp);
+    vec3 lightDirection = normalize(directional_shadow_light_position);
 
     float shadow = calculateShadow();
     float dotD = max(dot(lightDirection, nSN), 0.0);
@@ -132,8 +132,8 @@ void main() {
     vec3 kD = vec3(1.0) - F;
     kD *= 1.0 - metallic;
 
-    vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 1.52);
-    float reflectionIntensity = pow(0.6, 1);
+    vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 2.42);
+    float reflectionIntensity = pow(0.5, 1.0);
 
     float shadowIntensity = shadow * dotD;
     

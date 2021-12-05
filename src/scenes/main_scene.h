@@ -31,6 +31,8 @@ public:
         stC.set_position(stC.get_start_position() + mi::Vec3(camera.position.x, 0, camera.position.z));
         stC.set_target(stC.get_start_target() + mi::Vec3(camera.position.x, 0, camera.position.z));
 
+        t+=0.05;
+
         mi::RenderTexture depthMap = LoadSceneThroughFB(stC, fb);
         ResetViewport();
 
