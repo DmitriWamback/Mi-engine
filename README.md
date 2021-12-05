@@ -22,7 +22,7 @@
 
 ### IMPORTANT!
 
-<p>After running the 'src/MiCore/extern/py/load_lib.py' script, move the libmi_[...].lib or dylib into src/MiLibs</p>
+<p>After running the 'src/MiCore/extern/py/load_lib.py' script, move the libmi_[...].lib or dylib (found in [...]/target/release) into src/MiLibs</p>
 
 ## AVAILABLE UTILITIES:
 <ul>
