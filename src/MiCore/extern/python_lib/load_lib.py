@@ -69,7 +69,7 @@ def overwrite_cargos(_dirs):
 
         subprocess.call(['cargo', 'run', '--manifest-path', t, '--release'])
 
-rust_libs = '../rs'
+rust_libs = '../rust_lib'
 current_path = sys.argv[0]
 current_name = os.path.basename(current_path)
 
