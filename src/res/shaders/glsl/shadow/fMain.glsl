@@ -17,7 +17,7 @@ uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
 #define MAX_PCF_SHADOW 4
-#define MIN_SHADOW_BRIGHTNESS 0.00005
+#define MIN_SHADOW_BRIGHTNESS 0.2
 
 uniform float biasOffset = 1.0;
 uniform float sCameraFarPlane;
@@ -133,9 +133,9 @@ void main() {
     kD *= 1.0 - metallic;
 
     vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 2.42);
-    float reflectionIntensity = pow(0.5, 1);
+    float reflectionIntensity = pow(0.6, 1);
 
-    float shadowIntensity = max(shadow * _dotD, MIN_SHADOW_BRIGHTNESS);
+    float shadowIntensity = shadow * dotD;
     
     col += (kD * objectColor / pi + specular) * radiance * NdL;
     col = col / (col + vec3(1.0));

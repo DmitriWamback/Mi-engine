@@ -9,3 +9,8 @@
 #include "util/skybox.h"
 #include "gfx/texture/cubemap_depth.h"
 #include "gfx/entities/light_source.h"
+
+#include "gfx/ui/ui_element.h"
+#include "gfx/ui/ui_button.h"
+#include "gfx/ui/ui_frame.h"
+#include "gfx/ui/ui_renderer.h"

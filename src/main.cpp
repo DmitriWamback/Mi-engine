@@ -16,12 +16,12 @@ int main() {
     mi::Mesh mesh = mi::Mesh(mesh_buf);
 
     std::string faces[6] = {
-        "src/res/images/brick.jpg",
-        "src/res/images/brick.jpg",
-        "src/res/images/brick.jpg",
-        "src/res/images/brick.jpg",
-        "src/res/images/brick.jpg",
-        "src/res/images/brick.jpg"
+        "src/res/images/skyboxF.jpg",
+        "src/res/images/skyboxF.jpg",
+        "src/res/images/skyboxT.jpg",
+        "src/res/images/skyboxB.jpg",
+        "src/res/images/skyboxF.jpg",
+        "src/res/images/skyboxF.jpg"
     };
 
     mi_inheritable::Entity* skybox = new mi::Skybox(mesh_buf, faces);
