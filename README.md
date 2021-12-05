@@ -15,7 +15,7 @@
 ## BUILDING AND COMPILING
 
 <pre>
-    <span class="pl-s1">python3 src/MiCore/extern/py/load_lib.py</span>
+    <span class="pl-s1">python3 src/MiCore/extern/python_lib/load_lib.py</span>
     <span class="pl-s1">sh src/begin_temp.sh # MACOS</span>
     <span class="pl-s1">src\begin_temp.bat # WINDOWS</span>
 </pre>
