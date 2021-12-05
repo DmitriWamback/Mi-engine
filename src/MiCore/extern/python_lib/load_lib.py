@@ -67,6 +67,12 @@ def overwrite_cargos(_dirs):
             cargo = default_cargo.replace('CARGO_NAME', f'"{name}"').replace('CARGO_LIB', f'["{CargoExtensions[current_os]}"]')
             f.write(cargo)
 
+        print("\n\n====================================================")
+        print("----------------------------------------------------")
+        print(f"\nCalling {t}\n")
+        print("----------------------------------------------------")
+        print("====================================================\n\n")
+
         subprocess.call(['cargo', 'run', '--manifest-path', t, '--release'])
 
 rust_libs = '../rust_lib'

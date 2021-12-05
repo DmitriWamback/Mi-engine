@@ -1,1 +1,1 @@
-/Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rs/model_loader/target/release/libmi_model_loader.dylib: /Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rs/model_loader/src/lib.rs
+/Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rust_lib/model_loader/target/release/libmi_model_loader.dylib: /Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rust_lib/model_loader/src/lib.rs
