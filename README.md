@@ -46,16 +46,29 @@
 </ul>
 
 ## IMPORTING EXTERNAL GLSL FILES
-<pre>
-    <span class="pl-s1">A.glsl</span>
-    <span class="pl-s1">> <span class="pl-k">#pragma</span>(include("B.glsl")) // including files</span>
-    <span class="pl-s1">> vec3 red(); // defining functions</span>
-    <span class="pl-s1"> </span>
-    <span class="pl-s1">B.glsl</span>
-    <span class="pl-s1">vec3 red() {</span>
-    <span class="pl-s1">    return vec3(1.0, 0.0, 0.0);</span>
-    <span class="pl-s1">}</span>
-</pre>
+```glsl
+    A.glsl
+
+    #version VERSION
+
+    out vec4 fragc;
+
+    // including files
+    #pragma(include("B.glsl"))
+    vec3 red(); // defining functions to use
+    
+    void main() {
+        fragc = vec4(red(), 1.0);
+    }
+```
+
+```glsl
+    B.glsl
+    
+    vec3 red() {
+        return vec3(1.0, 0.0, 0.0);
+    }
+```
 
 ## CURRENT OVERLOOK
 <img width="1804" alt="Screen Shot 2021-12-04 at 2 47 59 PM" src="https://user-images.githubusercontent.com/56200546/144722708-2edf065d-5a96-4224-9cb0-281d74b83b9c.png">
