@@ -46,6 +46,7 @@
 </ul>
 
 ## IMPORTING EXTERNAL GLSL FILES
+<span>B.glsl, or any other equivalent, must be inside of src/res/shaders/lib</span>
 ```glsl
     A.glsl
 
@@ -67,6 +68,42 @@
     
     vec3 red() {
         return vec3(1.0, 0.0, 0.0);
+    }
+```
+
+### COMPLEX IMPORTS
+<span>Imports that have several functions</span>
+
+```glsl
+    A.glsl
+
+    #version VERSION
+
+    out vec4 fragc;
+
+    // including files
+    #pragma(include("B.glsl"))
+    vec3 yellow(); // defining functions to use
+    
+    void main() {
+        fragc = vec4(yellow(), 1.0);
+    }
+```
+
+```glsl
+    B.glsl
+
+    vec3 green() {
+        return vec3(0.0, 1.0, 0.0);
+    }
+    
+    vec3 red() {
+        return vec3(1.0, 0.0, 0.0);
+    }
+
+    // The main function where all the calculations are done is always placed at the bottom of the file
+    vec3 yellow() {
+        return red() + green();
     }
 ```
 
