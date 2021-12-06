@@ -1,5 +1,4 @@
 #version 330 core
-#extension GL_ARB_shading_language_include : require
 
 out vec4 fragc;
 
@@ -25,7 +24,8 @@ uniform samplerCube skybox;
 
 #define pi 3.14159265349
 #define TEXTURE_SCALE 2.0
-#pragma(include("hello")) // this is how to include libraries
+#pragma(include("pbr.glsl")) // this is how to include libraries
+#pragma(include("perlin_noise.glsl"))
 
 float distributionGGX(float NdH, float roughness) {
 
