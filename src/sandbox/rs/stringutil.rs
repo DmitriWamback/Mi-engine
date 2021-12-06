@@ -44,8 +44,4 @@ pub unsafe extern "C" fn load_shader_imports(length: *mut c_int) -> *mut *mut c_
 fn main() { 
     let c;
     let a = unsafe { load_shader_imports(&c) };
-    println!("{:?}", c);
-    //let b = CString::new(a).unwrap();
-
-    println!("ass");
 }
