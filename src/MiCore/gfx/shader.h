@@ -40,11 +40,11 @@ public:
         char** fragmentShaderImports = load_shader_imports(&nbFragmentShaderImports, fSRC);
 
         for (int i = 0; i < nbVertexShaderImports; i++) {
-            std::cout << vertexShaderImports[i] << std::endl;
+            std::cout << std::string("src/res/shaders/lib/").append(vertexShaderImports[i]) << std::endl;
         }
 
         for (int i = 0; i < nbFragmentShaderImports; i++) {
-            std::cout << fragmentShaderImports[i] << std::endl;
+            std::cout << std::string("src/res/shaders/lib/").append(fragmentShaderImports[i]) << std::endl;
         }
 
         glShaderSource(vertexShader, 1, &vSRC, NULL);
