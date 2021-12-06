@@ -8,14 +8,18 @@ namespace mi {
 
     public:
 
+        float seed;
+
         CubeNoise(renderbuf buffer, mi::Vec3 position, int size, float seed) {
 
             nb_cubes = 0;
             type = mi_enum::ENT_NOISE_CUBE;
             this->buf = buffer;
+            this->position = position;
 
             float _density = 0.4;
             this->size = size;
+            this->seed = seed;
 
             for (int x = 0; x < size; x++) {
                 for (int y = 0; y < size; y++) {
@@ -86,9 +90,11 @@ namespace mi {
 
         void render(Shader& shader) {
             
-            for (int i = 0; i < nb_cubes; i++) {
-                mi_inheritable::Entity* e = cubes[i];
-                cubes[i]->render(shader);
+            if (shouldRender) {
+                for (int i = 0; i < nb_cubes; i++) {
+                    mi_inheritable::Entity* e = cubes[i];
+                    cubes[i]->render(shader);
+                }
             }
         }
     };

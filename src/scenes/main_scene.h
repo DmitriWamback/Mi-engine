@@ -5,6 +5,8 @@ public:
     mi_inheritable::Framebuffer* fb;
 
     float t;
+    mi::Vec3 currentPos;
+    mi::Vec3 lastPos;
 
     MainScene(std::string n) {
 
@@ -31,9 +33,17 @@ public:
         stC.set_position(stC.get_start_position() + mi::Vec3(camera.position.x, 0, camera.position.z));
         stC.set_target(stC.get_start_target() + mi::Vec3(camera.position.x, 0, camera.position.z));
 
-        t+=0.05;
+        currentPos = camera.position / 20.0;
+        currentPos = mi::Vec3(floor(currentPos.x), 0, floor(currentPos.z));
+        //std::cout << currentPos.x << " " << currentPos.y << " " << currentPos.z << std::endl;
 
-        mi::RenderTexture depthMap = LoadSceneThroughFB(stC, fb);
+        if (currentPos.x != lastPos.x || currentPos.z != lastPos.z) {
+            
+        }
+
+        lastPos = currentPos;
+
+        mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb);
         ResetViewport();
 
         glActiveTexture(GL_TEXTURE0);
@@ -56,8 +66,13 @@ public:
             }
 
             if (entity->type == mi_enum::ENT_NOISE_CUBE) {
-                mi::CubeNoise* c = dynamic_cast<mi::CubeNoise*>(entity);
+                mi::CubeNoise* nc = dynamic_cast<mi::CubeNoise*>(entity);
                 //c->push_to(mi::Vec3(), 100.0);
+
+                mi::Vec3 p = camera.position - nc->position;
+                float m = sqrt(p.x * p.x + p.z * p.z);
+                if (m > 100) nc->shouldRender = false;
+                else nc->shouldRender = true;
             }
 
             shader.use();
@@ -77,7 +92,9 @@ public:
                 glActiveTexture(GL_TEXTURE2);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, c.tex_id);
             }
-            entity->render(shader);
+            if (entity != nullptr) {
+                entity->render(shader);
+            }
 
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);
         }

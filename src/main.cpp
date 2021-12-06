@@ -62,7 +62,7 @@ int main() {
     mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
-    int cubeSize = 25;
+    int cubeSize = 20;
     int xzSize = 5;
 
     for (int x = 0; x < xzSize; x++) {

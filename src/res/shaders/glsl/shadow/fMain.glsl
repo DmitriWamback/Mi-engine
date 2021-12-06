@@ -81,7 +81,7 @@ float calculateShadow() {
         }    
     }
     total /= scale;
-    //shadow *= total;
+    //shadow = total;
 
     if (projectionCoords.z > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;
@@ -103,8 +103,8 @@ void main() {
 
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
-    vec3 objectColor = main.rrr;
-    vec3 lightColor = vec3(1.0, 0.9, 0.4);
+    vec3 objectColor = main.rgb;
+    vec3 lightColor = vec3(1.0, 0.9, 0.4) / 2.0;
 
     float metallic = objectColor.r;
     float roughness = (1 - metallic) / 4.0;
@@ -133,7 +133,7 @@ void main() {
     kD *= 1.0 - metallic;
 
     vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 2.42);
-    float reflectionIntensity = pow(0.5, 1.0);
+    float reflectionIntensity = pow(0.3, 1.0);
 
     float shadowIntensity = shadow * dotD;
     
@@ -145,4 +145,5 @@ void main() {
 
     vec3 diffuse = dotD * lightColor * shadow;
     fragc = vec4(col + (objectColor / 5.0), 1.0) + texture(skybox, R) * reflectionIntensity * shadowIntensity;
+    //fragc = 1 - texture(skybox, R);
 }

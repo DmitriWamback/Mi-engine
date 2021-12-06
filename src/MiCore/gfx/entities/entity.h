@@ -25,6 +25,7 @@ namespace mi_inheritable {
         std::string shaderToUse;
 
         bool usesDepthBuffer;
+        bool shouldRender;
 
         mi::Vec3 position;
         mi::Vec3 rotation;
@@ -35,6 +36,7 @@ namespace mi_inheritable {
 
         Entity() {
 
+            shouldRender = true;
             usesDepthBuffer = true;
 
             position = mi::Vec3(0.0);

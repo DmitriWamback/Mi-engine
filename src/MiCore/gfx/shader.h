@@ -34,6 +34,19 @@ public:
         const char* vSRC = _vss.c_str();
         const char* fSRC = _fss.c_str();
 
+        int nbVertexShaderImports    = 0;
+        int nbFragmentShaderImports  = 0;
+        char** vertexShaderImports   = load_shader_imports(&nbVertexShaderImports, vSRC);
+        char** fragmentShaderImports = load_shader_imports(&nbFragmentShaderImports, fSRC);
+
+        for (int i = 0; i < nbVertexShaderImports; i++) {
+            std::cout << vertexShaderImports[i] << std::endl;
+        }
+
+        for (int i = 0; i < nbFragmentShaderImports; i++) {
+            std::cout << fragmentShaderImports[i] << std::endl;
+        }
+
         glShaderSource(vertexShader, 1, &vSRC, NULL);
         glShaderSource(fragmentShader, 1, &fSRC, NULL);
         glCompileShader(vertexShader);

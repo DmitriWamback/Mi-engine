@@ -27,7 +27,7 @@ namespace mi {
             rotation = mi::Vec2();
             up = mi::Vec3(0.0, 1.0, 0.0);
 
-            projection = perspective(100.0, 1.0, 1000.0, 0.1);
+            projection = perspective(110.0, 1.0, 1000.0, 0.1);
             view = lookat(position, position + look_direction, up);
         };
 

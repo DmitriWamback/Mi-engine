@@ -42,6 +42,12 @@ namespace mi_inheritable {
             camera.moveCamera(1.0, motion);
         }
 
+        void Remove(Entity* e) {
+            for (int i = 0; i < nb_entities; i++) {
+                if (allEntities[i] == e) allEntities[i] = nullptr;
+            }
+        }
+
         virtual void MiEngineBegun() {}
         
         virtual void SceneMainLoop(mi::Vec2 motion, mi::Vec2 camera_rotation) {}
@@ -68,7 +74,7 @@ namespace mi_inheritable {
             }
         }
 
-        virtual mi::RenderTexture LoadSceneThroughFB(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer) {
+        virtual mi::RenderTexture LoadSceneThroughFramebuffer(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer) {
             
             glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
             glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
@@ -90,7 +96,9 @@ namespace mi_inheritable {
 
                 for (int i = 0; i < nb_entities; i++) {
                     Entity* entity = allEntities[i];
-                    if (entity->usesDepthBuffer) entity->render(depthShader);
+                    if (entity != nullptr) {
+                        if (entity->usesDepthBuffer) entity->render(depthShader);
+                    }
                 }
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);

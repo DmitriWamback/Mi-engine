@@ -1,7 +1,8 @@
-use std::os::raw::c_char;
+use std::os::raw::{c_char, c_int};
 use std::ffi::{CString};
 
-pub extern "C" fn load_shader_imports() -> *mut *const c_char {
+#[no_mangle]
+pub unsafe extern "C" fn load_shader_imports(length: *mut c_int) -> *mut *mut c_char {
     let test_src = 
     "#version 330 core
 
@@ -14,7 +15,7 @@ pub extern "C" fn load_shader_imports() -> *mut *const c_char {
     let lines = test_src.split("\n").collect::<Vec<&str>>();
 
     let mut iter: i32 = 0;
-    let include_paths: Vec<&str> = Vec::new();
+    let mut include_paths = vec![];
     loop {
         if iter >= lines.len() as i32 {
             break;
@@ -22,16 +23,29 @@ pub extern "C" fn load_shader_imports() -> *mut *const c_char {
         if lines[iter as usize].contains("#pragma(include(\"") {
             let include_line = lines[iter as usize];
             let file = include_line.split("#pragma(include(\"").collect::<Vec<&str>>()[1].split("\"").collect::<Vec<&str>>()[0];
-            include_paths.push(file);
+            let file_c_str = CString::new(file).unwrap();
+            include_paths.push(file_c_str);
         }
         iter = iter + 1;
     }
 
-    let c = CString::new(include_paths.as_mut_ptr()).unwrap();
-    let _c = c.as_ptr() as *mut *const c_char;
-    return _c;
+    let mut out = include_paths.into_iter().map(|s| s.into_raw()).collect::<Vec<_>>();
+    out.shrink_to_fit();
+
+    let len = out.len();
+    let ptr = out.as_mut_ptr();
+    assert!(out.len() == out.capacity());
+
+    std::mem::forget(out);
+    std::ptr::write(length, len as c_int);
+    ptr
 }
 
-fn main() {
-    println!("{}", load_shader_imports());
+fn main() { 
+    let c;
+    let a = unsafe { load_shader_imports(&c) };
+    println!("{:?}", c);
+    //let b = CString::new(a).unwrap();
+
+    println!("ass");
 }
