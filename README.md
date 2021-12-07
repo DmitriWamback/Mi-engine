@@ -43,6 +43,7 @@
     <li>UI and 2D rendering engine (to be done at a later date)</li>
     <li>Audio</li>
     <li>(GLSL) including external files</li>
+    <li>Instanced rendering</li>
 </ul>
 
 ## IMPORTING EXTERNAL GLSL FILES
