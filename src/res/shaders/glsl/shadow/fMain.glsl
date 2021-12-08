@@ -25,8 +25,11 @@ uniform samplerCube skybox;
 #define pi 3.14159265349
 #define TEXTURE_SCALE 2.0
 
+// INCLDUING FILES
 #pragma(include("pbr.glsl"))
 #pragma(include("directional_shadow.glsl"))
+
+// DEFINING FUNCTIONS
 float distributionGGX(float a, float r);
 float geometrySmith(float a, float b, float r);
 vec3 fresnelSchlick(float a, vec3 b);
