@@ -1,6 +1,6 @@
 # Mi-engine 
 
-<img width="2000" src="https://user-images.githubusercontent.com/56200546/144757621-8c34e502-ad62-4d3e-bb21-10eab52cb0c2.png">
+<img width="2000" src="https://user-images.githubusercontent.com/56200546/145132401-5d2f7365-68eb-4b51-a9ad-3624cf18ffb6.png">
 
 <p>An interactive game & graphics engine built from OpenGL for Windows, MacOS and Linux. Currently working on the capability for MacOS and later to be portable for other operating systems.</p>
 <p>The stb_image.h file should be added manually to the project</p>
