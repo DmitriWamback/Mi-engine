@@ -19,8 +19,8 @@
 
 <pre>
     <span class="pl-s1">python3 src/MiCore/extern/python_lib/load_lib.py</span>
-    <span class="pl-s1">sh src/begin_temp.sh # MACOS</span>
-    <span class="pl-s1">src\begin_temp.bat # WINDOWS</span>
+    <span class="pl-s1">(MAC) sh src/osx_begin.sh</span>
+    <span class="pl-s1">(WINDOWS) src\wind_begin.bat</span>
 </pre>
 
 ### IMPORTANT!
