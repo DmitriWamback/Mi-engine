@@ -31,21 +31,43 @@ public:
 
         std::string _vss = vss.str();
         std::string _fss = fss.str();
-        const char* vSRC = _vss.c_str();
-        const char* fSRC = _fss.c_str();
+
+        const char* _vSRC = _vss.c_str();
+        const char* _fSRC = _fss.c_str();
 
         int nbVertexShaderImports    = 0;
         int nbFragmentShaderImports  = 0;
-        char** vertexShaderImports   = load_shader_imports(&nbVertexShaderImports, vSRC);
-        char** fragmentShaderImports = load_shader_imports(&nbFragmentShaderImports, fSRC);
+        char** vertexShaderImports   = load_shader_imports(&nbVertexShaderImports, _vSRC);
+        char** fragmentShaderImports = load_shader_imports(&nbFragmentShaderImports, _fSRC);
 
         for (int i = 0; i < nbVertexShaderImports; i++) {
-            std::cout << std::string("src/res/shaders/lib/").append(vertexShaderImports[i]) << std::endl;
+            std::fstream vImport;
+            std::stringstream vStream;
+
+            std::string vsp = std::string("src/res/shaders/lib/").append(vertexShaderImports[i]);
+            std::string vsc;
+            vImport.open(vsp);
+            vStream << vImport.rdbuf();
+            vsc = vStream.str();
+
+            _vss.append("\n\n").append(vsc);
         }
 
         for (int i = 0; i < nbFragmentShaderImports; i++) {
-            std::cout << std::string("src/res/shaders/lib/").append(fragmentShaderImports[i]) << std::endl;
+            std::ifstream fImport;
+            std::stringstream fStream;
+
+            std::string fsp = std::string("src/res/shaders/lib/").append(fragmentShaderImports[i]);
+            std::string fsc;
+            fImport.open(fsp);
+            fStream << fImport.rdbuf();
+            fsc = fStream.str();
+
+            _fss.append("\n\n").append(fsc);
         }
+
+        const char* vSRC = _vss.c_str();
+        const char* fSRC = _fss.c_str();
 
         glShaderSource(vertexShader, 1, &vSRC, NULL);
         glShaderSource(fragmentShader, 1, &fSRC, NULL);
