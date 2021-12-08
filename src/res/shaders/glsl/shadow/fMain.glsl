@@ -33,7 +33,7 @@ uniform samplerCube skybox;
 float distributionGGX(float a, float r);
 float geometrySmith(float a, float b, float r);
 vec3 fresnelSchlick(float a, vec3 b);
-float calculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp);
+float calculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane);
 
 void main() {
 
@@ -46,7 +46,8 @@ void main() {
                                    i.normal, 
                                    i.fragpl, 
                                    directional_shadow_light_position, 
-                                   i.fragp);
+                                   i.fragp,
+                                   sCameraFarPlane);
     
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
