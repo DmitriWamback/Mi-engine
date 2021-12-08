@@ -35,6 +35,7 @@
     <li>Physically based rendering (PBR)</li>
     <li>Inheritable Scene class</li>
     <li>Cubemaps</li>
+    <li>(GLSL) including external files</li>
 </ul>
 
 ## CURRENT "IN DEVELOPMENT" UTILITIES
@@ -42,7 +43,6 @@
     <li>Model loader (OBJ format)</li>
     <li>UI and 2D rendering engine (to be done at a later date)</li>
     <li>Audio</li>
-    <li>(GLSL) including external files</li>
     <li>Instanced rendering</li>
 </ul>
 
