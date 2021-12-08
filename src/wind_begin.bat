@@ -8,6 +8,12 @@ GLEW_LIB=src/vendor/WIND/glew
 SNDFILE_LIB=src/vendor/WIND/sndfile
 
 RS_LIB=src/MiLibs
+START_CMD="-L ${RS_LIB} "
+CMD="${START_CMD}"
+
+for dir in $RS_LIB/*; do (
+    CMD="${CMD} ${dir}"
+)
 
 g++ -arch x86_64 -I $GLFW_INC \
                 -L $GLFW_LIB $GLFW_LIB/glfw3.dll \
@@ -15,7 +21,7 @@ g++ -arch x86_64 -I $GLFW_INC \
                 -I $GLEW_INC \
                 -L $GLEW_LIB $GLEW_LIB/glew32.lib $GLEW_LIB/glew32s.lib \
                 -L $SNDFILE_LIB $SNDFILE_LIB/libsndfile-1.lib \
-                -L $RS_LIB $RS_LIB/libmi_model_loader.lib \
+                $CMD \
                 src/main.cpp
 
 ./a.out
