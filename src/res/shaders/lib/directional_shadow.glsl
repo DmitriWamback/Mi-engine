@@ -1,15 +1,21 @@
-#version 330 core
-#define DIRECTIONAL_SHADOWS_IMPLEMENTATION
+float calculateShadow(sampler2D depthMap, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp) {
 
-float isInShadow(sampler2D depthMap, vec4 fragp_lightSpace, vec3 normal, vec3 lightDirection) {
+    vec4 projectionCoords = (fragpl.xyzw) * 0.5 + 0.5;
 
-    vec3 projectionCoords = (fragp_lightSpace.xyz / fragp_lightSpace.w) * 0.5 + 0.5;
     float closest = texture(depthMap, projectionCoords.st).r;
     float current = projectionCoords.z;
 
-    float bias = max(0.05 * (1.0 - dot(normal, lightDirection)), 0.005);
-    float shadow = current - bias > closest ? 1.0 : 0.0;
+    float shadow = 0;
+
+    float p = dot(normal, normalize(lightPosition - fragp));
+    
+    // BIAS = 0.005 ÷ CAMERA ZFAR
+    float bias = 0.06*0.39 / sCameraFarPlane;
+    float a_bias = max(bias * (1.0 - p), bias);
+    float b_bias = max(bias * (1.0 - p), bias * biasOffset);
+    shadow = current-bias > closest ? 1.0 : 0.0;
 
     if (projectionCoords.z > 1.0) shadow = 0.0;
+    shadow = 1.0 - shadow;
     return shadow;
 }

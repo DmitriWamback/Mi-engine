@@ -25,67 +25,12 @@ uniform samplerCube skybox;
 #define pi 3.14159265349
 #define TEXTURE_SCALE 2.0
 
-float distributionGGX(float NdH, float roughness) {
-
-    float alpha = roughness * roughness;
-    float a2 = alpha * alpha;
-    float denom = NdH * NdH * (a2 - 1.0) + 1.0;
-    denom = pi * denom * denom;
-    return a2 / max(denom, 0.0000001);
-}
-
-float geometrySmith(float NdV, float NdL, float roughness) {
-
-    float r = roughness + 1.0;
-    float k = (r * r) / 8.0;
-
-    float ggx1 = NdV / (NdV * (1.0 - k) + k);
-    float ggx2 = NdL / (NdL * (1.0 - k) + k);
-    return ggx1 * ggx2;
-}
-
-vec3 fresnelSchlick(float HdV, vec3 base) {
-    return base + (1.0 - base) * pow(1.0 - HdV, 5.0);
-}
-
-float calculateShadow() {
-
-    vec4 projectionCoords = (i.fragpl.xyzw) * 0.5 + 0.5;
-
-    float closest = texture(depthMap, projectionCoords.st).r;
-    float current = projectionCoords.z;
-
-
-    float scale = pow(MAX_PCF_SHADOW*2 + 1, 2);
-    float shadow = 0;
-
-    float p = dot(i.normal, normalize(directional_shadow_light_position - i.fragp));
-    
-    // BIAS = 0.005 ÷ CAMERA ZFAR
-    float bias = 0.06*0.39 / sCameraFarPlane;
-    float a_bias = max(bias * (1.0 - p), bias);
-    float b_bias = max(bias * (1.0 - p), bias * biasOffset);
-    shadow = current-bias > closest ? 1.0 : 0.0;
-
-    float total = 0;
-    vec2 texelSize = 0.4 / textureSize(depthMap, 0);
-    for(int s = -MAX_PCF_SHADOW; s <= MAX_PCF_SHADOW; ++s) {
-        for (int t = -MAX_PCF_SHADOW; t <= MAX_PCF_SHADOW; ++t) {
-            float pcfDepth = texture(depthMap, projectionCoords.st + vec2(s, t) * texelSize).r;
-            if (current-b_bias > pcfDepth) {
-                total++;
-            } 
-            //shadow += current - a_bias > pcfDepth ? 1.0 : 0.0;        
-        }    
-    }
-    total /= scale;
-    //shadow = total;
-
-    if (projectionCoords.z > 1.0) shadow = 0.0;
-    shadow = 1.0 - shadow;
-    //shadow = max(shadow, MIN_SHADOW_BRIGHTNESS);
-    return shadow;
-}
+#pragma(include("pbr.glsl"))
+#pragma(include("directional_shadow.glsl"))
+float distributionGGX(float a, float r);
+float geometrySmith(float a, float b, float r);
+vec3 fresnelSchlick(float a, vec3 b);
+float calculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp);
 
 void main() {
 
@@ -94,7 +39,12 @@ void main() {
     vec3 viewDirection = normalize(camera_position - i.fragp);
     vec3 lightDirection = normalize(directional_shadow_light_position);
 
-    float shadow = calculateShadow();
+    float shadow = calculateShadow(depthMap, 
+                                   i.normal, 
+                                   i.fragpl, 
+                                   directional_shadow_light_position, 
+                                   i.fragp);
+    
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
     float _dotD = dot(lightDirection, nSN);

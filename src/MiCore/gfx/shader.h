@@ -40,34 +40,19 @@ public:
         char** vertexShaderImports   = load_shader_imports(&nbVertexShaderImports, _vSRC);
         char** fragmentShaderImports = load_shader_imports(&nbFragmentShaderImports, _fSRC);
 
+        std::string vFullSource = _vSRC;
+        std::string fFullSource = _fSRC;
+        
         for (int i = 0; i < nbVertexShaderImports; i++) {
-            std::fstream vImport;
-            std::stringstream vStream;
-
-            std::string vsp = std::string("src/res/shaders/lib/").append(vertexShaderImports[i]);
-            std::string vsc;
-            vImport.open(vsp);
-            vStream << vImport.rdbuf();
-            vsc = vStream.str();
-
-            _vss.append("\n\n").append(vsc);
-        }
+            importExternalShader(&vFullSource, _vSRC, vertexShaderImports[i]);
+        }   
 
         for (int i = 0; i < nbFragmentShaderImports; i++) {
-            std::ifstream fImport;
-            std::stringstream fStream;
-
-            std::string fsp = std::string("src/res/shaders/lib/").append(fragmentShaderImports[i]);
-            std::string fsc;
-            fImport.open(fsp);
-            fStream << fImport.rdbuf();
-            fsc = fStream.str();
-
-            _fss.append("\n\n").append(fsc);
+            importExternalShader(&fFullSource, _fSRC, fragmentShaderImports[i]);
         }
 
-        const char* vSRC = _vss.c_str();
-        const char* fSRC = _fss.c_str();
+        const char* vSRC = vFullSource.c_str();
+        const char* fSRC = fFullSource.c_str();
 
         glShaderSource(vertexShader, 1, &vSRC, NULL);
         glShaderSource(fragmentShader, 1, &fSRC, NULL);
@@ -81,6 +66,19 @@ public:
         glAttachShader(program, vertexShader);
         glAttachShader(program, fragmentShader);
         glLinkProgram(program);
+    }
+
+    void importExternalShader(std::string* out, const char* src, char* path) {
+
+        std::ifstream import;
+        std::stringstream stream;
+
+        std::string fsp = std::string("src/res/shaders/lib/").append(path);
+        std::string fsc;
+        import.open(fsp);
+        stream << import.rdbuf();
+        fsc = stream.str();
+        out->append("\n\n").append(fsc);
     }
 
     void compileShader(int shader) {
