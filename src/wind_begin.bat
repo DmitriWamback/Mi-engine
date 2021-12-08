@@ -1,7 +1,10 @@
+:: includes
 GLFW_INC=
-GLFW_LIB=
 GLEW_INC=
-GLEW_LIB=
+
+:: libraries
+GLFW_LIB=src/vendor/WIND/glfw
+GLEW_LIB=src/vendor/WIND/glew
 SNDFILE_LIB=src/vendor/WIND/sndfile
 
 RS_LIB=src/MiLibs
