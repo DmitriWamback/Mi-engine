@@ -40,6 +40,7 @@ public:
         if (currentPos.x != lastPos.x || currentPos.z != lastPos.z) {
             
         }
+        t+=0.01;
 
         lastPos = currentPos;
 

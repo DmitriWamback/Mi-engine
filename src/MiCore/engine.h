@@ -99,14 +99,17 @@ namespace mi_engine {
         entity->shaderToUse = shader.shaderName;
     }
 
+    // Adds an audio source to the engine
     void MiCoreAddAudioSource(mi_audio::AudioSource source) {
         mi_core::sources[source.name] = source;
     }
 
+    // Plays a given audio source
     void MiCorePlaySource(std::string source_name) {
         audioPlayer.PlaySound(mi_core::sources[source_name]);
     }
-
+    
+    // Stops playing a given audio source
     void MiCoreStopSource(std::string source_name) {
         audioPlayer.StopSound(mi_core::sources[source_name]);
     }

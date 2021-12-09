@@ -59,7 +59,7 @@ namespace mi {
                                             float bottom            = -50.0,
                                             float zfar              = 10000.0,
                                             float znear             = 0.1,
-                                            Vec3 position           = Vec3(sin(8.5) * 300, 100.0, cos(8.5) * 100), 
+                                            Vec3 position           = Vec3(300, 100.0, 100), 
                                             Vec3 look_target        = Vec3(0.0), 
                                             Vec3 local_up           = Vec3(0.0, 1.0, 0.0)) {
 

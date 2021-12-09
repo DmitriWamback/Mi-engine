@@ -34,7 +34,8 @@ uniform samplerCube skybox;
 float distributionGGX(float a, float r);
 float geometrySmith(float a, float b, float r);
 vec3 fresnelSchlick(float a, vec3 b);
-float calculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane);
+float CalculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane);
+float CalculatePCFShadows(sampler2D depth, vec4 a, vec3 b, float c, int d);
 float noise(float x, float y, float z);
 
 float noise_layer(vec3 p, float persistance, float lacunarity, int octaves) {
@@ -60,12 +61,11 @@ void main() {
     vec3 viewDirection = normalize(camera_position - i.fragp);
     vec3 lightDirection = normalize(directional_shadow_light_position);
 
-    float shadow = calculateShadow(depthMap, 
-                                   i.normal, 
-                                   i.fragpl, 
-                                   directional_shadow_light_position, 
-                                   i.fragp,
-                                   sCameraFarPlane);
+    float shadow = CalculatePCFShadows(depthMap,
+                                       i.fragpl,
+                                       i.fragp,
+                                       sCameraFarPlane,
+                                       2);
     
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
@@ -103,7 +103,7 @@ void main() {
     kD *= 1.0 - metallic;
 
     vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 2.42);
-    float reflectionIntensity = pow(0.3, 1.0);
+    float reflectionIntensity = pow(0.5, 1.0);
 
     float shadowIntensity = shadow * dotD;
     
