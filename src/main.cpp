@@ -45,9 +45,11 @@ int main() {
     Shader shadowShader("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
     Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
     Shader skyboxShader("skybox/vMain.glsl", "skybox/fMain.glsl", "SKYBOX");
+    Shader debugModelShader("model/vMain.glsl", "model/fMain.glsl", "MODEL DEBUG");
     mi_engine::MiCoreAddShader(shadowShader);
     mi_engine::MiCoreAddShader(debugShader2);
     mi_engine::MiCoreAddShader(skyboxShader);
+    mi_engine::MiCoreAddShader(debugModelShader);
 
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
@@ -62,6 +64,11 @@ int main() {
     mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
+    mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", renderbuf());
+    m->size = mi::Vec3(1.0);
+    mi_engine::MiCoreEntityAssignShaderCode(m, debugModelShader);
+    mi_engine::MiCoreSceneAddEntity(scene1, m);
+
     int cubeSize = 20;
     int xzSize = 5;
 
@@ -70,7 +77,7 @@ int main() {
             mi_inheritable::Entity* cubeNoise = new mi::CubeNoise(cbuffer, mi::Vec3((x-(xzSize/2))*cubeSize, 0, (y-(xzSize/2))*cubeSize), cubeSize, seed);
             
             mi_engine::MiCoreEntityAssignShaderCode(cubeNoise, shadowShader);
-            mi_engine::MiCoreSceneAddEntity(scene1, cubeNoise);
+            //mi_engine::MiCoreSceneAddEntity(scene1, cubeNoise);
         }
     }
 

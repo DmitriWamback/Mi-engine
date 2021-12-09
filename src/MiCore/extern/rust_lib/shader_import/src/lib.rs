@@ -4,7 +4,7 @@ use std::ffi::{CString, CStr};
 #[no_mangle]
 pub unsafe extern "C" fn load_shader_imports(length: *mut c_int, shader_source: *const c_char) -> *mut *mut c_char {
 
-    let src: String = unsafe { CStr::from_ptr(shader_source) }.to_str().unwrap().to_owned();
+    let src: String = CStr::from_ptr(shader_source).to_str().unwrap().to_owned();
 
     let lines = src.split("\n").collect::<Vec<&str>>();
 

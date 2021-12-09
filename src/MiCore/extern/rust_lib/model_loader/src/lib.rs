@@ -1,15 +1,15 @@
-use std::os::raw::c_char;
+use std::os::raw::{c_char, c_int};
 use std::fs;
 use std::ffi::{CStr};
 
 /* LOADING VERTICES */
 // VERTICES
 #[no_mangle]
-pub extern "C" fn load_model_vertices(file_path: *const c_char) -> *mut f32 {
+pub unsafe extern "C" fn load_model_vertices(file_path: *const c_char, vertex_count: *mut c_int) -> *mut f32 {
 
-    let mut vertices = vec![0.0];
+    let mut vertices = vec![];
 
-    let c_str: &CStr = unsafe { CStr::from_ptr(file_path) };
+    let c_str: &CStr = CStr::from_ptr(file_path);
     let slice: &str = c_str.to_str().unwrap();
     let filename: String = slice.to_owned();
 
@@ -31,41 +31,46 @@ pub extern "C" fn load_model_vertices(file_path: *const c_char) -> *mut f32 {
             vertices.push(z);
         }
     }
+    let len = vertices.len();
+    std::ptr::write(vertex_count, len as c_int);
     let test_ptr = vertices.as_mut_ptr();
 
     std::mem::forget(vertices);
     return test_ptr;
 }
 
-/*
-// NORMALS
-#[no_mangle]
-pub extern "C" fn load_model_normals(file_path: *const c_char) -> *mut f32 {
-    
-}
-
-// UVs
-#[no_mangle]
-pub extern "C" fn load_model_uvs(file_path: *const c_char) -> *mut f32 {
-    
-}
-
 /* LOADING INDICES */
-// VERTEX INDICES
 #[no_mangle]
-pub extern "C" fn load_model_vertex_indices(file_path: *const c_char) -> *mut i64 {
+pub unsafe extern "C" fn load_model_vertex_indices(file_path: *const c_char, index_count: *mut c_int) -> *mut u32 {
+    let mut indices = vec![];
 
+    let c_str: &CStr = CStr::from_ptr(file_path);
+    let slice: &str = c_str.to_str().unwrap();
+    let filename: String = slice.to_owned();
+
+    let vertex_file = fs::read_to_string(filename)
+        .expect("Couldn't open file");
+
+    let comp = vertex_file.split("\n");
+
+    for s in comp {
+        if s.starts_with("f ") {
+            
+            let verts = s.split("f ").collect::<Vec<&str>>()[1].split(" ").collect::<Vec<&str>>();
+            let x: u32 = verts[0].split("/").collect::<Vec<&str>>()[0].to_owned().parse::<u32>().unwrap() - 1;
+            let y: u32 = verts[1].split("/").collect::<Vec<&str>>()[0].to_owned().parse::<u32>().unwrap() - 1;
+            let z: u32 = verts[2].split("/").collect::<Vec<&str>>()[0].to_owned().parse::<u32>().unwrap() - 1;
+
+            indices.push(x);
+            indices.push(y);
+            indices.push(z);
+        }
+    }
+    let test_ptr = indices.as_mut_ptr();
+    let len = indices.len();
+
+    std::mem::forget(indices);
+    std::ptr::write(index_count, len as c_int);
+    return test_ptr;
 }
 
-// NORMAL INDICES
-#[no_mangle]
-pub extern "C" fn load_model_normal_indices(file_path: *const c_char) -> *mut i64 {
-
-}
-
-// UV INDICES
-#[no_mangle]
-pub extern "C" fn load_model_uv_indices(file_path: *const c_char) -> *mut i64 {
-
-}
-*/
