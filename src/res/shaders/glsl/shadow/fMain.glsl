@@ -28,12 +28,14 @@ uniform samplerCube skybox;
 // INCLDUING FILES
 #pragma(include("pbr.glsl"))
 #pragma(include("directional_shadow.glsl"))
+#pragma(include("perlin_noise.glsl"))
 
 // DEFINING FUNCTIONS
 float distributionGGX(float a, float r);
 float geometrySmith(float a, float b, float r);
 vec3 fresnelSchlick(float a, vec3 b);
 float calculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane);
+float noise(float x, float y, float z);
 
 void main() {
 
