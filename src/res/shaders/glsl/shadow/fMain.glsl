@@ -76,7 +76,7 @@ void main() {
     vec3 objectColor = main.rgb;
     vec3 lightColor = vec3(1.0, 0.9, 0.4) / 2.0;
 
-    float metallic = objectColor.r;
+    float metallic = objectColor.r * 3;
     float roughness = (1 - metallic) / 4.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);

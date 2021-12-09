@@ -65,7 +65,7 @@ int main() {
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
     mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", renderbuf());
-    m->size = mi::Vec3(1.0);
+    m->size = mi::Vec3(0.4);
     mi_engine::MiCoreEntityAssignShaderCode(m, shadowShader);
     mi_engine::MiCoreSceneAddEntity(scene1, m);
 
