@@ -28,6 +28,9 @@ namespace mi_audio {
 
         void set_properties(struct ADOPROP properties) {
 
+            position = properties.position;
+            velocity = properties.velocity;
+
             alSourcef(source, AL_PITCH,     properties.pitch);
             alSourcef(source, AL_GAIN,      properties.volume);
             alSourcef(source, AL_BUFFER,    properties.buf);
@@ -86,6 +89,9 @@ namespace mi_audio {
 
     public:
         std::string name;
+        bool staticSound;
+        mi::Vec3 position;
+        mi::Vec3 velocity;
 
         ALuint GetSource() {
             return source;
