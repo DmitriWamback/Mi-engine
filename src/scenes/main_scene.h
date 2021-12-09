@@ -21,7 +21,7 @@ public:
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
         tex = mi::Texture("src/res/images/diamondplate.jpg");
-        fb = new mi::Depthbuffer(1024*5, 1024*5);
+        fb = new mi::Depthbuffer(1024*10, 1024*10);
     }
 
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
@@ -82,7 +82,12 @@ public:
             shader.setMatr4("view", camera.view);
             shader.setMatr4("lightSpaceMatrix_projection", camera.lightSpaceMatrix_projection);
             shader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
-            shader.setVec3("directional_shadow_light_position", camera_pos);
+
+            mi::Vec3 _cam;
+            if (stC.get_current_position() - mi::Vec3(camera.position.x, 0, camera.position.z) == stC.get_start_position()) _cam = stC.get_start_position();
+            else _cam = stC.get_current_position();
+
+            shader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());
             shader.setInt("main_tex", 1);
             shader.setInt("depthMap", 0);
             shader.setInt("skybox", 2);

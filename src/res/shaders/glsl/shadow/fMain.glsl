@@ -58,19 +58,19 @@ void main() {
 
     vec3 nDSLP  = normalize(directional_shadow_light_position);
     vec3 nSN    = normalize(i.normal);
-    vec3 viewDirection = normalize(camera_position - i.fragp);
+    vec3 viewDirection  = normalize(camera_position - i.fragp);
     vec3 lightDirection = normalize(directional_shadow_light_position);
 
-    float shadow = CalculatePCFShadows(depthMap,
-                                       i.fragpl,
-                                       i.fragp,
-                                       sCameraFarPlane,
-                                       2);
+    float shadow = CalculateShadow(depthMap,
+                                   i.normal,
+                                   i.fragpl,
+                                   directional_shadow_light_position,
+                                   i.fragp,
+                                   sCameraFarPlane);
     
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
     float _dotD = dot(lightDirection, nSN);
-    float no = noise_layer(i.fragp, 0.5, 2.0, 4);
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
     vec3 objectColor = main.rgb;
@@ -111,7 +111,7 @@ void main() {
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
     col *= shadowIntensity;
-    col += objectColor * min((1 - (shadow * _dotD)), MIN_SHADOW_BRIGHTNESS);
+    col += objectColor * min((1 - (shadow * dotD)), MIN_SHADOW_BRIGHTNESS);
 
     vec3 diffuse = dotD * lightColor * shadow;
     fragc = vec4(col + (objectColor / 5.0), 1.0) + texture(skybox, R) * reflectionIntensity * shadowIntensity;

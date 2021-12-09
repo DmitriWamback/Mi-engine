@@ -13,7 +13,7 @@ float CalculateShadow(sampler2D depthMap, vec3 normal, vec4 fragpl, vec3 lightPo
     float bias = 0.06*0.39 / cameraFarPlane;
     float a_bias = max(bias * (1.0 - p), bias);
     float b_bias = max(bias * (1.0 - p), bias);
-    shadow = current-bias > closest ? 1.0 : 0.0;
+    shadow = current-a_bias > closest ? 1.0 : 0.0;
 
     if (projectionCoords.z > 1.0) shadow = 0.0;
     shadow = 1.0 - shadow;

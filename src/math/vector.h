@@ -54,6 +54,7 @@ namespace mi {
         mi::Vec3 operator *(float a)    { return mi::Vec3(x * a, y * a, z * a); }
         mi::Vec3 operator /(Vec3 a)     { return mi::Vec3(x / a.x, y / a.y, z / a.z); }
         mi::Vec3 operator /(float a)    { return mi::Vec3(x / a, y / a, z / a); }
+        bool operator ==(mi::Vec3 a)    { return a.x == x && a.y == y && a.z == z; }
     };
 
     class Vec4 {
