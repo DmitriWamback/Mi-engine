@@ -37,6 +37,22 @@ vec3 fresnelSchlick(float a, vec3 b);
 float calculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane);
 float noise(float x, float y, float z);
 
+float noise_layer(vec3 p, float persistance, float lacunarity, int octaves) {
+
+    float n;
+    float f = 1.0;
+    float a = 1.0;
+
+    for (int i = 0; i < octaves; i++) {
+        n += noise((p.x + biasOffset) * f, (p.y + biasOffset) * f, (p.z - biasOffset) * f) * a;
+        f *= lacunarity;
+        a *= persistance;
+    }
+
+    return n;
+}
+
+
 void main() {
 
     vec3 nDSLP  = normalize(directional_shadow_light_position);
@@ -54,7 +70,7 @@ void main() {
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
     float _dotD = dot(lightDirection, nSN);
-
+    float no = noise_layer(i.fragp, 0.5, 2.0, 4);
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
     vec3 objectColor = main.rgb;

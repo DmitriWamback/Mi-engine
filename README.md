@@ -107,6 +107,3 @@
         return red() + green();
     }
 ```
-
-## CURRENT OVERLOOK
-<img width="1804" alt="Screen Shot 2021-12-04 at 2 47 59 PM" src="https://user-images.githubusercontent.com/56200546/144722708-2edf065d-5a96-4224-9cb0-281d74b83b9c.png">
