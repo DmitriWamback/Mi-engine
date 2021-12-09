@@ -66,7 +66,7 @@ int main() {
 
     mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", renderbuf());
     m->size = mi::Vec3(1.0);
-    mi_engine::MiCoreEntityAssignShaderCode(m, debugModelShader);
+    mi_engine::MiCoreEntityAssignShaderCode(m, shadowShader);
     mi_engine::MiCoreSceneAddEntity(scene1, m);
 
     int cubeSize = 20;
@@ -77,7 +77,7 @@ int main() {
             mi_inheritable::Entity* cubeNoise = new mi::CubeNoise(cbuffer, mi::Vec3((x-(xzSize/2))*cubeSize, 0, (y-(xzSize/2))*cubeSize), cubeSize, seed);
             
             mi_engine::MiCoreEntityAssignShaderCode(cubeNoise, shadowShader);
-            //mi_engine::MiCoreSceneAddEntity(scene1, cubeNoise);
+            mi_engine::MiCoreSceneAddEntity(scene1, cubeNoise);
         }
     }
 
