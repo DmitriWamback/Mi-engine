@@ -12,6 +12,7 @@ namespace mi {
         InstancedRenderer() {}
 
         InstancedRenderer(mi_inheritable::Entity* base) {
+            glGenBuffers(1, &verticesVBO);
             glGenBuffers(1, &transformationsVBO);
             baseEntity = base;
         }
@@ -26,6 +27,9 @@ namespace mi {
         }
 
         void LinkTransformations() {
+
+            glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(baseEntity->get_vertices()), baseEntity->get_vertices(), GL_STATIC_DRAW);
 
             glBindBuffer(GL_ARRAY_BUFFER, transformationsVBO);
             glBufferData(GL_ARRAY_BUFFER, sizeof(mi::Vec4) * transformations.size(), &transformations[0], GL_STATIC_DRAW);
