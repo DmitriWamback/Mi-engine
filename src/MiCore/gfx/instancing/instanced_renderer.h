@@ -3,6 +3,7 @@ namespace mi {
     class InstancedRenderer {
     private:
         std::vector<mi::Vec4> transformations;
+        uint32_t verticesVBO;
         uint32_t transformationsVBO;
 
     public:
