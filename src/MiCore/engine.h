@@ -127,7 +127,11 @@ namespace mi_engine {
         else {
             mi_core::scenes[scene->scene_name]->AddEntity(entity);
         }
-    }   
+    }
+
+    void MiCoreSceneAddInstancedRenderer(mi_inheritable::Scene* scene, mi::InstancedRenderer renderer) {
+        scene->AddInstancedRenderer(renderer);
+    }
 
     // Runs the engine with a given scene identification
     void MiCoreStartMainLoop(std::string scene_to_render) {

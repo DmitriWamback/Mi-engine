@@ -15,7 +15,9 @@ namespace mi_core {
 namespace mi_inheritable {
 
     class Scene {
-    public:
+    public: 
+
+        std::vector<mi::InstancedRenderer> renderers;
 
         int nb_entities;
         int nb_cameras;
@@ -72,6 +74,16 @@ namespace mi_inheritable {
             for (int i = 0; i < nb_cameras; i++) {
                 if (static_cameras[i].camera_name == name) return static_cameras[i];
             }
+        }
+
+        mi::InstancedRenderer FindRendererByName(std::string name) {
+            for (int i = 0; i < renderers.size(); i++) {
+                if (renderers.at(i).name == name) return renderers.at(i);
+            }
+        }
+
+        void AddInstancedRenderer(mi::InstancedRenderer r) {
+            renderers.push_back(r);
         }
 
         virtual mi::RenderTexture LoadSceneThroughFramebuffer(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer) {

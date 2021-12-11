@@ -23,8 +23,8 @@ out VERTEX {
 void main() {
     mat4 model = mat4(r1, r2, r3, r4);
     o.fragp = (model * vec4(position, 1.0)).xyz;
-    o.normal = mat3(transpose(inverse(model)));
+    o.normal = mat3(transpose(inverse(model))) * normal;
     o.uv = uv;
 
-    gl_Position = projection * view * model;
+    gl_Position = projection * view * vec4(o.fragp, 1.0);
 }

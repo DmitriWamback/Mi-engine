@@ -46,6 +46,7 @@ int main() {
     Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
     Shader skyboxShader("skybox/vMain.glsl", "skybox/fMain.glsl", "SKYBOX");
     Shader debugModelShader("model/vMain.glsl", "model/fMain.glsl", "MODEL DEBUG");
+    Shader instancedShader("instancing/vInstance.glsl", "instancing/fInstance.glsl", "INSTANCED SHADER");
     mi_engine::MiCoreAddShader(shadowShader);
     mi_engine::MiCoreAddShader(debugShader2);
     mi_engine::MiCoreAddShader(skyboxShader);
@@ -63,6 +64,13 @@ int main() {
     mi_engine::MiCoreAddStaticCamera(scene1, shadowCamera);
     mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
+
+    mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(cbuffer), "test");
+    renderer.AddTransformation(mi::Vec3(0.0), mi::Vec3(), mi::Vec3(1.0));
+    renderer.LinkTransformations();
+    renderer.AssignShader(instancedShader);
+
+    mi_engine::MiCoreSceneAddInstancedRenderer(scene1, renderer);
 
     for (int i = 0; i < 100; i++) {
         mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", renderbuf());

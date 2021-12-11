@@ -1,8 +1,4 @@
 class MainScene: public mi_inheritable::Scene {
-private:
-
-    std::vector<mi::InstancedRenderer> instancedRenderer;
-
 public:
 
     mi::Texture tex;
@@ -39,14 +35,8 @@ public:
 
         currentPos = camera.position / 20.0;
         currentPos = mi::Vec3(floor(currentPos.x), 0, floor(currentPos.z));
-        //std::cout << currentPos.x << " " << currentPos.y << " " << currentPos.z << std::endl;
 
-        if (currentPos.x != lastPos.x || currentPos.z != lastPos.z) {
-            
-        }
-        t+=0.01;
-
-        lastPos = currentPos;
+        mi::InstancedRenderer r = FindRendererByName("test");
 
         mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb);
         ResetViewport();
@@ -56,6 +46,8 @@ public:
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, tex.tex_id);
 
+
+        // rendering entities
         for (int en = 0; en < nb_entities; en++) {
             mi_inheritable::Entity* entity = allEntities[en];
             Shader shader = mi_core::all_shaders[entity->shaderToUse];
@@ -68,16 +60,6 @@ public:
                 glCullFace(GL_FRONT);
                 mi::Skybox* skybox = dynamic_cast<mi::Skybox*>(entity);
                 c = skybox->cubemap;
-            }
-
-            if (entity->type == mi_enum::ENT_NOISE_CUBE) {
-                mi::CubeNoise* nc = dynamic_cast<mi::CubeNoise*>(entity);
-                //c->push_to(mi::Vec3(), 100.0);
-
-                mi::Vec3 p = camera.position - nc->position;
-                float m = sqrt(p.x * p.x + p.z * p.z);
-                if (m > 100) nc->shouldRender = false;
-                else nc->shouldRender = true;
             }
 
             shader.use();
@@ -108,5 +90,13 @@ public:
 
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);
         }
+
+        // using instanced renderers
+        Shader shader = mi_core::all_shaders[r.shaderName];
+        shader.use();
+        shader.setMatr4("projection", camera.projection);
+        shader.setMatr4("view", camera.view);
+
+        r.Render(shader);
     }
 };
