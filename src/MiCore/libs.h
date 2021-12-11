@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <thread>
 
 /* 3rd Party libraries */
 #include <GL/glew.h>

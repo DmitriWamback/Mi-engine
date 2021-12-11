@@ -1,8 +1,6 @@
 GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
 
-#include <thread>
-#include <vector>
 #include "gfx/shader.h"
 #include "util/renderbuf.h"
 
