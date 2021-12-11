@@ -23,6 +23,7 @@ namespace mi_inheritable {
 
     public:
         std::string shaderToUse;
+        std::string name;
 
         bool usesDepthBuffer;
         bool shouldRender;

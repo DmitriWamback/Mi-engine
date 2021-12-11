@@ -1,4 +1,8 @@
 class MainScene: public mi_inheritable::Scene {
+private:
+
+    std::vector<mi::InstancedRenderer> instancedRenderer;
+
 public:
 
     mi::Texture tex;

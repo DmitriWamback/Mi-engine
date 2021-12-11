@@ -16,4 +16,4 @@
 #include "gfx/ui/ui_frame.h"
 #include "gfx/ui/ui_renderer.h"
 
-#include "gfx/instancing/instance_renderer.h"
+#include "gfx/instancing/instanced_renderer.h"

@@ -74,7 +74,7 @@ void main() {
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
     vec3 objectColor = main.rgb;
-    vec3 lightColor = vec3(1.0, 0.9, 0.4) / 2.0;
+    vec3 lightColor = vec3(1.0, 0.9, 0.4);
 
     float metallic = objectColor.r * 3;
     float roughness = (1 - metallic) / 4.0;
@@ -102,7 +102,7 @@ void main() {
     vec3 kD = vec3(1.0) - F;
     kD *= 1.0 - metallic;
 
-    vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 2.42);
+    vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 1.52);
     float reflectionIntensity = pow(0.5, 1.0);
 
     float shadowIntensity = shadow * dotD;

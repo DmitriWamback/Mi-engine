@@ -20,8 +20,6 @@ namespace mi {
             this->vertices = vertices;
             this->indices = indices;
 
-            std::cout << vertex_count << std::endl;
-
 
             glBindVertexArray(buf.vao);
             glBindBuffer(GL_ARRAY_BUFFER, buf.vbo);

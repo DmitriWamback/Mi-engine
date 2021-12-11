@@ -64,10 +64,13 @@ int main() {
     mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
-    mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", renderbuf());
-    m->size = mi::Vec3(0.4);
-    mi_engine::MiCoreEntityAssignShaderCode(m, shadowShader);
-    mi_engine::MiCoreSceneAddEntity(scene1, m);
+    for (int i = 0; i < 100; i++) {
+        mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", renderbuf());
+        m->size = mi::Vec3(0.1);
+        m->position = mi::Vec3(sin(i / 15.0) * 40, 0, cos(i / 15.0) * 40);
+        mi_engine::MiCoreEntityAssignShaderCode(m, shadowShader);
+        mi_engine::MiCoreSceneAddEntity(scene1, m);
+    }
 
     int cubeSize = 20;
     int xzSize = 5;
