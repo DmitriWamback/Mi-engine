@@ -58,24 +58,31 @@ int main() {
     float CUBE_SIZE = 1.0;
     float _density = 0.1;
 
-    //const float* v = load_model_vertices("src/res/models/tree.obj");
     std::cout << seed << std::endl;
 
     mi_engine::MiCoreAddStaticCamera(scene1, shadowCamera);
     mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
-    mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(cbuffer), "test");
+    mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(renderbuf()), "test");
     renderer.AddTransformation(mi::Vec3(0.0), mi::Vec3(), mi::Vec3(1.0));
     renderer.LinkTransformations();
     renderer.AssignShader(instancedShader);
 
-    mi_engine::MiCoreSceneAddInstancedRenderer(scene1, renderer);
+    //mi_engine::MiCoreSceneAddInstancedRenderer(scene1, renderer);
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 50; i++) {
+        mi_inheritable::Entity* m = mi::LoadModel("src/res/models/sphere2.obj", renderbuf());
+        m->size = mi::Vec3(2.0);
+        m->position = mi::Vec3(sin((i * 2 - 1) / 15.0) * 40, 0, cos((i * 2 - 1) / 15.0) * 40);
+        mi_engine::MiCoreEntityAssignShaderCode(m, shadowShader);
+        mi_engine::MiCoreSceneAddEntity(scene1, m);
+    }
+
+    for (int i = 0; i < 50; i++) {
         mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", renderbuf());
-        m->size = mi::Vec3(0.1);
-        m->position = mi::Vec3(sin(i / 15.0) * 40, 0, cos(i / 15.0) * 40);
+        m->size = mi::Vec3(0.2);
+        m->position = mi::Vec3(sin(i*2 / 15.0) * 40, 0, cos(i*2 / 15.0) * 40);
         mi_engine::MiCoreEntityAssignShaderCode(m, shadowShader);
         mi_engine::MiCoreSceneAddEntity(scene1, m);
     }

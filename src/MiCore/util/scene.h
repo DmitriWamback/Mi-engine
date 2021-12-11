@@ -114,7 +114,7 @@ namespace mi_inheritable {
                 }
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            glCullFace(GL_BACK);
+            glCullFace(GL_FRONT_AND_BACK);
 
             return mi::RenderTexture(framebuffer->tex_id);
         }

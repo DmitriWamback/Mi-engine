@@ -2,7 +2,7 @@ namespace mi {
 
     class InstancedRenderer {
     private:
-        std::vector<mi::Vec4> transformations;
+        std::vector<float> transformations;
         uint32_t verticesVBO;
         uint32_t transformationsVBO;
         uint32_t vao;
@@ -24,14 +24,31 @@ namespace mi {
 
         void AddTransformation(mi::Vec3 position, mi::Vec3 rotation, mi::Vec3 size) {
             // put transformations into a vector of mi::Vec4 ??
-            mi::Matr4 model = rotate(rotation) * scale(size) * translate(position);
-            transformations.push_back(model.r1);
-            transformations.push_back(model.r2);
-            transformations.push_back(model.r3);
-            transformations.push_back(model.r4);
+            mi::Matr4 model = rotate(rotation) * scale(size / 2.0) * translate(position);
+            transformations.push_back(model.r4.x);
+            transformations.push_back(model.r3.x);
+            transformations.push_back(model.r2.x);
+            transformations.push_back(model.r1.x);
+            transformations.push_back(model.r4.y);
+            transformations.push_back(model.r3.y);
+            transformations.push_back(model.r2.y);
+            transformations.push_back(model.r1.y);
+            transformations.push_back(model.r4.z);
+            transformations.push_back(model.r3.z);
+            transformations.push_back(model.r2.z);
+            transformations.push_back(model.r1.z);
+            transformations.push_back(model.r4.w);
+            transformations.push_back(model.r3.w);
+            transformations.push_back(model.r2.w);
+            transformations.push_back(model.r1.w);
+
         }
 
         void LinkTransformations() {
+
+            glBindBuffer(GL_ARRAY_BUFFER, transformationsVBO);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * transformations.size() / 16, &transformations[0], GL_STATIC_DRAW);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             glBindVertexArray(vao);
 
@@ -42,6 +59,10 @@ namespace mi {
             glEnableVertexAttribArray(4);
             glEnableVertexAttribArray(5);
             glEnableVertexAttribArray(6);
+            glVertexAttribDivisor(3, 1);
+            glVertexAttribDivisor(4, 1);
+            glVertexAttribDivisor(5, 1);
+            glVertexAttribDivisor(6, 1);
 
             glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
             glBufferData(GL_ARRAY_BUFFER, baseEntity->get_vertex_length() * sizeof(float), baseEntity->get_vertices(), GL_STATIC_DRAW);
@@ -51,17 +72,10 @@ namespace mi {
             glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
             glBindBuffer(GL_ARRAY_BUFFER, transformationsVBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(mi::Vec4) * transformations.size(), &transformations[0], GL_STATIC_DRAW);
-
-            glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(mi::Vec4), nullptr);
-            glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(mi::Vec4), (void*)(1 * sizeof(mi::Vec4)));
-            glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(mi::Vec4), (void*)(2 * sizeof(mi::Vec4)));
-            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(mi::Vec4), (void*)(3 * sizeof(mi::Vec4)));
-            glVertexAttribDivisor(3, 1);
-            glVertexAttribDivisor(4, 1);
-            glVertexAttribDivisor(5, 1);
-            glVertexAttribDivisor(6, 1);
-
+            glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), nullptr);
+            glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), (void*)(4 * sizeof(float)));
+            glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), (void*)(8 * sizeof(float)));
+            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), (void*)(12 * sizeof(float)));
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
         }
@@ -71,11 +85,10 @@ namespace mi {
         }
 
         void Render(Shader& shader) {
-            int count = transformations.size();
+            int count = transformations.size() / 16;
             int size = baseEntity->get_vertex_length() / 8;
-
+            shader.use();
             glBindVertexArray(vao);
-            glBindBuffer(GL_ARRAY_BUFFER, transformationsVBO);
 
             glDrawArraysInstanced(RENDER_OPTION, 0, size, count);
             glBindVertexArray(0);

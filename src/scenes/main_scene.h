@@ -27,6 +27,7 @@ public:
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
 
         MoveCamera(motion, rotation); // IMPORTANT
+        std::cout << camera.position.x << " " << camera.position.y << " " << camera.position.z << std::endl;
 
         // MAIN GAME LOOP HERE
         mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
@@ -36,7 +37,7 @@ public:
         currentPos = camera.position / 20.0;
         currentPos = mi::Vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
-        mi::InstancedRenderer r = FindRendererByName("test");
+        //mi::InstancedRenderer r = FindRendererByName("test");
 
         mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb);
         ResetViewport();
@@ -92,11 +93,13 @@ public:
         }
 
         // using instanced renderers
+        /*
         Shader shader = mi_core::all_shaders[r.shaderName];
         shader.use();
         shader.setMatr4("projection", camera.projection);
         shader.setMatr4("view", camera.view);
+        */
 
-        r.Render(shader);
+        //r.Render(shader);
     }
 };
