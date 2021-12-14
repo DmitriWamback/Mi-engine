@@ -6,9 +6,10 @@ use std::ffi::{CStr};
 // VERTICES
 
 #[no_mangle]
-pub unsafe extern "C" fn load_model_vertices(file_path: *const c_char, vertex_count: *mut c_int) -> *mut f32 {
+pub unsafe extern "C" fn load_model_vertices(file_path: *const c_char, vertex_count: *mut c_int, vertex_type: i32) -> *mut f32 {
 
     let mut vertices = vec![];
+    let faces = vec!["v ", "vn ", "vt "];
 
     let c_str: &CStr = CStr::from_ptr(file_path);
     let slice: &str = c_str.to_str().unwrap();
@@ -20,7 +21,7 @@ pub unsafe extern "C" fn load_model_vertices(file_path: *const c_char, vertex_co
     let comp = vertex_file.split("\n");
 
     for s in comp {
-        if s.starts_with("v ") {
+        if s.starts_with(faces[vertex_type as usize]) {
             
             let verts = s.split(" ").collect::<Vec<&str>>();
             let x: f32 = verts[1].to_owned().parse::<f32>().unwrap();
@@ -41,8 +42,10 @@ pub unsafe extern "C" fn load_model_vertices(file_path: *const c_char, vertex_co
 }
 
 /* LOADING INDICES */
+
+
 #[no_mangle]
-pub unsafe extern "C" fn load_model_vertex_indices(file_path: *const c_char, index_count: *mut c_int) -> *mut u32 {
+pub unsafe extern "C" fn load_model_indices(file_path: *const c_char, index_count: *mut c_int, index_type: i32) -> *mut u32 {
     let mut indices = vec![];
 
     let c_str: &CStr = CStr::from_ptr(file_path);
@@ -58,9 +61,9 @@ pub unsafe extern "C" fn load_model_vertex_indices(file_path: *const c_char, ind
         if s.starts_with("f ") {
             
             let verts = s.split("f ").collect::<Vec<&str>>()[1].split(" ").collect::<Vec<&str>>();
-            let x: u32 = verts[0].split("/").collect::<Vec<&str>>()[0].to_owned().parse::<u32>().unwrap() - 1;
-            let y: u32 = verts[1].split("/").collect::<Vec<&str>>()[0].to_owned().parse::<u32>().unwrap() - 1;
-            let z: u32 = verts[2].split("/").collect::<Vec<&str>>()[0].to_owned().parse::<u32>().unwrap() - 1;
+            let x: u32 = verts[0].split("/").collect::<Vec<&str>>()[index_type as usize].to_owned().parse::<u32>().unwrap() - 1;
+            let y: u32 = verts[1].split("/").collect::<Vec<&str>>()[index_type as usize].to_owned().parse::<u32>().unwrap() - 1;
+            let z: u32 = verts[2].split("/").collect::<Vec<&str>>()[index_type as usize].to_owned().parse::<u32>().unwrap() - 1;
 
             indices.push(x);
             indices.push(y);

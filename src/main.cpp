@@ -55,6 +55,7 @@ int main() {
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
     float seed = rand() % 100000;
+    seed = 4730;
     float CUBE_SIZE = 1.0;
     float _density = 0.1;
 
@@ -71,8 +72,10 @@ int main() {
 
     //mi_engine::MiCoreSceneAddInstancedRenderer(scene1, renderer);
 
+    mi::modelbuf m1, m2;
+
     for (int i = 0; i < 50; i++) {
-        mi_inheritable::Entity* m = mi::LoadModel("src/res/models/sphere2.obj", renderbuf());
+        mi_inheritable::Entity* m = mi::LoadModel("src/res/models/monkey2.obj", m1);
         m->size = mi::Vec3(2.0);
         m->position = mi::Vec3(sin((i * 2 - 1) / 15.0) * 40, 0, cos((i * 2 - 1) / 15.0) * 40);
         mi_engine::MiCoreEntityAssignShaderCode(m, shadowShader);
@@ -80,14 +83,14 @@ int main() {
     }
 
     for (int i = 0; i < 50; i++) {
-        mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", renderbuf());
+        mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", m2);
         m->size = mi::Vec3(0.2);
         m->position = mi::Vec3(sin(i*2 / 15.0) * 40, 0, cos(i*2 / 15.0) * 40);
         mi_engine::MiCoreEntityAssignShaderCode(m, shadowShader);
         mi_engine::MiCoreSceneAddEntity(scene1, m);
     }
 
-    int cubeSize = 20;
+    int cubeSize = 15;
     int xzSize = 5;
 
     for (int x = 0; x < xzSize; x++) {
