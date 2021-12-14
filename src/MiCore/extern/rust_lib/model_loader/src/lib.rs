@@ -4,6 +4,7 @@ use std::ffi::{CStr};
 
 /* LOADING VERTICES */
 // VERTICES
+
 #[no_mangle]
 pub unsafe extern "C" fn load_model_vertices(file_path: *const c_char, vertex_count: *mut c_int) -> *mut f32 {
 

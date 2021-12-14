@@ -7,7 +7,7 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
 <p>The stb_image.h file should be added manually to the project</p>
 <p>The <code>src/begin_temp.sh</code> shows the necessary libs used to compile and run the engine</p>
 
-## REQUIREMENTS
+## DEPENDENCIES
 <ul>
     <li>g++ (C++ compiler)</li>
     <li>python3 (Python compiler)</li>

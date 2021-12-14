@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "SlkOkb8nn0Gjj5x3w88FddfVHsHKK5D0afufjlTdpGIpe5ekvkmp0H2fA4bInoi4NEQ6Idt4sijVzTfsPs1ujw==",
+  "success": true,
+  "projectFilePath": "/Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/csharp/JsonDecode/JsonDecode.csproj",
+  "expectedPackageFiles": [
+    "/Users/newtest/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/3.1.9/microsoft.netcore.app.runtime.osx-x64.3.1.9.nupkg.sha512",
+    "/Users/newtest/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-x64/3.1.9/microsoft.aspnetcore.app.runtime.osx-x64.3.1.9.nupkg.sha512"
+  ],
+  "logs": []
+}
