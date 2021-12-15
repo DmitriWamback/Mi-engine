@@ -1,5 +1,5 @@
 func main() {
-    print("ass")
+    print("hello")
 }
 
 main()
