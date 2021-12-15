@@ -1,6 +1,6 @@
 # Mi-engine 
 
-<img align="left" width="200" src="https://user-images.githubusercontent.com/56200546/145132401-5d2f7365-68eb-4b51-a9ad-3624cf18ffb6.png">
+<img width="1000" src="https://user-images.githubusercontent.com/56200546/145132401-5d2f7365-68eb-4b51-a9ad-3624cf18ffb6.png">
 
 Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS and Linux. Currently working on the capability for MacOS and later to be portable for other operating systems.
 
