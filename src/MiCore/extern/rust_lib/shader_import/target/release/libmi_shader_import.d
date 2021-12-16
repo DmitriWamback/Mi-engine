@@ -1,1 +1,0 @@
-/Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rust_lib/shader_import/target/release/libmi_shader_import.dylib: /Users/newtest/Documents/Projects/c++/myengine/src/MiCore/extern/rust_lib/shader_import/src/lib.rs

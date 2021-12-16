@@ -1,0 +1,1 @@
+/Users/newtest/Documents/Projects/c++/myengine/src/MiExtern/multiplatform/rustlib/model_loader/target/release/libmi_model_loader.dylib: /Users/newtest/Documents/Projects/c++/myengine/src/MiExtern/multiplatform/rustlib/model_loader/src/lib.rs

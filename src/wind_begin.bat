@@ -7,7 +7,7 @@ GLFW_LIB=src/vendor/WIND/glfw
 GLEW_LIB=src/vendor/WIND/glew
 SNDFILE_LIB=src/vendor/WIND/sndfile
 
-RS_LIB=src/MiLibs
+RS_LIB=src/MiLibraries
 START_CMD="-L ${RS_LIB} "
 CMD="${START_CMD}"
 
