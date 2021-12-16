@@ -4,3 +4,4 @@ a.out
 /src/MiCore/gfx/texture/stb_image.h
 /.vscode/
 *.lock
+*.mtl
