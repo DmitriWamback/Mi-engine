@@ -17,6 +17,13 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
     <li>GLEW 3.0+ (libraries and includes)</li>
 </ul>
 
+## SUPPORTED LANGUAGES FOR LIBRARIES
+<ul>
+    <li>C# (for Windows exclusive libraries) (in development)</li>
+    <li>Swift + Objective-C (for MacOS exclusive libraries) (in development)</li>
+    <li>Rust (multiplatform)</li>
+</ul>
+
 ## BUILDING AND COMPILING
 
 <pre>
