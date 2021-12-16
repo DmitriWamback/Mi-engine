@@ -20,7 +20,7 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
 ## BUILDING AND COMPILING
 
 <pre>
-    <span class="pl-s1">python3 src/MiExtern/pylib/load_lib.py</span>
+    <span class="pl-s1">python3 src/MiExtern/multiplatform/pylib/load_lib.py</span>
     <span class="pl-s1">(MAC) sh src/osx_begin.sh</span>
     <span class="pl-s1">(WINDOWS) src\wind_begin.bat</span>
 </pre>
