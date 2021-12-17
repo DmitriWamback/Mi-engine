@@ -141,7 +141,6 @@ namespace mi_inheritable {
         }
 
         void AddStaticCamera(mi::StaticCamera static_camera) {
-            std::cout << nb_cameras << " Here" << std::endl;
             static_cameras[nb_cameras] = static_camera;
             nb_cameras++;
         }

@@ -59,7 +59,7 @@ int main() {
     float CUBE_SIZE = 1.0;
     float _density = 0.1;
 
-    std::cout << seed << std::endl;
+    LOG_OUT("Running Mi Engine");
 
     mi_engine::MiCoreAddStaticCamera(scene1, shadowCamera);
     mi_engine::MiCoreEntityAssignShaderCode(skybox, skyboxShader);
@@ -74,7 +74,7 @@ int main() {
 
     mi::modelbuf m1, m2;
 
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 47; i++) {
         mi_inheritable::Entity* m = mi::LoadModel("src/res/models/monkey2.obj", m1);
         m->size = mi::Vec3(2.0);
         m->position = mi::Vec3(sin((i * 2 - 1) / 15.0) * 40, 0, cos((i * 2 - 1) / 15.0) * 40);
@@ -82,7 +82,7 @@ int main() {
         mi_engine::MiCoreSceneAddEntity(scene1, m);
     }
 
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 47; i++) {
         mi_inheritable::Entity* m = mi::LoadModel("src/res/models/tree.obj", m2);
         m->size = mi::Vec3(0.2);
         m->position = mi::Vec3(sin(i*2 / 15.0) * 40, 0, cos(i*2 / 15.0) * 40);

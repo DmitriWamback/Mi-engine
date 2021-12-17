@@ -29,6 +29,7 @@ uniform samplerCube skybox;
 #pragma(include("pbr.glsl"))
 #pragma(include("directional_shadow.glsl"))
 #pragma(include("perlin_noise.glsl"))
+#pragma(include("fog.glsl"))
 
 // DEFINING FUNCTIONS
 float distributionGGX(float a, float r);
@@ -37,6 +38,8 @@ vec3 fresnelSchlick(float a, vec3 b);
 float CalculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane);
 float CalculatePCFShadows(sampler2D depth, vec4 a, vec3 b, float c, int d);
 float noise(float x, float y, float z);
+float GetDistance(vec3 fragp, vec3 cam_p, float d);
+vec3 ComputeFog(float d, vec3 fogColor, vec3 fragp);
 
 float noise_layer(vec3 p, float persistance, float lacunarity, int octaves) {
 
@@ -115,5 +118,14 @@ void main() {
 
     vec3 diffuse = dotD * lightColor * shadow;
     fragc = vec4(col + (objectColor / 5.0), 1.0) + texture(skybox, R) * reflectionIntensity * shadowIntensity;
-    //fragc = 1 - texture(skybox, R);
+
+    float fdist = GetDistance(i.fragp, camera_position, 100.0);
+    vec3 fog = ComputeFog(fdist, lightColor, fragc.rgb);
+
+    if (fdist < 1)
+        fragc.rgb += fog;
+    else
+        fragc.rgb = fog;
+
+    //fragc = 1 - texture(skybox, R); 
 }

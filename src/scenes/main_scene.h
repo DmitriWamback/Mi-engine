@@ -27,8 +27,7 @@ public:
     void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
 
         MoveCamera(motion, rotation); // IMPORTANT
-        std::cout << camera.position.x << " " << camera.position.y << " " << camera.position.z << std::endl;
-
+        
         // MAIN GAME LOOP HERE
         mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
         stC.set_position(stC.get_start_position() + mi::Vec3(camera.position.x, 0, camera.position.z));

@@ -1,6 +1,8 @@
 GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
 
+#define LOG_OUT(a) std::cout << a << '\n'
+
 #include "gfx/shader.h"
 #include "util/renderbuf.h"
 
