@@ -1,4 +1,5 @@
 #ifdef __APPLE__
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     #include <OpenAL/OpenAL.h>
 #else
     #include <AL/al.h>
