@@ -57,16 +57,16 @@ namespace mi {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.v_ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), NULL);
 
             // LOADING NORMALS
             glBindBuffer(GL_ARRAY_BUFFER, mbuf.n_vbo);
             glBufferData(GL_ARRAY_BUFFER, normal_count * sizeof(float), normals, GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.n_ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, i_normal_count * sizeof(uint32_t), n_indices, GL_STATIC_DRAW);
-
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
             glBindVertexArray(0);
         }
 
@@ -78,6 +78,10 @@ namespace mi {
 
             glBindVertexArray(mbuf.vao);
 
+            glBindBuffer(GL_ARRAY_BUFFER, mbuf.n_vbo);
+            glBufferData(GL_ARRAY_BUFFER, n_count * sizeof(float), normals, GL_STATIC_DRAW);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.n_ibo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, n_index_count * sizeof(uint32_t), n_indices, GL_STATIC_DRAW);
             glBindBuffer(GL_ARRAY_BUFFER, mbuf.v_vbo);
             glBufferData(GL_ARRAY_BUFFER, v_count * sizeof(float), vertices, GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.v_ibo);
@@ -86,6 +90,32 @@ namespace mi {
             glDrawElements(RENDER_OPTION, v_index_count, GL_UNSIGNED_INT, 0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+        }
+
+        void renderWithWireFrame(Shader &shader, Shader &wireframeShader) {
+
+            shader.use();
+            create_model_matrix();
+            mi::Matr4 model = get_model();
+            shader.setMatr4("model", model);
+            glBindVertexArray(mbuf.vao);
+
+            glBindBuffer(GL_ARRAY_BUFFER, mbuf.n_vbo);
+            glBufferData(GL_ARRAY_BUFFER, n_count * sizeof(float), normals, GL_STATIC_DRAW);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.n_ibo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, n_index_count * sizeof(uint32_t), n_indices, GL_STATIC_DRAW);
+            glBindBuffer(GL_ARRAY_BUFFER, mbuf.v_vbo);
+            glBufferData(GL_ARRAY_BUFFER, v_count * sizeof(float), vertices, GL_STATIC_DRAW);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.v_ibo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, v_index_count * sizeof(uint32_t), v_indices, GL_STATIC_DRAW);
+
+            glDrawElements(RENDER_OPTION, v_index_count, GL_UNSIGNED_INT, 0);
+
+            wireframeShader.use();
+            wireframeShader.setMatr4("model", model);
+            glDrawElements(WIREFRAME_RENDER_STATE, v_index_count, GL_UNSIGNED_INT, 0);
+
             glBindVertexArray(0);
         }
     };

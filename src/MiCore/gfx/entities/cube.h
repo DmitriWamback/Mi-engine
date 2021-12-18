@@ -82,4 +82,19 @@ public:
         glDrawArrays(RENDER_OPTION, 0, 36);
         glBindVertexArray(0);
     }
+
+    void renderWithWireFrame(Shader &shader, Shader &wireframeShader) {
+        shader.use();
+        create_model_matrix();
+        mi::Matr4 model = get_model();
+        shader.setMatr4("model", model);
+        glBindVertexArray(buf.vao);
+        glDrawArrays(RENDER_OPTION, 0, 36);
+
+        wireframeShader.use();
+        wireframeShader.setMatr4("model", model);
+        glDrawArrays(WIREFRAME_RENDER_STATE, 0, 36);
+
+        glBindVertexArray(0);
+    }
 };

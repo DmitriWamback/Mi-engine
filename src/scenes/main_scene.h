@@ -30,8 +30,8 @@ public:
         
         // MAIN GAME LOOP HERE
         mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
-        stC.set_position(stC.get_start_position() + mi::Vec3(camera.position.x, 0, camera.position.z));
-        stC.set_target(stC.get_start_target() + mi::Vec3(camera.position.x, 0, camera.position.z));
+        stC.set_position(stC.get_start_position() + camera.position);
+        stC.set_target(stC.get_start_target() + camera.position);
 
         currentPos = camera.position / 20.0;
         currentPos = mi::Vec3(floor(currentPos.x), 0, floor(currentPos.z));
@@ -45,6 +45,11 @@ public:
         glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, tex.tex_id);
+
+        Shader wireframe = mi_core::all_shaders["WIREFRAME"];
+        wireframe.use();
+        wireframe.setMatr4("projection", camera.projection);
+        wireframe.setMatr4("view", camera.view);
 
 
         // rendering entities
@@ -86,6 +91,7 @@ public:
             }
             if (entity != nullptr) {
                 entity->render(shader);
+                //entity->renderWithWireFrame(shader, wireframe);
             }
 
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);

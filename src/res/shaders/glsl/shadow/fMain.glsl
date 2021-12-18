@@ -30,6 +30,7 @@ uniform samplerCube skybox;
 #pragma(include("directional_shadow.glsl"))
 #pragma(include("perlin_noise.glsl"))
 #pragma(include("fog.glsl"))
+#pragma(include("math.glsl"))
 
 // DEFINING FUNCTIONS
 float distributionGGX(float a, float r);
@@ -39,16 +40,17 @@ float CalculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosit
 float CalculatePCFShadows(sampler2D depth, vec4 a, vec3 b, float c, int d);
 float noise(float x, float y, float z);
 float GetDistance(vec3 fragp, vec3 cam_p, float d);
+float Map(float v, float fmin, float fmax, float tmin, float tmax);
 vec3 ComputeFog(float d, vec3 fogColor, vec3 fragp);
 
-float noise_layer(vec3 p, float persistance, float lacunarity, int octaves) {
+float noise_layer(vec3 p, float persistance, float lacunarity, int octaves, float freq, float ampl) {
 
     float n;
-    float f = 1.0;
-    float a = 1.0;
+    float f = freq;
+    float a = ampl;
 
     for (int i = 0; i < octaves; i++) {
-        n += noise((p.x + biasOffset) * f, (p.y + biasOffset) * f, (p.z - biasOffset) * f) * a;
+        n += noise((p.x) * f, (p.y) * f, (p.z) * f) * a;
         f *= lacunarity;
         a *= persistance;
     }
@@ -76,10 +78,12 @@ void main() {
     float _dotD = dot(lightDirection, nSN);
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
+    float _n = noise(i.fragp.x * 10.0, i.fragp.y *  10.0, i.fragp.z *  10.0);
+    float noiseIntensity = Map(noise_layer(i.fragp, 0.5, 2.0, 4, 3.0, 1.0), -1.0, 1.0, 0.1, 0.3);
     vec3 objectColor = main.rgb;
     vec3 lightColor = vec3(1.0, 0.9, 0.4);
 
-    float metallic = objectColor.r * 3;
+    float metallic = objectColor.r * 3 * noiseIntensity;
     float roughness = (1 - metallic) / 4.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
@@ -106,7 +110,7 @@ void main() {
     kD *= 1.0 - metallic;
 
     vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 1.52);
-    float reflectionIntensity = pow(0.5, 1.0);
+    float reflectionIntensity = pow(0.4, 1.0);
 
     float shadowIntensity = shadow * dotD;
     
@@ -119,13 +123,11 @@ void main() {
     vec3 diffuse = dotD * lightColor * shadow;
     fragc = vec4(col + (objectColor / 5.0), 1.0) + texture(skybox, R) * reflectionIntensity * shadowIntensity;
 
-    float fdist = GetDistance(i.fragp, camera_position, 100.0);
-    vec3 fog = ComputeFog(fdist, lightColor, fragc.rgb);
+    float fdist = GetDistance(i.fragp, camera_position, 50.0);
+    vec3 fog = ComputeFog(fdist, vec3(1.0, 0.9, 0.8), fragc.rgb);
 
     if (fdist < 1)
         fragc.rgb += fog;
     else
         fragc.rgb = fog;
-
-    //fragc = 1 - texture(skybox, R); 
 }

@@ -2,6 +2,7 @@ GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
 
 #define LOG_OUT(a) std::cout << a << '\n'
+#define WIREFRAME_RENDER_STATE GL_LINES
 
 #include "gfx/shader.h"
 #include "util/renderbuf.h"
@@ -96,8 +97,12 @@ namespace mi_engine {
     }
 
     // Assigns an entity a shader to use when being rendered
-    void MiCoreEntityAssignShaderCode(mi_inheritable::Entity* entity, Shader shader) {
+    void MiCoreEntityAssignShader(mi_inheritable::Entity* entity, Shader shader) {
         entity->shaderToUse = shader.shaderName;
+    }
+
+    void MiCoreEntityAssignWireframeShader(mi_inheritable::Entity* entity, Shader shader) {
+        entity->wireframeShaderToUse = shader.shaderName;
     }
 
     // Adds an audio source to the engine

@@ -23,6 +23,7 @@ namespace mi_inheritable {
 
     public:
         std::string shaderToUse;
+        std::string wireframeShaderToUse;
         std::string name;
 
         bool usesDepthBuffer;
@@ -59,6 +60,8 @@ namespace mi_inheritable {
 
             shader.setMatr4("model", model_matrix);
         }
+
+        virtual void renderWithWireFrame(Shader &mainShader, Shader &wireframeShader) {}
 
         virtual float* get_vertices() { return nullptr; }
         virtual int get_vertex_length() { return 0; }

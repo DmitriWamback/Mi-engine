@@ -1,0 +1,21 @@
+{
+    "scene": {
+
+        "name": "scene1",
+        "entities": {
+            "cube": {
+                "position": [0, 0, 0],
+                "scale": [1, 1, 1],
+                "rotation": [0, 0, 0]
+            }
+        },
+        "models": {
+            "sphere2": {
+                "modelpath": "src/res/models/sphere2.obj",
+                "position": [0, 0, 0],
+                "scale": [1, 1, 1],
+                "rotation": [0, 0, 0]
+            }
+        }
+    }
+}
