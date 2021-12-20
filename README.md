@@ -116,3 +116,7 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
         return red() + green();
     }
 ```
+
+## IMPORTING A .OBJ FILE
+Using blender, these are the parameters needed to properly export a .obj file for the engine
+<img width="1000" alt="Screen Shot 2021-12-20 at 7 53 23 AM" src="https://user-images.githubusercontent.com/56200546/146770436-d9923100-baf4-414f-8a37-a378895c5e93.png">
