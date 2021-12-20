@@ -28,7 +28,7 @@ void main() {
     o.uv = uv;
     o.fragpl = lightSpaceMatrix_projection * lightSpaceMatrix_view * vec4(o.fragp, 1.0);
     
-    float distortion = distance(o.fragp, camera_position);
+    float distortion = distance(o.fragp, camera_position) / 20.0;
 
     gl_Position = projection * view * model * vec4(vec3(position.x, position.y, position.z), 1.0);
 }

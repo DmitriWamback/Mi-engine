@@ -33,8 +33,11 @@ namespace mi {
 
         void rotateCamera(float xdir, float ydir) {
             
-            rotation.x -= xdir * 0.25;
-            rotation.y += ydir * 0.25;
+            int width, height;
+            glfwGetWindowSize(main_window, &width, &height);
+
+            rotation.x -= xdir * 0.25 * (0.66 * ((float)width / (float)height));
+            rotation.y += ydir * 0.25 * (0.66 * ((float)width / (float)height));
 
             if (rotation.y >  89.f) rotation.y =  89.f;
             if (rotation.y < -89.f) rotation.y = -89.f;

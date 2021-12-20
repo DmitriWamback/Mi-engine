@@ -8,9 +8,13 @@
 #include "gfx/meshes/mesh.h"
 #include "util/skybox.h"
 #include "gfx/texture/cubemap_depth.h"
-#include "gfx/entities/light_source.h"
 #include "gfx/meshes/model.h"
 
+// LIGHTS
+#include "gfx/fbo/light/light.h"
+#include "gfx/fbo/light/pointlight.h"
+
+// UI
 #include "gfx/ui/ui_element.h"
 #include "gfx/ui/ui_button.h"
 #include "gfx/ui/ui_frame.h"

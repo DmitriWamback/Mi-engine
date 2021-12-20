@@ -130,5 +130,5 @@ void main() {
     else
         fragc.rgb = fog;
 
-    fragc.rgb = abs(normalize(i.normal));
+    //fragc.rgb = abs(normalize(i.normal));
 }
