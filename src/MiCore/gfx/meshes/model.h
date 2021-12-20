@@ -57,10 +57,9 @@ namespace mi {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.v_ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), NULL);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
             // LOADING NORMALS
-            glBindBuffer(GL_ARRAY_BUFFER, mbuf.n_vbo);
             glBufferData(GL_ARRAY_BUFFER, normal_count * sizeof(float), normals, GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.n_ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, i_normal_count * sizeof(uint32_t), n_indices, GL_STATIC_DRAW);
@@ -82,10 +81,12 @@ namespace mi {
             glBufferData(GL_ARRAY_BUFFER, n_count * sizeof(float), normals, GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.n_ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, n_index_count * sizeof(uint32_t), n_indices, GL_STATIC_DRAW);
-            glBindBuffer(GL_ARRAY_BUFFER, mbuf.v_vbo);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
             glBufferData(GL_ARRAY_BUFFER, v_count * sizeof(float), vertices, GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.v_ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, v_index_count * sizeof(uint32_t), v_indices, GL_STATIC_DRAW);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
             glDrawElements(RENDER_OPTION, v_index_count, GL_UNSIGNED_INT, 0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -105,7 +106,6 @@ namespace mi {
             glBufferData(GL_ARRAY_BUFFER, n_count * sizeof(float), normals, GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.n_ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, n_index_count * sizeof(uint32_t), n_indices, GL_STATIC_DRAW);
-            glBindBuffer(GL_ARRAY_BUFFER, mbuf.v_vbo);
             glBufferData(GL_ARRAY_BUFFER, v_count * sizeof(float), vertices, GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mbuf.v_ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, v_index_count * sizeof(uint32_t), v_indices, GL_STATIC_DRAW);

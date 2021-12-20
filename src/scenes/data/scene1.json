@@ -1,6 +1,13 @@
 {
     "scene": {
 
+        "shaders": {
+            "Shader1": {
+                "vshader": "",
+                "fshader": ""
+            }
+        },
+
         "name": "scene1",
         "entities": {
             "cube": {

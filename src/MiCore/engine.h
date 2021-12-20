@@ -101,6 +101,10 @@ namespace mi_engine {
         entity->shaderToUse = shader.shaderName;
     }
 
+    void MiCoreSceneAddUIRenderer(mi_inheritable::Scene* scene, mi_ui::UIRenderer renderer) {
+        scene->AddUIRenderer(renderer);
+    }
+
     void MiCoreEntityAssignWireframeShader(mi_inheritable::Entity* entity, Shader shader) {
         entity->wireframeShaderToUse = shader.shaderName;
     }

@@ -18,6 +18,7 @@ namespace mi_inheritable {
     public: 
 
         std::vector<mi::InstancedRenderer> renderers;
+        std::vector<mi_ui::UIRenderer> uiRenderers;
 
         int nb_entities;
         int nb_cameras;
@@ -84,6 +85,14 @@ namespace mi_inheritable {
 
         void AddInstancedRenderer(mi::InstancedRenderer r) {
             renderers.push_back(r);
+        }
+
+        void AddUIRenderer(mi_ui::UIRenderer renderer) {
+            uiRenderers.push_back(renderer);
+        }
+
+        void ExportAsJson() {
+            
         }
 
         virtual mi::RenderTexture LoadSceneThroughFramebuffer(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer) {

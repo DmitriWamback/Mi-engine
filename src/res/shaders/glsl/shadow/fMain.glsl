@@ -78,7 +78,6 @@ void main() {
     float _dotD = dot(lightDirection, nSN);
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
-    float _n = noise(i.fragp.x * 10.0, i.fragp.y *  10.0, i.fragp.z *  10.0);
     float noiseIntensity = Map(noise_layer(i.fragp, 0.5, 2.0, 4, 3.0, 1.0), -1.0, 1.0, 0.1, 0.3);
     vec3 objectColor = main.rgb;
     vec3 lightColor = vec3(1.0, 0.9, 0.4);
@@ -110,7 +109,7 @@ void main() {
     kD *= 1.0 - metallic;
 
     vec3 R = refract(-viewDirection, i.originNormal, 1.0 / 1.52);
-    float reflectionIntensity = pow(0.4, 1.0);
+    float reflectionIntensity = pow(0.9, 1.0);
 
     float shadowIntensity = shadow * dotD;
     
