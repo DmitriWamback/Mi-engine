@@ -88,6 +88,7 @@ int main() {
     for (int i = 0; i < 47; i++) {
         mi_inheritable::Entity* m = mi::LoadModel("src/res/models/monkey2.obj", m2);
         m->size = mi::Vec3(2.0);
+        m->rotation = mi::Vec3(45.0);
         m->position = mi::Vec3(sin(i*2 / 15.0) * 40, 0, cos(i*2 / 15.0) * 40);
         mi_engine::MiCoreEntityAssignShader(m, shadowShader);
         mi_engine::MiCoreEntityAssignWireframeShader(m, wireframeShader);

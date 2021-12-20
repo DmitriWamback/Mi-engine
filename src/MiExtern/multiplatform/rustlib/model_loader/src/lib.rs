@@ -26,11 +26,17 @@ pub unsafe extern "C" fn load_model_vertices(file_path: *const c_char, vertex_co
             let verts = s.split(" ").collect::<Vec<&str>>();
             let x: f32 = verts[1].to_owned().parse::<f32>().unwrap();
             let y: f32 = verts[2].to_owned().parse::<f32>().unwrap();
-            let z: f32 = verts[3].to_owned().parse::<f32>().unwrap();
+            if vertex_type != 2 {
+                let z: f32 = verts[3].to_owned().parse::<f32>().unwrap();
 
-            vertices.push(x);
-            vertices.push(y);
-            vertices.push(z);
+                vertices.push(x);
+                vertices.push(y);
+                vertices.push(z);
+            }
+            else {
+                vertices.push(x);
+                vertices.push(y);
+            }
         }
     }
     let len = vertices.len();
