@@ -23,6 +23,7 @@ g++ -arch x86_64 -framework OpenGL -framework OpenAL -I $GLFW_INC \
                 -I $GLEW_INC \
                 -L $GLEW_LIB $GLEW_LIB/libGLEW.2.2.0.dylib $GLEW_LIB/libGLEW.2.2.dylib $GLEW_LIB/libGLEW.a $GLEW_LIB/libGLEW.dylib \
                 -L $SNDFILE_LIB $SNDFILE_LIB/scUBlibsndfile.a \
+                -I src/vendor/glm \
                 $CMD \
                 src/main.cpp
 ./a.out
