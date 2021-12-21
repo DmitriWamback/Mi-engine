@@ -18,17 +18,17 @@ namespace mi {
         float znear;
         float aspect;
 
-        Vec3 position;
-        Vec3 look_target;
-        Vec3 local_up;
+        glm::vec3 position;
+        glm::vec3 look_target;
+        glm::vec3 local_up;
 
         STATICCAMERAPROPERTIES_PERSPECTIVE(float fovdeg     = 90.0, 
                                            float aspect     = 1.0, 
                                            float zfar       = 1000.0, 
                                            float znear      = 0.0, 
-                                           Vec3 position    = Vec3(10.0), 
-                                           Vec3 look_target = Vec3(), 
-                                           Vec3 local_up    = Vec3(0.0, 1.0, 0.0)) {
+                                           glm::vec3 position    = glm::vec3(10.0), 
+                                           glm::vec3 look_target = glm::vec3(0.0), 
+                                           glm::vec3 local_up    = glm::vec3(0.0, 1.0, 0.0)) {
             this->fovdeg = fovdeg;
             this->aspect = aspect;
             this->zfar = zfar;
@@ -49,9 +49,9 @@ namespace mi {
         float zfar;
         float znear;
 
-        Vec3 position;
-        Vec3 look_target;
-        Vec3 local_up;
+        glm::vec3 position;
+        glm::vec3 look_target;
+        glm::vec3 local_up;
 
         STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left              = -50.0, 
                                             float right             =  50.0, 
@@ -59,9 +59,9 @@ namespace mi {
                                             float bottom            = -50.0,
                                             float zfar              = 10000.0,
                                             float znear             = 0.1,
-                                            Vec3 position           = Vec3(4600.0, 2000.0, 2000), 
-                                            Vec3 look_target        = Vec3(0.0), 
-                                            Vec3 local_up           = Vec3(0.0, 1.0, 0.0)) {
+                                            glm::vec3 position           = glm::vec3(4600.0, 2000.0, 2000), 
+                                            glm::vec3 look_target        = glm::vec3(0.0), 
+                                            glm::vec3 local_up           = glm::vec3(0.0, 1.0, 0.0)) {
 
             this->left = left;
             this->right = right;
@@ -77,17 +77,17 @@ namespace mi {
     
     class StaticCamera {
     private:
-        Vec3 start_position;
-        Vec3 start_target;
+        glm::vec3 start_position;
+        glm::vec3 start_target;
 
     public:
 
-        Vec3 position;
-        Vec3 target;
+        glm::vec3 position;
+        glm::vec3 target;
 
         CAMERA_TYPE type;
-        Matr4 projection;
-        Matr4 view;
+        glm::mat4 projection;
+        glm::mat4 view;
 
         float zfar;
         float znear;
@@ -103,14 +103,14 @@ namespace mi {
             camera_name = name;
             type = ORTHOGRAPHIC;
 
-            projection = orthographic(orthographic_prop.left, 
-                                      orthographic_prop.right, 
-                                     -orthographic_prop.bottom, 
-                                     -orthographic_prop.top,
-                                      orthographic_prop.zfar,
-                                      orthographic_prop.znear);
+            projection = glm::ortho(orthographic_prop.left, 
+                                    orthographic_prop.right, 
+                                   -orthographic_prop.bottom, 
+                                   -orthographic_prop.top,
+                                    orthographic_prop.znear,
+                                    orthographic_prop.zfar);
 
-            view = lookat(orthographic_prop.position, orthographic_prop.look_target, orthographic_prop.local_up);
+            view = glm::lookAt(orthographic_prop.position, orthographic_prop.look_target, orthographic_prop.local_up);
             position = orthographic_prop.position;
             target = orthographic_prop.look_target;
             start_position = position;
@@ -126,13 +126,13 @@ namespace mi {
             camera_name = name;
             type = PERSPECTIVE;
 
-            projection = perspective(
-                perspective_prop.fovdeg,
+            projection = glm::perspective(
+                glm::radians(perspective_prop.fovdeg),
                 perspective_prop.aspect,
                 perspective_prop.zfar,
                 perspective_prop.znear);
             
-            view = lookat(perspective_prop.position, perspective_prop.look_target, perspective_prop.local_up);
+            view = glm::lookAt(perspective_prop.position, perspective_prop.look_target, perspective_prop.local_up);
             position = perspective_prop.position;
             target = perspective_prop.look_target;
             start_position = position;
@@ -142,30 +142,30 @@ namespace mi {
             znear = perspective_prop.znear;
         }
 
-        Vec3 get_start_position() {
+        glm::vec3 get_start_position() {
             return start_position;
         }
 
-        Vec3 get_start_target() {
+        glm::vec3 get_start_target() {
             return start_target;
         }
 
-        Vec3 get_current_position() {
+        glm::vec3 get_current_position() {
             return position;
         }
 
-        Vec3 get_current_target() {
+        glm::vec3 get_current_target() {
             return target;
         }
 
-        void set_position(mi::Vec3 position) {
+        void set_position(glm::vec3 position) {
             this->position = position;
-            view = lookat(this->position, this->target, Vec3(0.0, 1.0, 0.0));
+            view = glm::lookAt(this->position, this->target, glm::vec3(0.0, 1.0, 0.0));
         }
 
-        void set_target(mi::Vec3 target) {
+        void set_target(glm::vec3 target) {
             this->target = target;
-            view = lookat(this->position, this->target, Vec3(0.0, 1.0, 0.0));
+            view = glm::lookAt(this->position, this->target, glm::vec3(0.0, 1.0, 0.0));
         }
     };
 }

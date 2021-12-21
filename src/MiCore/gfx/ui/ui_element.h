@@ -2,9 +2,9 @@ namespace mi_inheritable {
 
     class UIElement {
     public:
-        mi::Vec2 position;
+        glm::vec2 position;
         float rotation;
-        mi::Vec2 size;
+        glm::vec2 size;
         renderbuf buf;
 
         float* vertices;
@@ -13,7 +13,7 @@ namespace mi_inheritable {
 
         UIElement() {}
 
-        UIElement(renderbuf buffer, mi::Vec2 screenPositionPXL, mi::Vec2 screenSizePXL) {
+        UIElement(renderbuf buffer, glm::vec2 screenPositionPXL, glm::vec2 screenSizePXL) {
             this->buf = buffer;
             Initialize(screenPositionPXL, screenSizePXL);
         }
@@ -22,29 +22,29 @@ namespace mi_inheritable {
 
         }
 
-        void Initialize(mi::Vec2 screenPositionPXL, mi::Vec2 screenSizePXL) {
+        void Initialize(glm::vec2 screenPositionPXL, glm::vec2 screenSizePXL) {
             int s_width, s_height;
             glfwGetWindowSize(main_window, &s_width, &s_height);
 
-            mi::Vec2 localizedPosition = mi::Vec2(
+            glm::vec2 localizedPosition = glm::vec2(
                 screenPositionPXL.x / s_width,
                 screenPositionPXL.y / s_height
             );
 
-            mi::Vec2 localizedSize = mi::Vec2(
+            glm::vec2 localizedSize = glm::vec2(
                 screenSizePXL.x / s_width,
                 screenSizePXL.y / s_height
             );
 
-            mi::Vec2 tr;
-            mi::Vec2 tl;
-            mi::Vec2 br;
-            mi::Vec2 bl;
+            glm::vec2 tr;
+            glm::vec2 tl;
+            glm::vec2 br;
+            glm::vec2 bl;
 
-            tr = mi::Vec2(localizedPosition.x + (localizedSize.x / 2.0), localizedPosition.y + (localizedSize.y / 2.0));
-            tl = mi::Vec2(localizedPosition.x - (localizedSize.x / 2.0), localizedPosition.y + (localizedSize.y / 2.0));
-            br = mi::Vec2(localizedPosition.x + (localizedSize.x / 2.0), localizedPosition.y - (localizedSize.y / 2.0));
-            bl = mi::Vec2(localizedPosition.x - (localizedSize.x / 2.0), localizedPosition.y - (localizedSize.y / 2.0));
+            tr = glm::vec2(localizedPosition.x + (localizedSize.x / 2.0), localizedPosition.y + (localizedSize.y / 2.0));
+            tl = glm::vec2(localizedPosition.x - (localizedSize.x / 2.0), localizedPosition.y + (localizedSize.y / 2.0));
+            br = glm::vec2(localizedPosition.x + (localizedSize.x / 2.0), localizedPosition.y - (localizedSize.y / 2.0));
+            bl = glm::vec2(localizedPosition.x - (localizedSize.x / 2.0), localizedPosition.y - (localizedSize.y / 2.0));
 
             vertices = new float[12];
             float _v[] = {

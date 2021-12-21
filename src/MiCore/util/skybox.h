@@ -73,7 +73,7 @@ namespace mi {
         void render(Shader &shader) {
             shader.use();
             create_model_matrix();
-            mi::Matr4 model = get_model();
+            glm::mat4 model = get_model();
 
             shader.setMatr4("model", model);
 
@@ -91,17 +91,17 @@ namespace mi {
         void renderWithWireFrame(Shader &shader, Shader &wireframeShader) {
             shader.use();
             create_model_matrix();
-            mi::Matr4 model = get_model();
+            glm::mat4 model = get_model();
 
             shader.setMatr4("model", model);
 
-            glDepthMask(GL_FALSE);
+            //glDepthMask(GL_FALSE);
             glBindVertexArray(buf.vao);
             glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap.tex_id);
 
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+            //glDrawArrays(GL_TRIANGLES, 0, 36);
             glBindVertexArray(0);
-            glDepthMask(GL_TRUE);
+            //glDepthMask(GL_TRUE);
         }
     };
 }

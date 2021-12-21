@@ -25,15 +25,15 @@ int main() {
     };
 
     mi_inheritable::Entity* skybox = new mi::Skybox(mesh_buf, faces);
-    skybox->size = mi::Vec3(1000.0);
-    skybox->position = mi::Vec3(0.0);
+    skybox->size = glm::vec3(1000.0);
+    skybox->position = glm::vec3(0.0);
 
 
     struct mi_audio::ADOPROP prop;
     prop.looped = true;
     prop.pitch = 1.0;
-    prop.position = mi::Vec3();
-    prop.velocity = mi::Vec3();
+    prop.position = glm::vec3();
+    prop.velocity = glm::vec3();
     prop.volume = 10.0;
 
     //mi_audio::AudioSource source = mi_audio::AudioSource(prop, "file", "DRM");
@@ -68,7 +68,7 @@ int main() {
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
     mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(renderbuf()), "test");
-    renderer.AddTransformation(mi::Vec3(0.0), mi::Vec3(), mi::Vec3(1.0));
+    renderer.AddTransformation(glm::vec3(0.0), glm::vec3(), glm::vec3(1.0));
     renderer.LinkTransformations();
     renderer.AssignShader(instancedShader);
 
@@ -78,8 +78,8 @@ int main() {
 
     for (int i = 0; i < 47; i++) {
         mi_inheritable::Entity* m = mi::LoadModel("src/res/models/sphere2.obj", m1);
-        m->size = mi::Vec3(1.0);
-        m->position = mi::Vec3(sin((i * 2 - 1) / 15.0) * 40, 0, cos((i * 2 - 1) / 15.0) * 40);
+        m->size = glm::vec3(1.0);
+        m->position = glm::vec3(sin((i * 2 - 1) / 15.0) * 40, 0, cos((i * 2 - 1) / 15.0) * 40);
         mi_engine::MiCoreEntityAssignShader(m, shadowShader);
         mi_engine::MiCoreEntityAssignWireframeShader(m, wireframeShader);
         mi_engine::MiCoreSceneAddEntity(scene1, m);
@@ -87,20 +87,20 @@ int main() {
 
     for (int i = 0; i < 47; i++) {
         mi_inheritable::Entity* m = mi::LoadModel("src/res/models/monkey2.obj", m2);
-        m->size = mi::Vec3(2.0);
-        m->rotation = mi::Vec3(45.0);
-        m->position = mi::Vec3(sin(i*2 / 15.0) * 40, 0, cos(i*2 / 15.0) * 40);
+        m->size = glm::vec3(2.0);
+        m->rotation = glm::vec3(45.0);
+        m->position = glm::vec3(sin(i*2 / 15.0) * 40, 0, cos(i*2 / 15.0) * 40);
         mi_engine::MiCoreEntityAssignShader(m, shadowShader);
         mi_engine::MiCoreEntityAssignWireframeShader(m, wireframeShader);
         mi_engine::MiCoreSceneAddEntity(scene1, m);
     }
 
-    mi::Vec2 cubeSize = mi::Vec2(10, 90);
+    glm::vec2 cubeSize = glm::vec2(10, 90);
     int xzSize = 5;
 
     for (int x = 0; x < xzSize; x++) {
         for (int y = 0; y < xzSize; y++) {
-            mi_inheritable::Entity* cubeNoise = new mi::CubeNoise(cbuffer, mi::Vec3((x-(xzSize/2))*cubeSize.x, 0, (y-(xzSize/2))*cubeSize.x), cubeSize, seed);
+            mi_inheritable::Entity* cubeNoise = new mi::CubeNoise(cbuffer, glm::vec3((x-(xzSize/2))*cubeSize.x, 0, (y-(xzSize/2))*cubeSize.x), cubeSize, seed);
             
             mi_engine::MiCoreEntityAssignShader(cubeNoise, shadowShader);
             mi_engine::MiCoreEntityAssignWireframeShader(cubeNoise, wireframeShader);

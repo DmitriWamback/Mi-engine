@@ -19,7 +19,7 @@ namespace mi_inheritable {
 
     class Entity {
     private:
-        mi::Matr4 model_matrix;
+        glm::mat4 model_matrix;
 
     public:
         std::string shaderToUse;
@@ -29,9 +29,9 @@ namespace mi_inheritable {
         bool usesDepthBuffer;
         bool shouldRender;
 
-        mi::Vec3 position;
-        mi::Vec3 rotation;
-        mi::Vec3 size;
+        glm::vec3 position;
+        glm::vec3 rotation;
+        glm::vec3 size;
         
         renderbuf buf;
         mi_enum::ENTITYTYPE type;
@@ -41,24 +41,26 @@ namespace mi_inheritable {
             shouldRender = true;
             usesDepthBuffer = true;
 
-            position = mi::Vec3(0.0);
-            rotation = mi::Vec3(0.0);
-            size = mi::Vec3(1.0);
+            position = glm::vec3(0.0);
+            rotation = glm::vec3(0.0);
+            size = glm::vec3(1.0);
         }
 
         void create_model_matrix() {
-            model_matrix = rotate(rotation) * scale(size / 2.0) * translate(position);
+            //glm::mat4 r = miGLM::eulerAngles(rotation);
+            glm::mat4 s = scale(glm::mat4(1.f), size / 2.0f);
+            glm::mat4 t = translate(glm::mat4(1.f), position);
+            model_matrix = t * s;
         }
 
-        mi::Matr4 get_model() {
+        glm::mat4 get_model() {
             return model_matrix;
         }
 
         virtual void render(Shader &shader) {
             shader.use();
-            model_matrix = scale(mi::Vec3(1.0));
-
-            shader.setMatr4("model", model_matrix);
+            //model_matrix = scale(glm::vec3(1.0));
+            //shader.setMatr4("model", model_matrix);
         }
 
         virtual void renderWithWireFrame(Shader &mainShader, Shader &wireframeShader) {}

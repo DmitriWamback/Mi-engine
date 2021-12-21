@@ -29,7 +29,7 @@ namespace mi_inheritable {
         mi::Camera camera;
         Shader depthShader;
 
-        mi::Vec3 camera_pos;
+        glm::vec3 camera_pos;
         std::string scene_name;
 
         Scene() {}
@@ -40,7 +40,7 @@ namespace mi_inheritable {
             nb_cameras = 0;
         }
 
-        void MoveCamera(mi::Vec2 motion, mi::Vec2 camera_rotation) {
+        void MoveCamera(glm::vec2 motion, glm::vec2 camera_rotation) {
             camera.rotateCamera(camera_rotation.x, camera_rotation.y);
             camera.moveCamera(1.0, motion);
         }
@@ -53,21 +53,21 @@ namespace mi_inheritable {
 
         virtual void MiEngineBegun() {}
         
-        virtual void SceneMainLoop(mi::Vec2 motion, mi::Vec2 camera_rotation) {}
+        virtual void SceneMainLoop(glm::vec2 motion, glm::vec2 camera_rotation) {}
 
-        mi::Vec3 GetCameraPosition() {
+        glm::vec3 GetCameraPosition() {
             return camera.position;
         }
 
-        mi::Vec3 GetCameraLookDirection() {
+        glm::vec3 GetCameraLookDirection() {
             return camera.look_direction;
         }
 
-        mi::Matr4 GetProjection() {
+        glm::mat4 GetProjection() {
             return camera.projection;
         }
 
-        mi::Matr4 GetView() {
+        glm::mat4 GetView() {
             return camera.view;
         }
 
@@ -154,7 +154,7 @@ namespace mi_inheritable {
             nb_cameras++;
         }
 
-        void RenderAll(mi::Vec2 motion, mi::Vec2 camera_rotation) {
+        void RenderAll(glm::vec2 motion, glm::vec2 camera_rotation) {
             SceneMainLoop(motion, camera_rotation);
         }
         

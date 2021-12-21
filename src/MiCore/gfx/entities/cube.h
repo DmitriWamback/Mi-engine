@@ -74,7 +74,7 @@ public:
     void render(Shader &shader) {
         shader.use();
         create_model_matrix();
-        mi::Matr4 model = get_model();
+        glm::mat4 model = get_model();
 
         shader.setMatr4("model", model);
 
@@ -86,7 +86,7 @@ public:
     void renderWithWireFrame(Shader &shader, Shader &wireframeShader) {
         shader.use();
         create_model_matrix();
-        mi::Matr4 model = get_model();
+        glm::mat4 model = get_model();
         shader.setMatr4("model", model);
         glBindVertexArray(buf.vao);
         glDrawArrays(RENDER_OPTION, 0, 36);

@@ -17,8 +17,8 @@ namespace mi_audio {
         float pitch;
         float volume;
         uint32_t buf;
-        mi::Vec3 position;
-        mi::Vec3 velocity;
+        glm::vec3 position;
+        glm::vec3 velocity;
         bool looped;
     };
 
@@ -91,8 +91,8 @@ namespace mi_audio {
     public:
         std::string name;
         bool staticSound;
-        mi::Vec3 position;
-        mi::Vec3 velocity;
+        glm::vec3 position;
+        glm::vec3 velocity;
 
         ALuint GetSource() {
             return source;

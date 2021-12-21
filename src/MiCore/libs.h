@@ -24,8 +24,3 @@
         #include "libutil/csharp_dll.h"
     #endif
 #endif
-// MATH
-#include "../math/vector.h"
-#include "../math/matrix.h"
-#include "../math/noise.h"
-#include "../math/noise_addition.h"

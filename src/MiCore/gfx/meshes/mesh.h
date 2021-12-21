@@ -3,7 +3,7 @@ namespace mi {
     class Mesh: public mi_inheritable::Entity {
     public:
 
-        void sync_add_entity(mi_inheritable::Entity* entity, mi::Vec3 at_position, mi::Vec3 rotation, mi::Vec3 msize) {
+        void sync_add_entity(mi_inheritable::Entity* entity, glm::vec3 at_position, glm::vec3 rotation, glm::vec3 msize) {
 
         }
 
@@ -51,7 +51,7 @@ namespace mi {
 
         void render(Shader &shader) {
             shader.use();
-            mi::Matr4 model = scale(mi::Vec3(1.0));
+            glm::mat4 model = scale(model, glm::vec3(1.0));
 
             shader.setMatr4("model", model);
 

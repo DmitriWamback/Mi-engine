@@ -4,6 +4,16 @@ GLFWwindow* main_window;
 #define LOG_OUT(a) std::cout << a << '\n'
 #define WIREFRAME_RENDER_STATE GL_LINES
 
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include "util/vec_util.h"
+#include "util/glm_additions.h"
+
+#include "perlin_noise.h"
+
 #include "gfx/shader.h"
 #include "util/renderbuf.h"
 
@@ -32,22 +42,22 @@ float biasOffset = 0.0;
 namespace mi_input {
 
     static bool isRightMouseButtonDown;
-    mi::Vec2 movement_motion;
-    mi::Vec2 camera_rotation_movement;
-    static mi::Vec2 camera_last_mouse_position;
+    glm::vec2 movement_motion(0.0);
+    glm::vec2 camera_rotation_movement(0.0);
+    static glm::vec2 camera_last_mouse_position(0.0);
 
     void mouseDown(GLFWwindow* wind, int button, int action, int mod) {
 
         if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) isRightMouseButtonDown = true;
         if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
             isRightMouseButtonDown = false;
-            camera_rotation_movement = mi::Vec2(0.0);
+            camera_rotation_movement = glm::vec2(0.0);
         }
     }
 
     void keyPress() {
 
-        movement_motion = mi::Vec2();
+        movement_motion = glm::vec2();
         if (glfwGetKey(main_window, GLFW_KEY_W) == GLFW_PRESS) movement_motion.x =  1;
         if (glfwGetKey(main_window, GLFW_KEY_S) == GLFW_PRESS) movement_motion.x = -1;
         if (glfwGetKey(main_window, GLFW_KEY_A) == GLFW_PRESS) movement_motion.y = -1;
@@ -80,10 +90,10 @@ namespace mi_input {
             float x = camera_last_mouse_position.x - xposition;
             float y = camera_last_mouse_position.y - yposition;
 
-            camera_rotation_movement = mi::Vec2(x, y);
+            camera_rotation_movement = glm::vec2(x, y);
         }
 
-        camera_last_mouse_position = mi::Vec2(xposition, yposition);
+        camera_last_mouse_position = glm::vec2(xposition, yposition);
     }
 }
 
@@ -151,10 +161,10 @@ namespace mi_engine {
         scene->__MI_ENGINE_BEGUN();
 
         glEnable(GL_DEPTH_TEST);
-        //glEnable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
 
-        glEnable(GL_MULTISAMPLE);  
-        glfwWindowHint(GLFW_SAMPLES, 14);
+        //glEnable(GL_MULTISAMPLE);  
+        //glfwWindowHint(GLFW_SAMPLES, 14);
 
         while (!glfwWindowShouldClose(main_window)) {
 
@@ -162,12 +172,11 @@ namespace mi_engine {
 
             mi_input::keyPress();
 
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glClearColor(0.0, 0.0, 0.0, 1.0);
+            glClearColor(0.0, 0.0, 0.0, 0.0);
 
             scene->RenderAll(mi_input::movement_motion, mi_input::camera_rotation_movement);
 
-            mi_input::camera_rotation_movement = mi::Vec2(0.0);
+            mi_input::camera_rotation_movement = glm::vec2(0.0);
             glfwPollEvents();
             glfwSwapBuffers(main_window);
         }

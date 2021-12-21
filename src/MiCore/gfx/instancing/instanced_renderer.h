@@ -22,26 +22,10 @@ namespace mi {
             this->name = name;
         }
 
-        void AddTransformation(mi::Vec3 position, mi::Vec3 rotation, mi::Vec3 size) {
+        void AddTransformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 size) {
             // put transformations into a vector of mi::Vec4 ??
-            mi::Matr4 model = rotate(rotation) * scale(size / 2.0) * translate(position);
-            transformations.push_back(model.r4.x);
-            transformations.push_back(model.r3.x);
-            transformations.push_back(model.r2.x);
-            transformations.push_back(model.r1.x);
-            transformations.push_back(model.r4.y);
-            transformations.push_back(model.r3.y);
-            transformations.push_back(model.r2.y);
-            transformations.push_back(model.r1.y);
-            transformations.push_back(model.r4.z);
-            transformations.push_back(model.r3.z);
-            transformations.push_back(model.r2.z);
-            transformations.push_back(model.r1.z);
-            transformations.push_back(model.r4.w);
-            transformations.push_back(model.r3.w);
-            transformations.push_back(model.r2.w);
-            transformations.push_back(model.r1.w);
-
+            glm::mat4 model;
+            //model = glm::rotate(model, rotation);
         }
 
         void LinkTransformations() {

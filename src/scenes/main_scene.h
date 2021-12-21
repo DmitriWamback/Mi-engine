@@ -5,8 +5,8 @@ public:
     mi_inheritable::Framebuffer* fb;
 
     float t;
-    mi::Vec3 currentPos;
-    mi::Vec3 lastPos;
+    glm::vec3 currentPos;
+    glm::vec3 lastPos;
 
     MainScene(std::string n) {
 
@@ -24,7 +24,7 @@ public:
         fb = new mi::Depthbuffer(1024*10, 1024*10);
     }
 
-    void SceneMainLoop(mi::Vec2 motion, mi::Vec2 rotation) {
+    void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
 
         MoveCamera(motion, rotation); // IMPORTANT
         
@@ -33,8 +33,8 @@ public:
         stC.set_position(stC.get_start_position() + camera.position);
         stC.set_target(stC.get_start_target() + camera.position);
 
-        currentPos = camera.position / 20.0;
-        currentPos = mi::Vec3(floor(currentPos.x), 0, floor(currentPos.z));
+        currentPos = camera.position / 20.0f;
+        currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
         //mi::InstancedRenderer r = FindRendererByName("test");
 
@@ -74,8 +74,8 @@ public:
             shader.setMatr4("lightSpaceMatrix_projection", camera.lightSpaceMatrix_projection);
             shader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
 
-            mi::Vec3 _cam;
-            if (stC.get_current_position() - mi::Vec3(camera.position.x, 0, camera.position.z) == stC.get_start_position()) _cam = stC.get_start_position();
+            glm::vec3 _cam;
+            if (stC.get_current_position() - glm::vec3(camera.position.x, 0, camera.position.z) == stC.get_start_position()) _cam = stC.get_start_position();
             else _cam = stC.get_current_position();
 
             shader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());

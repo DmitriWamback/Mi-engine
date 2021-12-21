@@ -4,13 +4,13 @@ namespace mi {
     private:
         mi_inheritable::Entity* cubes[10000];
         int nb_cubes;
-        mi::Vec2 size;
+        glm::vec2 size;
 
     public:
 
         float seed;
 
-        CubeNoise(renderbuf buffer, mi::Vec3 position, mi::Vec2 size, float seed) {
+        CubeNoise(renderbuf buffer, glm::vec3 position, glm::vec2 size, float seed) {
 
             nb_cubes = 0;
             type = mi_enum::ENT_NOISE_CUBE;
@@ -37,11 +37,11 @@ namespace mi {
                         if (up <= _density || down <= _density || left <= _density || right <= _density || front <= _density || back <= _density) has_empty_space = true;
 
                         if (density > _density && has_empty_space) {
-                            mi::Vec3 _position = mi::Vec3((x - size.x/2), (y - size.y/2), (z - size.x/2)) + position;
+                            glm::vec3 _position = glm::vec3((x - size.x/2), (y - size.y/2), (z - size.x/2)) + position;
 
                             mi_inheritable::Entity* en = new Cube(buffer);
                             en->position = _position;
-                            en->size = mi::Vec3(1.0);
+                            en->size = glm::vec3(1.0);
                             cubes[nb_cubes] = en;
                             nb_cubes++;
                         }
@@ -50,7 +50,7 @@ namespace mi {
             }
         }
 
-        void push_to(mi::Vec3 pos, float seed) {
+        void push_to(glm::vec3 pos, float seed) {
             float _density = 0.4;
 
             for (int i = 0; i < nb_cubes; i++) {
@@ -75,11 +75,11 @@ namespace mi {
                         if (up <= _density || down <= _density || left <= _density || right <= _density || front <= _density || back <= _density) has_empty_space = true;
 
                         if (density > _density && has_empty_space) {
-                            mi::Vec3 _position = mi::Vec3((x - size.x/2), (y - size.y/2), (z - size.x/2)) + pos;
+                            glm::vec3 _position = glm::vec3((x - size.x/2), (y - size.y/2), (z - size.x/2)) + pos;
 
                             mi_inheritable::Entity* en = new Cube(buf);
                             en->position = _position;
-                            en->size = mi::Vec3(1.0);
+                            en->size = glm::vec3(1.0);
                             cubes[nb_cubes] = en;
                             nb_cubes++;
                         }

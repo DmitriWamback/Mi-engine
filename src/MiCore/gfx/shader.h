@@ -91,18 +91,12 @@ public:
         }
     }
 
-    void setMatr4(std::string name, mi::Matr4 matr) {
+    void setMatr4(std::string name, glm::mat4 &matr) {
         int loc = glGetUniformLocation(program, name.c_str());
-        float dat[] = {
-            matr.r1.x, matr.r1.y, matr.r1.z, matr.r1.w,
-            matr.r2.x, matr.r2.y, matr.r2.z, matr.r2.w, 
-            matr.r3.x, matr.r3.y, matr.r3.z, matr.r3.w, 
-            matr.r4.x, matr.r4.y, matr.r4.z, matr.r4.w
-        };
-        glUniformMatrix4fv(loc, 1, GL_FALSE, dat);
+        glUniformMatrix4fv(loc, 1, GL_FALSE, &matr[0][0]);
     }
 
-    void setVec3(std::string name, mi::Vec3 vect) {
+    void setVec3(std::string name, glm::vec3 vect) {
         int loc = glGetUniformLocation(program, name.c_str());
         glUniform3f(loc, vect.x, vect.y, vect.z);
     }

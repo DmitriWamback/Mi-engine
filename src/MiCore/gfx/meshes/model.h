@@ -97,7 +97,7 @@ namespace mi {
 
         void render(Shader &shader) {
             create_model_matrix();
-            Matr4 model = get_model();
+            glm::mat4 model = get_model();
             shader.use();
             shader.setMatr4("model", model);
 
