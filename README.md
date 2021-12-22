@@ -34,7 +34,7 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
 
 ### IMPORTANT!
 
-<p>After running the 'src/MiCore/extern/python_lib/load_lib.py' script, move the libmi_[...].lib or dylib (found in [...]/target/release) into src/MiLibs</p>
+<p>After running the 'src/MiExtern/multiplatform/pylib/load_lib.py' script, move the libmi_[...].lib or dylib (found in [...]/target/release) into src/MiLibraries</p>
 
 ## AVAILABLE UTILITIES:
 <ul>
