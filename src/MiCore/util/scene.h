@@ -144,6 +144,13 @@ namespace mi_inheritable {
 #endif
         }
 
+        void MoveEntities() {
+            for (int i = 0; i < nb_entities; i++) {
+                mi_inheritable::Entity* e = allEntities[i];
+                if (e != nullptr) e->Move();
+            }
+        }
+
         void AddEntity(Entity* entity) {
             allEntities[nb_entities] = entity;
             nb_entities++;

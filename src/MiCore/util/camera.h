@@ -59,7 +59,7 @@ namespace mi {
 
             glm::vec2 mouseCoords = glm::vec2(
                 (2*mousePosition.x / (float)width) - 1,
-                (2*(height-mousePosition.y) / (float)height) - 1
+               -((2*(mousePosition.y) / (float)height) - 1)
             );
 
             glm::vec4 clipCoords = glm::vec4(mouseCoords, -1.f, 1.f);

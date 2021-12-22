@@ -2,6 +2,9 @@ GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
 
 #define LOG_OUT(a) std::cout << a << '\n'
+#define LOG_OUT2(a, b) std::cout << a << ' ' << b << '\n'
+#define LOG_OUT3(a, b, c) std::cout << a << ' ' << b << ' ' << c << '\n'
+
 #define WIREFRAME_RENDER_STATE GL_LINES
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
@@ -165,6 +168,8 @@ namespace mi_engine {
         //glEnable(GL_MULTISAMPLE);  
         //glfwWindowHint(GLFW_SAMPLES, 14);
 
+        renderbuf buffer = renderbuf();
+
         while (!glfwWindowShouldClose(main_window)) {
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -173,6 +178,17 @@ namespace mi_engine {
 
             glClearColor(0.0, 0.0, 0.0, 0.0);
 
+        /*
+            if (glfwGetKey(main_window, GLFW_KEY_T) == GLFW_PRESS) {
+                glm::vec3 r = scene->camera.GetMouseRayNormalized(mi_input::camera_last_mouse_position);
+                mi_inheritable::Entity* e = new Cube(buffer);
+                e->position = scene->camera.position + 2.f*r;
+                e->velocity = r;
+                MiCoreEntityAssignShader(e, mi_core::all_shaders["SHADOW SHADER"]);
+                MiCoreSceneAddEntity(scene, e);
+            }
+        */
+       
             scene->RenderAll(mi_input::movement_motion, mi_input::camera_rotation_movement);
 
             mi_input::camera_rotation_movement = glm::vec2(0.0);

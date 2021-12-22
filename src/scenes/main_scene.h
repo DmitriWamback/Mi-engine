@@ -27,6 +27,8 @@ public:
     void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
 
         MoveCamera(motion, rotation); // IMPORTANT
+
+        MoveEntities();
         
         // MAIN GAME LOOP HERE
         mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");

@@ -32,6 +32,7 @@ namespace mi_inheritable {
         glm::vec3 position;
         glm::vec3 rotation;
         glm::vec3 size;
+        glm::vec3 velocity;
         
         renderbuf buf;
         mi_enum::ENTITYTYPE type;
@@ -43,6 +44,7 @@ namespace mi_inheritable {
 
             position = glm::vec3(0.0);
             rotation = glm::vec3(0.0);
+            velocity = glm::vec3(0.0);
             size = glm::vec3(1.0);
         }
 
@@ -61,6 +63,10 @@ namespace mi_inheritable {
             shader.use();
             //model_matrix = scale(glm::vec3(1.0));
             //shader.setMatr4("model", model_matrix);
+        }
+
+        void Move() {
+            position += velocity;
         }
 
         virtual void renderWithWireFrame(Shader &mainShader, Shader &wireframeShader) {}

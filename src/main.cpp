@@ -95,9 +95,9 @@ int main() {
         mi_engine::MiCoreSceneAddEntity(scene1, m);
     }
 
-    glm::vec2 cubeSize = glm::vec2(10, 90);
+    glm::vec2 cubeSize = glm::vec2(10, 40);
     int xzSize = 5;
-
+    
     for (int x = 0; x < xzSize; x++) {
         for (int y = 0; y < xzSize; y++) {
             mi_inheritable::Entity* cubeNoise = new mi::CubeNoise(cbuffer, glm::vec3((x-(xzSize/2))*cubeSize.x, 0, (y-(xzSize/2))*cubeSize.x), cubeSize, seed);

@@ -132,7 +132,7 @@ void main() {
         fragc.rgb = fog;
 
     // VISUALIZE MOUSE RAY
-    //fragc.rgb += vec3(1.0, 0.0, 0.0) * max(dot(-normalize(camera_position - i.fragp), mouse_ray), 0.0);
+    // fragc.rgb += vec3(1.0, 0.0, 0.0) * max(dot(-normalize(camera_position - i.fragp), mouse_ray), 0.0);
 
     // VISUALIZE NORMALS
     //fragc.rgb = abs(normalize(i.normal));
