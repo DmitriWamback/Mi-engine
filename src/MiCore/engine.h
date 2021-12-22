@@ -3,38 +3,11 @@ GLFWwindow* main_window;
 
 #define LOG_OUT(a) std::cout << a << '\n'
 #define WIREFRAME_RENDER_STATE GL_LINES
-
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "util/vec_util.h"
-#include "util/glm_additions.h"
-
-#include "perlin_noise.h"
-
-#include "gfx/shader.h"
-#include "util/renderbuf.h"
-
-#include "entitylib.h"
-
-#include "util/camera.h"
-#include "util/static_camera.h"
-#include "util/scene.h"
-
-#include "audio/audio_manager.h"
-#include "util/mouse.h"
-
-/* 
--- ENGINE --
-The engine is a way to communicate to all other files with ease
-*/
-
-namespace mi_core {
-    std::map<std::string, mi_inheritable::Scene*> scenes;
-    std::map<std::string, mi_audio::AudioSource> sources;
-}
 
 bool isDebugButtonDown;
 float biasOffset = 0.0;
@@ -95,6 +68,32 @@ namespace mi_input {
 
         camera_last_mouse_position = glm::vec2(xposition, yposition);
     }
+}
+#include "util/vec_util.h"
+#include "util/glm_additions.h"
+
+#include "perlin_noise.h"
+
+#include "gfx/shader.h"
+#include "util/renderbuf.h"
+
+#include "entitylib.h"
+
+#include "util/camera.h"
+#include "util/static_camera.h"
+#include "util/scene.h"
+
+#include "audio/audio_manager.h"
+#include "util/mouse.h"
+
+/* 
+-- ENGINE --
+The engine is a way to communicate to all other files with ease
+*/
+
+namespace mi_core {
+    std::map<std::string, mi_inheritable::Scene*> scenes;
+    std::map<std::string, mi_audio::AudioSource> sources;
 }
 
 namespace mi_engine {

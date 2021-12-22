@@ -51,6 +51,7 @@ public:
         wireframe.setMatr4("projection", camera.projection);
         wireframe.setMatr4("view", camera.view);
 
+        glm::vec3 mouseRay = camera.GetMouseRayNormalized(mi_input::camera_last_mouse_position);
 
         // rendering entities
         for (int en = 0; en < nb_entities; en++) {
@@ -68,6 +69,7 @@ public:
             }
 
             shader.use();
+            shader.setVec3("mouse_ray", mouseRay);
             shader.setVec3("camera_position", camera.position);
             shader.setMatr4("projection", camera.projection);
             shader.setMatr4("view", camera.view);

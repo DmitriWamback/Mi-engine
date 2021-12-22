@@ -12,6 +12,7 @@ in VERTEX {
 uniform vec3 directional_shadow_light_position;
 
 uniform vec3 camera_position;
+uniform vec3 mouse_ray;
 uniform sampler2D depthMap;
 uniform sampler2D main_tex;
 
@@ -78,11 +79,11 @@ void main() {
     float _dotD = dot(lightDirection, nSN);
     vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
 
-    float noiseIntensity = Map(noise_layer(i.fragp, 0.5, 2.0, 4, 3.0, 1.0), -1.0, 1.0, 0.1, 0.3);
+    //float noiseIntensity = Map(noise_layer(i.fragp, 0.5, 2.0, 4, 3.0, 1.0), -1.0, 1.0, 0.1, 0.3);
     vec3 objectColor = main.rgb;
     vec3 lightColor = vec3(1.0, 0.9, 0.4);
 
-    float metallic = objectColor.r * 3 * noiseIntensity;
+    float metallic = objectColor.r;
     float roughness = (1 - metallic) / 4.0;
 
     vec3 reflectivity = mix(vec3(0.04), objectColor, metallic);
@@ -130,5 +131,9 @@ void main() {
     else
         fragc.rgb = fog;
 
+    // VISUALIZE MOUSE RAY
+    //fragc.rgb += vec3(1.0, 0.0, 0.0) * max(dot(-normalize(camera_position - i.fragp), mouse_ray), 0.0);
+
+    // VISUALIZE NORMALS
     //fragc.rgb = abs(normalize(i.normal));
 }

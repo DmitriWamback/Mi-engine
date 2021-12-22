@@ -52,6 +52,26 @@ namespace mi {
             ));
         }
 
+        glm::vec3 GetMouseRayNormalized(glm::vec2 mousePosition) {
+            
+            int width, height;
+            glfwGetWindowSize(main_window, &width, &height);
+
+            glm::vec2 mouseCoords = glm::vec2(
+                (2*mousePosition.x / (float)width) - 1,
+                (2*(height-mousePosition.y) / (float)height) - 1
+            );
+
+            glm::vec4 clipCoords = glm::vec4(mouseCoords, -1.f, 1.f);
+            glm::mat4 invertedProjection = glm::inverse(projection);
+            glm::vec4 projectedClipCoords = invertedProjection * clipCoords;
+            glm::vec4 eyeSpace = glm::vec4(projectedClipCoords.x, projectedClipCoords.y, -1.f, 0.f);
+            glm::mat4 invertedView = glm::inverse(view);
+            glm::vec4 ray = invertedView * eyeSpace;
+            glm::vec3 mouseRay = glm::vec3(ray.x, ray.y, ray.z);
+            return glm::normalize(mouseRay);
+        }
+
         void moveCamera(float speed, glm::vec2 motion) {
 
             position += look_direction * motion.x;
