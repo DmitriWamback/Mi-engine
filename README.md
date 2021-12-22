@@ -53,6 +53,7 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
     <li>UI and 2D rendering engine (to be done at a later date)</li>
     <li>Audio</li>
     <li>Instanced rendering</li>
+    <li>Lights, i.e. Spot lights, Point lights and Directional lights</li>
 </ul>
 
 ## IMPORTING EXTERNAL GLSL FILES
