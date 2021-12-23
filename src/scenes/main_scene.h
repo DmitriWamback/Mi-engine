@@ -1,9 +1,20 @@
 class MainKeyboard: public mi_inheritable::Keyboard {
 public:
 
+    MainKeyboard(mi_inheritable::Scene* scene) {
+        this->scene = scene;
+    }
+
     void Listen() {
+
+        renderbuf r;
+
         if (GetKeyDown(GLFW_KEY_F)) {
-            LOG_OUT("HELLO FROM CUSTOM KEYBOARD");
+            Shader s = mi_engine::MiCoreFindShader("SHADOW SHADER");
+            mi_inheritable::Entity* e = new Cube(r);
+            e->position = scene->camera.position + glm::vec3(0.f, -1.f, 0.f);
+            mi_engine::MiCoreEntityAssignShader(e, s);
+            mi_engine::MiCoreSceneAddEntity(scene, e);
         }
     }
 };

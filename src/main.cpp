@@ -95,7 +95,7 @@ int main() {
         mi_engine::MiCoreSceneAddEntity(scene1, m);
     }
 
-    mi_inheritable::Keyboard* k = new MainKeyboard();
+    mi_inheritable::Keyboard* k = new MainKeyboard(scene1);
     mi_engine::MiCoreSetSubKeyboard(k);
 
     glm::vec2 cubeSize = glm::vec2(10, 40);

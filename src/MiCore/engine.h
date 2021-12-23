@@ -15,6 +15,8 @@ GLFWwindow* main_window;
 bool isDebugButtonDown;
 float biasOffset = 0.0;
 
+
+
 namespace mi_input {
 
     static bool isRightMouseButtonDown;
@@ -107,6 +109,12 @@ namespace mi_core {
 }
 
 namespace mi_engine {
+    
+    Shader MiCoreFindShader(std::string name) {
+        if (mi_core::all_shaders.find(name) != mi_core::all_shaders.end()) {
+            return mi_core::all_shaders[name];
+        }
+    }
 
     mi_audio::AudioPlayer audioPlayer;
 
@@ -196,6 +204,7 @@ namespace mi_engine {
             if (mi_input::subKeyboard != nullptr) mi_input::subKeyboard->Listen();
             if (mi_input::subMouse != nullptr) mi_input::subMouse->Listen();
 
+        /*
             if (glfwGetKey(main_window, GLFW_KEY_T) == GLFW_PRESS) {
                 glm::vec3 r = scene->camera.GetMouseRayNormalized(mi_input::camera_last_mouse_position);
                 mi_inheritable::Entity* e = new Cube(buffer);
@@ -205,6 +214,7 @@ namespace mi_engine {
                 MiCoreEntityAssignShader(e, mi_core::all_shaders["SHADOW SHADER"]);
                 MiCoreSceneAddEntity(scene, e);
             }
+        */
 
             scene->RenderAll(mi_input::movement_motion, mi_input::camera_rotation_movement);
 

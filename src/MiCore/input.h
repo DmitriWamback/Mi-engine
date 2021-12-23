@@ -4,6 +4,10 @@
 namespace mi_inheritable {
     class Keyboard {
     public:
+        mi_inheritable::Scene* scene;
+        Keyboard() {}
+        Keyboard(mi_inheritable::Scene* scene) { this->scene = scene; }
+
         virtual void Listen() {}
     };
 
