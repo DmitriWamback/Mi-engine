@@ -15,8 +15,8 @@ public:
 
             glm::vec3 v = scene->camera.GetMouseRayNormalized();
 
-            e->position = scene->camera.position + v;
-            e->velocity = v;
+            e->position = scene->camera.position + (2.f * v);
+            //e->velocity = v;
             mi_engine::MiCoreEntityAssignShader(e, s);
             mi_engine::MiCoreSceneAddEntity(scene, e);
         }
@@ -79,6 +79,7 @@ public:
         wireframe.setMatr4("view", camera.view);
 
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
+        
 
         // rendering entities
         for (int en = 0; en < nb_entities; en++) {
@@ -125,6 +126,13 @@ public:
 
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);
         }
+
+        // Rendering UIs
+        /*
+        for (int i = 0; i < uiRenderers.size(); i++) {
+            uiRenderers.at(i).Update();
+        }
+        */
 
         // using instanced renderers
         /*

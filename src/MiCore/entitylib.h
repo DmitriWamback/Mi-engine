@@ -14,10 +14,4 @@
 #include "gfx/fbo/light/light.h"
 #include "gfx/fbo/light/pointlight.h"
 
-// UI
-#include "gfx/ui/ui_element.h"
-#include "gfx/ui/ui_button.h"
-#include "gfx/ui/ui_frame.h"
-#include "gfx/ui/ui_renderer.h"
-
 #include "gfx/instancing/instanced_renderer.h"

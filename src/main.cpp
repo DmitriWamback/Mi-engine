@@ -48,11 +48,13 @@ int main() {
     Shader debugModelShader("model/vMain.glsl", "model/fMain.glsl", "MODEL DEBUG");
     Shader instancedShader("instancing/vInstance.glsl", "instancing/fInstance.glsl", "INSTANCED SHADER");
     Shader wireframeShader("wireframe/vMain.glsl", "wireframe/fMain.glsl", "WIREFRAME");
+    Shader uiShader("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
     mi_engine::MiCoreAddShader(shadowShader);
     mi_engine::MiCoreAddShader(debugShader2);
     mi_engine::MiCoreAddShader(skyboxShader);
     mi_engine::MiCoreAddShader(debugModelShader);
     mi_engine::MiCoreAddShader(wireframeShader);
+    mi_engine::MiCoreAddShader(uiShader);
 
     mi::StaticCamera shadowCamera = mi::StaticCamera(mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
@@ -94,6 +96,13 @@ int main() {
         mi_engine::MiCoreEntityAssignWireframeShader(m, wireframeShader);
         mi_engine::MiCoreSceneAddEntity(scene1, m);
     }
+
+    mi_ui::UIRenderer urenderer = mi_ui::UIRenderer("ui1");
+    mi_inheritable::UIElement* elem = new mi_ui::UIFrame(renderbuf(), glm::vec2(600.f, 400.f), glm::vec2(200.f));
+    mi_ui::UIElementAssignShader(elem, uiShader);
+    urenderer.AddUIElement(elem);
+
+    mi_engine::MiCoreSceneAddUIRenderer(scene1, urenderer);
 
     mi_inheritable::Keyboard* k = new MainKeyboard(scene1);
     mi_engine::MiCoreSetSubKeyboard(k);

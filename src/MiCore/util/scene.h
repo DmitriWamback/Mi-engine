@@ -7,11 +7,6 @@ The scene is a way to easily organize and render several places
 */
 
 float t = 0;
-
-namespace mi_core {
-    std::map<std::string, Shader> all_shaders;
-}
-
 namespace mi_inheritable {
 
     class Scene {
@@ -80,6 +75,12 @@ namespace mi_inheritable {
         mi::InstancedRenderer FindRendererByName(std::string name) {
             for (int i = 0; i < renderers.size(); i++) {
                 if (renderers.at(i).name == name) return renderers.at(i);
+            }
+        }
+
+        mi_ui::UIRenderer FindUIRendererByName(std::string name) {
+            for (int i = 0; i < uiRenderers.size(); i++) {
+                if (uiRenderers.at(i).name == name) return uiRenderers.at(i);
             }
         }
 

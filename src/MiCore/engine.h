@@ -80,9 +80,17 @@ namespace mi_input {
 #include "perlin_noise.h"
 
 #include "gfx/shader.h"
+namespace mi_core {
+    std::map<std::string, Shader> all_shaders;
+}
 #include "util/renderbuf.h"
 
 #include "entitylib.h"
+#include "gfx/ui/ui_element.h"
+#include "gfx/ui/ui_button.h"
+#include "gfx/ui/ui_frame.h"
+#include "gfx/ui/ui_renderer.h"
+
 
 #include "util/camera.h"
 #include "util/static_camera.h"
@@ -98,6 +106,7 @@ namespace mi_input {
     mi_inheritable::Keyboard* subKeyboard = nullptr;
     mi_inheritable::Mouse* subMouse = nullptr;
 }
+
 /* 
 -- ENGINE --
 The engine is a way to communicate to all other files with ease
@@ -107,6 +116,7 @@ namespace mi_core {
     std::map<std::string, mi_inheritable::Scene*> scenes;
     std::map<std::string, mi_audio::AudioSource> sources;
 }
+
 
 namespace mi_engine {
 

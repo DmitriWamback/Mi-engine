@@ -14,6 +14,6 @@ namespace mi_inheritable {
     class Mouse {
     public:
         virtual void Listen() {}
-        virtual glm::vec2 GetMousePosition() {}
+        virtual glm::vec2 GetMousePosition() { return glm::vec2(0.0); }
     };
 }

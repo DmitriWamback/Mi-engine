@@ -8,6 +8,7 @@ namespace mi_inheritable {
         renderbuf buf;
 
         float* vertices;
+        std::string shaderName;
 
         bool scaleWithScreenSize = false;
 
@@ -27,14 +28,16 @@ namespace mi_inheritable {
             glfwGetWindowSize(main_window, &s_width, &s_height);
 
             glm::vec2 localizedPosition = glm::vec2(
-                screenPositionPXL.x / s_width,
-                screenPositionPXL.y / s_height
+                2 * (screenPositionPXL.x / (float)s_width) - 1,
+                2 * (screenPositionPXL.y / (float)s_height) - 1
             );
 
             glm::vec2 localizedSize = glm::vec2(
-                screenSizePXL.x / s_width,
-                screenSizePXL.y / s_height
+                screenSizePXL.x / (float)s_width,
+                screenSizePXL.y / (float)s_width
             );
+
+            LOG_OUT2(localizedPosition.x, localizedPosition.y);
 
             glm::vec2 tr;
             glm::vec2 tl;
