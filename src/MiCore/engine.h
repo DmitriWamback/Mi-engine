@@ -109,7 +109,7 @@ namespace mi_core {
 }
 
 namespace mi_engine {
-    
+
     Shader MiCoreFindShader(std::string name) {
         if (mi_core::all_shaders.find(name) != mi_core::all_shaders.end()) {
             return mi_core::all_shaders[name];

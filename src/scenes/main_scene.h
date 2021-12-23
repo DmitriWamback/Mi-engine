@@ -12,7 +12,11 @@ public:
         if (GetKeyDown(GLFW_KEY_F)) {
             Shader s = mi_engine::MiCoreFindShader("SHADOW SHADER");
             mi_inheritable::Entity* e = new Cube(r);
-            e->position = scene->camera.position + glm::vec3(0.f, -1.f, 0.f);
+
+            glm::vec3 v = scene->camera.GetMouseRayNormalized();
+
+            e->position = scene->camera.position + v;
+            e->velocity = v;
             mi_engine::MiCoreEntityAssignShader(e, s);
             mi_engine::MiCoreSceneAddEntity(scene, e);
         }
@@ -74,7 +78,7 @@ public:
         wireframe.setMatr4("projection", camera.projection);
         wireframe.setMatr4("view", camera.view);
 
-        glm::vec3 mouseRay = camera.GetMouseRayNormalized(mi_input::camera_last_mouse_position);
+        glm::vec3 mouseRay = camera.GetMouseRayNormalized();
 
         // rendering entities
         for (int en = 0; en < nb_entities; en++) {
