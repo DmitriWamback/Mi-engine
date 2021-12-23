@@ -78,29 +78,16 @@ int main() {
 
     mi::modelbuf m1, m2;
 
-    for (int i = 0; i < 47; i++) {
-        mi_inheritable::Entity* m = mi::LoadModel("src/res/models/sphere2.obj", m1);
-        m->size = glm::vec3(1.0);
-        m->position = glm::vec3(sin((i * 2 - 1) / 15.0) * 40, 0, cos((i * 2 - 1) / 15.0) * 40);
-        mi_engine::MiCoreEntityAssignShader(m, shadowShader);
-        mi_engine::MiCoreEntityAssignWireframeShader(m, wireframeShader);
-        mi_engine::MiCoreSceneAddEntity(scene1, m);
-    }
-
-    for (int i = 0; i < 47; i++) {
-        mi_inheritable::Entity* m = mi::LoadModel("src/res/models/monkey2.obj", m2);
-        m->size = glm::vec3(2.0);
-        m->rotation = glm::vec3(45.0);
-        m->position = glm::vec3(sin(i*2 / 15.0) * 40, 0, cos(i*2 / 15.0) * 40);
-        mi_engine::MiCoreEntityAssignShader(m, shadowShader);
-        mi_engine::MiCoreEntityAssignWireframeShader(m, wireframeShader);
-        mi_engine::MiCoreSceneAddEntity(scene1, m);
-    }
+    mi_inheritable::Entity* m = mi::LoadModel("src/res/models/monkey2.obj", m2);
+    m->size = glm::vec3(2.0);
+    m->position = glm::vec3(0.0);
+    mi_engine::MiCoreEntityAssignShader(m, shadowShader);
+    mi_engine::MiCoreSceneAddEntity(scene1, m);
 
     mi_ui::UIRenderer urenderer = mi_ui::UIRenderer("ui1");
     mi_inheritable::UIElement* elem = new mi_ui::UIFrame(renderbuf(), glm::vec2(600.f, 400.f), glm::vec2(200.f));
-    mi_ui::UIElementAssignShader(elem, uiShader);
-    urenderer.AddUIElement(elem);
+    //mi_ui::UIElementAssignShader(elem, uiShader);
+    //urenderer.AddUIElement(elem);
 
     mi_engine::MiCoreSceneAddUIRenderer(scene1, urenderer);
 
