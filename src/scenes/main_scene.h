@@ -63,8 +63,6 @@ public:
         currentPos = camera.position / 20.0f;
         currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
-        //mi::InstancedRenderer r = FindRendererByName("test");
-
         mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb);
         ResetViewport();
 
@@ -135,13 +133,12 @@ public:
         */
 
         // using instanced renderers
-        /*
+        mi::InstancedRenderer r = FindRendererByName("test");
         Shader shader = mi_core::all_shaders[r.shaderName];
         shader.use();
         shader.setMatr4("projection", camera.projection);
         shader.setMatr4("view", camera.view);
-        */
 
-        //r.Render(shader);
+        r.Render(shader);
     }
 };

@@ -50,7 +50,7 @@ int main() {
     Shader wireframeShader("wireframe/vMain.glsl", "wireframe/fMain.glsl", "WIREFRAME");
     Shader uiShader("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
     mi_engine::MiCoreAddShader(shadowShader);
-    mi_engine::MiCoreAddShader(debugShader2);
+    mi_engine::MiCoreAddShader(instancedShader);
     mi_engine::MiCoreAddShader(skyboxShader);
     mi_engine::MiCoreAddShader(debugModelShader);
     mi_engine::MiCoreAddShader(wireframeShader);
@@ -70,11 +70,13 @@ int main() {
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
     mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(renderbuf()), "test");
-    renderer.AddTransformation(glm::vec3(0.0), glm::vec3(), glm::vec3(1.0));
+    //renderer.AddTransformation(glm::vec3(0.0), glm::vec3(), glm::vec3(1.0));
+    renderer.AddTransformation(glm::vec3(1.0), glm::vec3(), glm::vec3(1.0));
+    renderer.AddTransformation(glm::vec3(2.0), glm::vec3(), glm::vec3(1.0));
     renderer.LinkTransformations();
     renderer.AssignShader(instancedShader);
 
-    //mi_engine::MiCoreSceneAddInstancedRenderer(scene1, renderer);
+    mi_engine::MiCoreSceneAddInstancedRenderer(scene1, renderer);
 
     mi::modelbuf m1, m2;
 
@@ -97,6 +99,7 @@ int main() {
     glm::vec2 cubeSize = glm::vec2(10, 40);
     int xzSize = 5;
     
+    /*
     for (int x = 0; x < xzSize; x++) {
         for (int y = 0; y < xzSize; y++) {
             mi_inheritable::Entity* cubeNoise = new mi::CubeNoise(cbuffer, glm::vec3((x-(xzSize/2))*cubeSize.x, 0, (y-(xzSize/2))*cubeSize.x), cubeSize, seed);
@@ -106,6 +109,7 @@ int main() {
             mi_engine::MiCoreSceneAddEntity(scene1, cubeNoise);
         }
     }
+    */
 
     mi_engine::MiCoreStartMainLoop(scene1->scene_name);
 }

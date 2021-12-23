@@ -2,7 +2,7 @@ namespace mi {
 
     class InstancedRenderer {
     private:
-        std::vector<float> transformations;
+        std::vector<glm::mat4> transformations;
         uint32_t verticesVBO;
         uint32_t transformationsVBO;
         uint32_t vao;
@@ -23,30 +23,15 @@ namespace mi {
         }
 
         void AddTransformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 size) {
-            // put transformations into a vector of mi::Vec4 ??
             glm::mat4 model;
-            //model = glm::rotate(model, rotation);
+            model = glm::translate(glm::mat4(1.0f), position);
+            transformations.push_back(model);
         }
 
         void LinkTransformations() {
 
-            glBindBuffer(GL_ARRAY_BUFFER, transformationsVBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * transformations.size() / 16, &transformations[0], GL_STATIC_DRAW);
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-
             glBindVertexArray(vao);
-
-            glEnableVertexAttribArray(0);
-            glEnableVertexAttribArray(1);
-            glEnableVertexAttribArray(2);
-            glEnableVertexAttribArray(3);
-            glEnableVertexAttribArray(4);
-            glEnableVertexAttribArray(5);
-            glEnableVertexAttribArray(6);
-            glVertexAttribDivisor(3, 1);
-            glVertexAttribDivisor(4, 1);
-            glVertexAttribDivisor(5, 1);
-            glVertexAttribDivisor(6, 1);
+            std::cout << transformations.size() << std::endl;
 
             glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
             glBufferData(GL_ARRAY_BUFFER, baseEntity->get_vertex_length() * sizeof(float), baseEntity->get_vertices(), GL_STATIC_DRAW);
@@ -54,13 +39,24 @@ namespace mi {
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), nullptr);
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
             glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(2);
 
             glBindBuffer(GL_ARRAY_BUFFER, transformationsVBO);
-            glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), nullptr);
-            glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), (void*)(4 * sizeof(float)));
-            glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), (void*)(8 * sizeof(float)));
-            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), (void*)(12 * sizeof(float)));
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * transformations.size(), &transformations[0][0], GL_STATIC_DRAW);
+            glEnableVertexAttribArray(3);
+            glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+            glEnableVertexAttribArray(4);
+            glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(1 * sizeof(glm::vec4)));
+            glEnableVertexAttribArray(5);
+            glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+            glEnableVertexAttribArray(6);
+            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+            glVertexAttribDivisor(3, 1);
+            glVertexAttribDivisor(4, 1);
+            glVertexAttribDivisor(5, 1);
+            glVertexAttribDivisor(6, 1);
             glBindVertexArray(0);
         }
 
@@ -69,12 +65,12 @@ namespace mi {
         }
 
         void Render(Shader& shader) {
-            int count = transformations.size() / 16;
+            int count = transformations.size();
             int size = baseEntity->get_vertex_length() / 8;
             shader.use();
             glBindVertexArray(vao);
 
-            glDrawArraysInstanced(RENDER_OPTION, 0, size, count);
+            glDrawArraysInstanced(GL_TRIANGLES, 0, size, count);
             glBindVertexArray(0);
         }
     };
