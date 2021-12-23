@@ -89,6 +89,13 @@ namespace mi_input {
 #include "audio/audio_manager.h"
 #include "util/mouse.h"
 
+#include "input.h"
+
+namespace mi_input {
+
+    mi_inheritable::Keyboard* subKeyboard = nullptr;
+    mi_inheritable::Mouse* subMouse = nullptr;
+}
 /* 
 -- ENGINE --
 The engine is a way to communicate to all other files with ease
@@ -156,6 +163,14 @@ namespace mi_engine {
         scene->AddInstancedRenderer(renderer);
     }
 
+    void MiCoreSetSubKeyboard(mi_inheritable::Keyboard* keyboard) {
+        mi_input::subKeyboard = keyboard;
+    }
+
+    void MiCoreSetSubMouse(mi_inheritable::Mouse* mouse) {
+        mi_input::subMouse = mouse;
+    }
+
     // Runs the engine with a given scene identification
     void MiCoreStartMainLoop(std::string scene_to_render) {
         mi_inheritable::Scene* scene = mi_core::scenes[scene_to_render];
@@ -178,17 +193,19 @@ namespace mi_engine {
 
             glClearColor(0.0, 0.0, 0.0, 0.0);
 
-        /*
+            if (mi_input::subKeyboard != nullptr) mi_input::subKeyboard->Listen();
+            if (mi_input::subMouse != nullptr) mi_input::subMouse->Listen();
+
             if (glfwGetKey(main_window, GLFW_KEY_T) == GLFW_PRESS) {
                 glm::vec3 r = scene->camera.GetMouseRayNormalized(mi_input::camera_last_mouse_position);
                 mi_inheritable::Entity* e = new Cube(buffer);
-                e->position = scene->camera.position + 2.f*r;
+                e->position = scene->camera.position + r;
+                e->size = glm::vec3((float)(rand() % 2 + 1),(float)(rand() % 2 + 1),(float)(rand() % 2 + 1));
                 e->velocity = r;
                 MiCoreEntityAssignShader(e, mi_core::all_shaders["SHADOW SHADER"]);
                 MiCoreSceneAddEntity(scene, e);
             }
-        */
-       
+
             scene->RenderAll(mi_input::movement_motion, mi_input::camera_rotation_movement);
 
             mi_input::camera_rotation_movement = glm::vec2(0.0);

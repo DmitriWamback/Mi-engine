@@ -1,3 +1,13 @@
+class MainKeyboard: public mi_inheritable::Keyboard {
+public:
+
+    void Listen() {
+        if (GetKeyDown(GLFW_KEY_F)) {
+            LOG_OUT("HELLO FROM CUSTOM KEYBOARD");
+        }
+    }
+};
+
 class MainScene: public mi_inheritable::Scene {
 public:
 
