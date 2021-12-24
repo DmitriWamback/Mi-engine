@@ -81,7 +81,7 @@ int main() {
 
             float y = mi::noise_layer(x/15.f, z/15.f, 6.f, 0.5f, s, 50) * 2.f;
 
-            renderer.AddTransformation(glm::vec3(x - (float)__size/2.f, floor(y), z - (float)__size/2.f), glm::vec3(), glm::vec3(1.0));
+            renderer.AddTransformation(glm::vec3(x - (float)__size/2.f, floor(y), z - (float)__size/2.f), glm::vec3(), glm::vec3(1.0, 10.0, 1.0));
         }
     }
     //renderer.AddTransformation(glm::vec3(1.0), glm::vec3(), glm::vec3(1.0));
