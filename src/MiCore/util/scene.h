@@ -116,6 +116,14 @@ namespace mi_inheritable {
                 camera.lightSpaceMatrix_view = cam.view;
                 glClear(GL_DEPTH_BUFFER_BIT);
 
+                /*
+                depthShader.setInt("isInstanced", 1);
+                for (int i = 0; i < renderers.size(); i++) {
+                    renderers.at(i).Render(depthShader);
+                }
+                */
+
+                depthShader.setInt("isInstanced", 0);
                 for (int i = 0; i < nb_entities; i++) {
                     Entity* entity = allEntities[i];
                     if (entity != nullptr) {

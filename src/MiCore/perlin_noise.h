@@ -80,7 +80,6 @@ namespace mi {
         for (int i = 0; i < octaves; i++) {
             n += noise(x / freq, y / freq, seed) * ampl;
             freq *= lacunarity;
-            ampl *= persistance;
         }
 
         return n;

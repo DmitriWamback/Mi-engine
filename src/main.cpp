@@ -74,12 +74,14 @@ int main() {
 
     float s = rand() % 100000;
 
-    for (int x = 0; x < 1000; x++) {
-        for (int z = 0; z < 1000; z++) {
+    int __size = 1000;
 
-            float y = mi::noise_layer(x/15.f, z/15.f, 6.f, 0.5f, s, 20) * 5.f;
+    for (int x = 0; x < __size; x++) {
+        for (int z = 0; z < __size; z++) {
 
-            renderer.AddTransformation(glm::vec3(x - 500.f, floor(y), z - 500.f), glm::vec3(), glm::vec3(1.0));
+            float y = mi::noise_layer(x/15.f, z/15.f, 6.f, 0.5f, s, 50) * 2.f;
+
+            renderer.AddTransformation(glm::vec3(x - (float)__size/2.f, floor(y), z - (float)__size/2.f), glm::vec3(), glm::vec3(1.0));
         }
     }
     //renderer.AddTransformation(glm::vec3(1.0), glm::vec3(), glm::vec3(1.0));

@@ -1,3 +1,5 @@
+#define pi 3.14159265349
+
 float distributionGGX(float NdH, float roughness) {
 
     float alpha = roughness * roughness;

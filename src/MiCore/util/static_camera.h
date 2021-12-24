@@ -59,7 +59,7 @@ namespace mi {
                                             float bottom            = -50.0,
                                             float zfar              = 10000.0,
                                             float znear             = 0.1,
-                                            glm::vec3 position           = glm::vec3(4600.0, 2000.0, 2000), 
+                                            glm::vec3 position           = glm::vec3(4600.0, 2000.0, 2000.0), 
                                             glm::vec3 look_target        = glm::vec3(0.0), 
                                             glm::vec3 local_up           = glm::vec3(0.0, 1.0, 0.0)) {
 

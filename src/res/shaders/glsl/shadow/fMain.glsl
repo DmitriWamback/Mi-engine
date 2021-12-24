@@ -23,7 +23,6 @@ uniform float biasOffset = 1.0;
 uniform float sCameraFarPlane;
 uniform samplerCube skybox;
 
-#define pi 3.14159265349
 #define TEXTURE_SCALE 2.0
 
 // INCLDUING FILES
@@ -114,6 +113,7 @@ void main() {
 
     float shadowIntensity = shadow * dotD;
     
+    float pi = 3.14159265349;
     col += (kD * objectColor / pi + specular) * radiance * NdL;
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));

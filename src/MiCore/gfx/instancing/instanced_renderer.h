@@ -25,6 +25,7 @@ namespace mi {
         void AddTransformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 size) {
             glm::mat4 model;
             model = glm::translate(glm::mat4(1.0f), position);
+            model = glm::scale(model, size/2.f);
             transformations.push_back(model);
         }
 

@@ -16,7 +16,7 @@ public:
             glm::vec3 v = scene->camera.GetMouseRayNormalized();
 
             e->position = scene->camera.position + (2.f * v);
-            //e->velocity = v;
+            e->velocity = v;
             mi_engine::MiCoreEntityAssignShader(e, s);
             mi_engine::MiCoreSceneAddEntity(scene, e);
         }
@@ -76,6 +76,10 @@ public:
         wireframe.setMatr4("projection", camera.projection);
         wireframe.setMatr4("view", camera.view);
 
+        Shader instancedShadowShader = mi_core::all_shaders["INSTANCED SHADER"];
+        instancedShadowShader.use();
+        instancedShadowShader.setVec3("camera_position", camera.position);
+
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
         
 
@@ -121,6 +125,20 @@ public:
                 entity->render(shader);
                 //entity->renderWithWireFrame(shader, wireframe);
             }
+
+            instancedShadowShader.use();
+            instancedShadowShader.setVec3("mouse_ray", mouseRay);
+            instancedShadowShader.setVec3("camera_position", camera.position);
+            instancedShadowShader.setMatr4("projection", camera.projection);
+            instancedShadowShader.setMatr4("view", camera.view);
+            instancedShadowShader.setMatr4("lightSpaceMatrix_projection", camera.lightSpaceMatrix_projection);
+            instancedShadowShader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
+            instancedShadowShader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());
+            instancedShadowShader.setInt("main_tex", 1);
+            instancedShadowShader.setInt("depthMap", 0);
+            instancedShadowShader.setInt("skybox", 2);
+            instancedShadowShader.setFloat("biasOffset", biasOffset);
+            instancedShadowShader.setFloat("sCameraFarPlane", stC.zfar);
 
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);
         }
