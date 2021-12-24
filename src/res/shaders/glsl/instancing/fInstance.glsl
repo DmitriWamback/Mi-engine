@@ -18,7 +18,7 @@ uniform sampler2D main_tex;
 uniform vec3 camera_position;
 
 void main() {
-    vec3 lightPosition = vec3(0, 32, 0);
+    vec3 lightPosition = vec3(0, 132, 0);
     vec3 lightDir = normalize(lightPosition - i.fragp);
     vec3 nSN = normalize(i.normal);
     vec3 viewDirection  = normalize(camera_position - i.fragp);
