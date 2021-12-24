@@ -72,9 +72,14 @@ int main() {
     mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(renderbuf()), "test");
     //renderer.AddTransformation(glm::vec3(0.0), glm::vec3(), glm::vec3(1.0));
 
+    float s = rand() % 100000;
+
     for (int x = 0; x < 1000; x++) {
         for (int z = 0; z < 1000; z++) {
-            renderer.AddTransformation(glm::vec3(x - 500.f, sin(x / 10.0) + cos(z / 10.0), z - 500.f), glm::vec3(), glm::vec3(1.0));
+
+            float y = mi::noise_layer(x/15.f, z/15.f, 6.f, 0.5f, s, 20) * 5.f;
+
+            renderer.AddTransformation(glm::vec3(x - 500.f, floor(y), z - 500.f), glm::vec3(), glm::vec3(1.0));
         }
     }
     //renderer.AddTransformation(glm::vec3(1.0), glm::vec3(), glm::vec3(1.0));

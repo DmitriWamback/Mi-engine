@@ -75,7 +75,7 @@ namespace mi {
 
         float n = 0;
         float ampl = 10;
-        float freq = 10;
+        float freq = 5;
 
         for (int i = 0; i < octaves; i++) {
             n += noise(x / freq, y / freq, seed) * ampl;
