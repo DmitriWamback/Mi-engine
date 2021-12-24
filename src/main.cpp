@@ -72,9 +72,9 @@ int main() {
     mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(renderbuf()), "test");
     //renderer.AddTransformation(glm::vec3(0.0), glm::vec3(), glm::vec3(1.0));
 
-    for (int x = 0; x < 100; x++) {
-        for (int z = 0; z < 100; z++) {
-            renderer.AddTransformation(glm::vec3(x - 50.f, 0, z - 50.f), glm::vec3(), glm::vec3(1.0));
+    for (int x = 0; x < 1000; x++) {
+        for (int z = 0; z < 1000; z++) {
+            renderer.AddTransformation(glm::vec3(x - 500.f, sin(x / 10.0) + cos(z / 10.0), z - 500.f), glm::vec3(), glm::vec3(1.0));
         }
     }
     //renderer.AddTransformation(glm::vec3(1.0), glm::vec3(), glm::vec3(1.0));

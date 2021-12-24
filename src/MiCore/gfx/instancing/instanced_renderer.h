@@ -70,7 +70,7 @@ namespace mi {
             shader.use();
             glBindVertexArray(vao);
 
-            glDrawArraysInstanced(GL_TRIANGLES, 0, size, count);
+            glDrawArraysInstanced(RENDER_OPTION, 0, size, count);
             glBindVertexArray(0);
         }
     };
