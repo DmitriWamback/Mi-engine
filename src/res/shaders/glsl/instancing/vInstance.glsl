@@ -13,6 +13,7 @@ layout (location = 6) in vec4 r4;
 // uniforms
 uniform mat4 projection;
 uniform mat4 view;
+uniform vec3 camera_position;
 
 out VERTEX {
     vec3 fragp;
@@ -26,5 +27,8 @@ void main() {
     o.normal = mat3(transpose(inverse(model))) * normal;
     o.uv = uv;
 
+    float d = distance(camera_position, o.fragp)/20.0;
+    vec3 pos = vec3(o.fragp.x, o.fragp.y, o.fragp.z);
+    o.fragp = pos;
     gl_Position = projection * view * vec4(o.fragp, 1.0);
 }

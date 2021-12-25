@@ -144,11 +144,9 @@ public:
         }
 
         // Rendering UIs
-        /*
         for (int i = 0; i < uiRenderers.size(); i++) {
             uiRenderers.at(i).Update();
         }
-        */
 
         // using instanced renderers
         mi::InstancedRenderer r = FindRendererByName("test");

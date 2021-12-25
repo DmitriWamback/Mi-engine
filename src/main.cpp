@@ -28,19 +28,6 @@ int main() {
     skybox->size = glm::vec3(1000.0);
     skybox->position = glm::vec3(0.0);
 
-
-    struct mi_audio::ADOPROP prop;
-    prop.looped = true;
-    prop.pitch = 1.0;
-    prop.position = glm::vec3();
-    prop.velocity = glm::vec3();
-    prop.volume = 10.0;
-
-    //mi_audio::AudioSource source = mi_audio::AudioSource(prop, "file", "DRM");
-
-    //mi_engine::MiCoreAddAudioSource(source);
-    //mi_engine::MiCorePlaySource(source.name);
-
     /* SHADER DEFINITIONS HERE */
     Shader shadowShader("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
     Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
@@ -79,7 +66,7 @@ int main() {
     for (int x = 0; x < __size; x++) {
         for (int z = 0; z < __size; z++) {
 
-            float y = mi::noise_layer(x/15.f, z/15.f, 6.f, 0.5f, s, 50) * 3.f;
+            float y = mi::noise_layer(x/15.f, z/15.f, 6.f, 0.5f, s, 50) * 5.f;
 
             renderer.AddTransformation(glm::vec3(x - (float)__size/2.f, floor(y), z - (float)__size/2.f), glm::vec3(), glm::vec3(1.0, 2.0, 1.0));
         }
@@ -101,10 +88,10 @@ int main() {
 
     mi_ui::UIRenderer urenderer = mi_ui::UIRenderer("ui1");
     mi_inheritable::UIElement* elem = new mi_ui::UIFrame(renderbuf(), glm::vec2(600.f, 400.f), glm::vec2(200.f));
-    //mi_ui::UIElementAssignShader(elem, uiShader);
-    //urenderer.AddUIElement(elem);
+    mi_ui::UIElementAssignShader(elem, uiShader);
+    urenderer.AddUIElement(elem);
 
-    mi_engine::MiCoreSceneAddUIRenderer(scene1, urenderer);
+    //mi_engine::MiCoreSceneAddUIRenderer(scene1, urenderer);
 
     mi_inheritable::Keyboard* k = new MainKeyboard(scene1);
     mi_engine::MiCoreSetSubKeyboard(k);

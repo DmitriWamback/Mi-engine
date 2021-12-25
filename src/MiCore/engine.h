@@ -15,8 +15,6 @@ GLFWwindow* main_window;
 bool isDebugButtonDown;
 float biasOffset = 0.0;
 
-
-
 namespace mi_input {
 
     static bool isRightMouseButtonDown;
@@ -198,9 +196,6 @@ namespace mi_engine {
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
 
-        //glEnable(GL_MULTISAMPLE);  
-        //glfwWindowHint(GLFW_SAMPLES, 14);
-
         renderbuf buffer = renderbuf();
 
         while (!glfwWindowShouldClose(main_window)) {
@@ -238,7 +233,6 @@ namespace mi_engine {
     void MiCoreBegin() {
         
         if (!glfwInit()) std::cout << "couldn't initialize GLFW\n";
-
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -246,12 +240,14 @@ namespace mi_engine {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
+        glfwWindowHint(GLFW_SAMPLES, 4);
         main_window = glfwCreateWindow(1200, 800, "Test", NULL, NULL);
         glfwMakeContextCurrent(main_window);
 
         glewExperimental = GL_TRUE;
         glewInit();
         glEnable(GL_CULL_FACE);
+        glEnable(GL_MULTISAMPLE);  
 
         glfwSetCursorPosCallback(main_window, mi_input::mouseMove);
         glfwSetMouseButtonCallback(main_window, mi_input::mouseDown);

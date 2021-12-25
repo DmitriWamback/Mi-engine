@@ -22,6 +22,10 @@ namespace mi {
             this->name = name;
         }
 
+        void SetTexture(mi::Texture tex) {
+            
+        }
+
         void AddTransformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 size) {
             glm::mat4 model;
             model = glm::translate(glm::mat4(1.0f), position);
