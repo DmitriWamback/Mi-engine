@@ -6,24 +6,30 @@ namespace mi {
         uint32_t verticesVBO;
         uint32_t transformationsVBO;
         uint32_t vao;
+        mi::Texture tex;
+        bool hasTexture;
 
     public:
         mi_inheritable::Entity* baseEntity;
         std::string shaderName;
         std::string name;
+        bool indexed;
 
         InstancedRenderer() {}
 
-        InstancedRenderer(mi_inheritable::Entity* base, std::string name) {
+        InstancedRenderer(mi_inheritable::Entity* base, bool indexed, std::string name) {
             glGenVertexArrays(1, &vao);
             glGenBuffers(1, &verticesVBO);
             glGenBuffers(1, &transformationsVBO);
             baseEntity = base;
             this->name = name;
+            
+            this->indexed = indexed;
         }
 
         void SetTexture(mi::Texture tex) {
-            
+            this->tex = tex;
+            hasTexture = true;
         }
 
         void AddTransformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 size) {
@@ -36,7 +42,6 @@ namespace mi {
         void LinkTransformations() {
 
             glBindVertexArray(vao);
-            std::cout << transformations.size() << std::endl;
 
             glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
             glBufferData(GL_ARRAY_BUFFER, baseEntity->get_vertex_length() * sizeof(float), baseEntity->get_vertices(), GL_STATIC_DRAW);
@@ -75,6 +80,7 @@ namespace mi {
             shader.use();
             glBindVertexArray(vao);
 
+            if (hasTexture) tex.bind();
             glDrawArraysInstanced(RENDER_OPTION, 0, size, count);
             glBindVertexArray(0);
         }

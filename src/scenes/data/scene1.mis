@@ -1,0 +1,42 @@
+[SCENE]
+name: "scene1"
+shaders -> [
+    {
+        name: "DEPTH SHADER"
+        type: "standard"
+        vsp:  "v path"
+        fsp:  "f path"
+    },
+    {
+        name: "POINT SHADOWS"
+        type: "geometry"
+        vsp:  "v path"
+        fsp:  "f path"
+    }
+] <-
+
+[ENTITIES]
+entities -> [
+    {
+        type: "cube"
+        position: |0, 0, 0|, |0, 1, 0|
+        rotation: |0, 0, 0|, |0, 45, 45|
+        scale:    |1, 1, 1|, |1, 1, 1|
+        instanced: false        
+    },
+    {
+        type: "cube"
+        position: |10, 0, 0|
+        rotation: |60, 0, 0|
+        scale:    |1, 1, 1|
+        instanced: true
+    },
+    {
+        type: "model"
+        path: "path"
+        position: |1, 0, 0|
+        rotation: |0, 0, 0|
+        scale:    |1, 1, 1|
+        instanced: false
+    }
+] <-

@@ -126,22 +126,13 @@ public:
                 //entity->renderWithWireFrame(shader, wireframe);
             }
 
-            instancedShadowShader.use();
-            instancedShadowShader.setVec3("mouse_ray", mouseRay);
-            instancedShadowShader.setVec3("camera_position", camera.position);
-            instancedShadowShader.setMatr4("projection", camera.projection);
-            instancedShadowShader.setMatr4("view", camera.view);
-            instancedShadowShader.setMatr4("lightSpaceMatrix_projection", camera.lightSpaceMatrix_projection);
-            instancedShadowShader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
-            instancedShadowShader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());
-            instancedShadowShader.setInt("main_tex", 1);
-            instancedShadowShader.setInt("depthMap", 0);
-            instancedShadowShader.setInt("skybox", 2);
-            instancedShadowShader.setFloat("biasOffset", biasOffset);
-            instancedShadowShader.setFloat("sCameraFarPlane", stC.zfar);
-
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);
         }
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
         // Rendering UIs
         for (int i = 0; i < uiRenderers.size(); i++) {

@@ -56,7 +56,7 @@ int main() {
     mi_engine::MiCoreEntityAssignShader(skybox, skyboxShader);
     mi_engine::MiCoreSceneAddEntity(scene1, skybox);
 
-    mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(renderbuf()), "test");
+    mi::InstancedRenderer renderer = mi::InstancedRenderer(new Cube(renderbuf()), false, "test");
     //renderer.AddTransformation(glm::vec3(0.0), glm::vec3(), glm::vec3(1.0));
 
     float s = rand() % 100000;
@@ -66,7 +66,7 @@ int main() {
     for (int x = 0; x < __size; x++) {
         for (int z = 0; z < __size; z++) {
 
-            float y = mi::noise_layer(x/15.f, z/15.f, 6.f, 0.5f, s, 50) * 5.f;
+            float y = mi::noise_layer(x/15.f, z/15.f, 2.f, 0.5f, s, 5) * 5.0;
 
             renderer.AddTransformation(glm::vec3(x - (float)__size/2.f, floor(y), z - (float)__size/2.f), glm::vec3(), glm::vec3(1.0, 2.0, 1.0));
         }

@@ -75,11 +75,12 @@ namespace mi {
 
         float n = 0;
         float ampl = 10;
-        float freq = 5;
+        float freq = 0.05;
 
         for (int i = 0; i < octaves; i++) {
-            n += noise(x / freq, y / freq, seed) * ampl;
+            n += noise(x * freq, y * freq, seed) * ampl;
             freq *= lacunarity;
+            ampl *= persistance;
         }
 
         return n;
