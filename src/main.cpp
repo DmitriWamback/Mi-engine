@@ -33,7 +33,7 @@ int main() {
     Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
     Shader skyboxShader("skybox/vMain.glsl", "skybox/fMain.glsl", "SKYBOX");
     Shader debugModelShader("model/vMain.glsl", "model/fMain.glsl", "MODEL DEBUG");
-    Shader instancedShader("instancing/vInstance.glsl", "instancing/fInstance.glsl", "INSTANCED SHADER");
+    Shader instancedShader("shadow/viMain.glsl", "shadow/fMain.glsl", "INSTANCED SHADER");
     Shader wireframeShader("wireframe/vMain.glsl", "wireframe/fMain.glsl", "WIREFRAME");
     Shader uiShader("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
     mi_engine::MiCoreAddShader(shadowShader);
@@ -61,7 +61,7 @@ int main() {
 
     float s = rand() % 100000;
 
-    int __size = 1000;
+    int __size = 50;
 
     for (int x = 0; x < __size; x++) {
         for (int z = 0; z < __size; z++) {
