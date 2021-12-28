@@ -1,0 +1,1 @@
+clang src/metal/Main.m -framework Foundation -framework MetalKit -o METAL_OUT.out
