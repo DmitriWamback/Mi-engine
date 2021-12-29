@@ -1,6 +1,7 @@
 begin.sh
 a.out
 .DS_Store
+stb_image.h
 /.vscode/
 *.lock
 *.mtl

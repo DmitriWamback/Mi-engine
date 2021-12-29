@@ -1,1 +1,3 @@
-clang src/metal/Main.m -framework Foundation -framework MetalKit -o METAL_OUT.out
+WORKING_DIR=src/metal
+
+swiftc -framework Foundation -framework Cocoa -framework MetalKit -framework Metal src/metal/AppDelegate.swift $WORKING_DIR/MiCore/Engine.swift -o Test && ./Test
