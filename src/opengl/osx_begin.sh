@@ -1,6 +1,5 @@
 # includes
-GLFW_INC=
-GLEW_INC=
+INCLUDES=src/vendor/OSX/include
 
 # libraries
 GLFW_LIB=src/vendor/OSX/glfw
@@ -17,13 +16,12 @@ for dir in $RS_LIB/*; do
     CMD="${CMD} ${dir}"
 done
 
-g++ -arch x86_64 -framework OpenGL -framework OpenAL -I $GLFW_INC \
+g++ -arch x86_64 -framework OpenGL -framework OpenAL -I $INCLUDES \
                 -L $GLFW_LIB $GLFW_LIB/libglfw.dylib \
                 $GLFW_LIB/libglfw.3.3.dylib $GLFW_LIB/libglfw.3.dylib \
-                -I $GLEW_INC \
                 -L $GLEW_LIB $GLEW_LIB/libGLEW.2.2.0.dylib $GLEW_LIB/libGLEW.2.2.dylib $GLEW_LIB/libGLEW.a $GLEW_LIB/libGLEW.dylib \
                 -L $SNDFILE_LIB $SNDFILE_LIB/scUBlibsndfile.a \
-                -I src/vendor/glm \
+                -I src/vendor/include \
                 $CMD \
-                src/main.cpp
+                src/opengl/main.cpp
 ./a.out
