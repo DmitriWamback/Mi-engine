@@ -20,24 +20,38 @@ float CalculateShadow(sampler2D depthMap, vec3 normal, vec4 fragpl, vec3 lightPo
     return shadow;
 }
 
-float CalculatePCFShadows(sampler2D depthMap, vec4 fragpl, vec3 fragp, float cameraFarPlane, int halfKernalWidth) {
+float CalculatePCFShadows(sampler2D depthMap, vec4 fragpl, vec3 fragp, float cameraFarPlane, int halfKernalWidth, vec3 normal, vec3 lightPosition) {
 
     vec4 projectionCoords = (fragpl.xyzw) * 0.5 + 0.5;
 
-    float bias = 0.06 * 1.51 / cameraFarPlane;
-    float current = projectionCoords.z - bias;
+    float p = dot(normal, normalize(lightPosition - fragp));
+    float bias = 0.06*0.39 / cameraFarPlane;
+    float a_bias = max(bias * (1.0 - p), bias);
+    float closest = texture(depthMap, projectionCoords.st).r;
+    float current = projectionCoords.z - a_bias;
 
-    float shadow;
+    int isInShadows = current > closest ? 1 : 0;
+
+    float shadow = 0.0;
     int scale = (halfKernalWidth * 2 + 1) * (halfKernalWidth * 2 + 1);
 
-    vec2 texel = 0.5 / textureSize(depthMap, 0);
-    for (int x = -halfKernalWidth; x <= halfKernalWidth; x++) {
-        for (int y = -halfKernalWidth; y <= halfKernalWidth; y++) {
-            float depth = texture(depthMap, projectionCoords.st + vec2(x, y) * texel).r;
-            shadow += current > depth ? 1.0 : 0.0;
+    vec2 texel = 1.0 / textureSize(depthMap, 0);
+
+    if (isInShadows == 1) {
+        shadow = -halfKernalWidth;
+        for (int x = -halfKernalWidth; x <= halfKernalWidth; x++) {
+            for (int y = -halfKernalWidth; y <= halfKernalWidth; y++) {
+                float depth = texture(depthMap, projectionCoords.st + vec2(x, y) * texel).r;
+                shadow += current > depth ? 1.0 : -0.5;
+            }
         }
     }
 
-    shadow /= scale;
+    if (shadow == scale) {
+        shadow /= scale;
+    }
+    else {
+        shadow /= scale;
+    }
     return 1.0 - shadow;
 }   

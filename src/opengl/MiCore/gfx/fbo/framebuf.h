@@ -55,14 +55,14 @@ namespace mi {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-            glDepthFunc(GL_LEQUAL);
+            //glDepthFunc(GL_LEQUAL);
             float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
-            glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+            //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
             glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, tex_id, 0);
+            glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, tex_id, 0);
             glDrawBuffer(GL_NONE);
-            glReadBuffer(GL_NONE);
+            //glReadBuffer(GL_NONE);
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }

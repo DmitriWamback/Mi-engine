@@ -37,7 +37,7 @@ float distributionGGX(float a, float r);
 float geometrySmith(float a, float b, float r);
 vec3 fresnelSchlick(float a, vec3 b);
 float CalculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane);
-float CalculatePCFShadows(sampler2D depth, vec4 a, vec3 b, float c, int d);
+float CalculatePCFShadows(sampler2D depth, vec4 a, vec3 b, float c, int d, vec3 n, vec3 l);
 float noise(float x, float y, float z);
 float GetDistance(vec3 fragp, vec3 cam_p, float d);
 float Map(float v, float fmin, float fmax, float tmin, float tmax);
@@ -66,12 +66,14 @@ void main() {
     vec3 viewDirection  = normalize(camera_position - i.fragp);
     vec3 lightDirection = normalize(directional_shadow_light_position);
 
-    float shadow = CalculateShadow(depthMap,
-                                   i.normal,
-                                   i.fragpl,
-                                   directional_shadow_light_position,
-                                   i.fragp,
-                                   sCameraFarPlane);
+    float shadow = 0;
+
+    shadow = CalculateShadow(depthMap,
+                                i.normal,
+                                i.fragpl,
+                                directional_shadow_light_position,
+                                i.fragp,
+                                sCameraFarPlane);
     
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
