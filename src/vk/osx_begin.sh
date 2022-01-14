@@ -16,12 +16,12 @@ for dir in $RS_LIB/*; do
     CMD="${CMD} ${dir}"
 done
 
-g++ -arch x86_64 -framework OpenAL -I $INCLUDES \
-                -L $GLFW_LIB $GLFW_LIB/libglfw.dylib \
-                $GLFW_LIB/libglfw.3.3.dylib $GLFW_LIB/libglfw.3.dylib \
-                -L $VK_LIB $VK_LIB/libvulkan.1.2.198.dylib $VK_LIB/libvulkan.1.dylib \
-                -L $SNDFILE_LIB $SNDFILE_LIB/scUBlibsndfile.a \
-                -I src/vendor/include \
-                $CMD \
-                src/vk/main.cpp
+g++ -framework OpenAL -I $INCLUDES \
+    -L $GLFW_LIB $GLFW_LIB/libglfw.dylib \
+    $GLFW_LIB/libglfw.3.3.dylib $GLFW_LIB/libglfw.3.dylib \
+    -L $VK_LIB $VK_LIB/libvulkan.1.2.198.dylib $VK_LIB/libvulkan.1.dylib \
+    -L $SNDFILE_LIB $SNDFILE_LIB/scUBlibsndfile.a \
+    -I src/vendor/include \
+    $CMD \
+    src/vk/main.cpp
 ./a.out
