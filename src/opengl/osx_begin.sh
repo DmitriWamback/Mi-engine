@@ -6,7 +6,7 @@ GLFW_LIB=src/vendor/OSX/glfw
 GLEW_LIB=src/vendor/OSX/glew
 SNDFILE_LIB=src/vendor/OSX/sndfile
 
-RS_LIB=src/MiLibraries
+RS_LIB=src/mi-libs
 
 # getting directories for RS_LIB
 START_CMD="-L ${RS_LIB} "
