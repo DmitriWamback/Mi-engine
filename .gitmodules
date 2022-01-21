@@ -1,0 +1,3 @@
+[submodule "src/shared/MISP/MISP"]
+	path = src/shared/MISP/MISP
+	url = https://github.com/DmitriWamback/MISP
