@@ -22,6 +22,7 @@ g++ -framework OpenGL -framework OpenAL -I $INCLUDES \
                 -L $GLEW_LIB $GLEW_LIB/libGLEW.2.2.0.dylib $GLEW_LIB/libGLEW.2.2.dylib $GLEW_LIB/libGLEW.a $GLEW_LIB/libGLEW.dylib \
                 -L $SNDFILE_LIB $SNDFILE_LIB/scUBlibsndfile.a \
                 -I src/vendor/include \
+                -I src/shared \
                 $CMD \
                 src/opengl/main.cpp
 ./a.out

@@ -22,6 +22,7 @@ g++ -arch x86_64 -I $GLFW_INC \
                 -L $GLEW_LIB $GLEW_LIB/glew32.lib $GLEW_LIB/glew32s.lib \
                 -L $SNDFILE_LIB $SNDFILE_LIB/libsndfile-1.lib \
                 -I src/vendor/includes \
+                -I src/shared \
                 $CMD \
                 src/main.cpp
 

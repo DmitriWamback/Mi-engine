@@ -1,4 +1,3 @@
-#include "MiCore/libs.h"
 // ENGINE
 #include "MiCore/engine.h"
 #include "scenes/main_scene.h"
@@ -61,7 +60,7 @@ int main() {
 
     float s = rand() % 100000;
 
-    int __size = 1000;
+    int __size = 10;
 
     for (int x = 0; x < __size; x++) {
         for (int z = 0; z < __size; z++) {

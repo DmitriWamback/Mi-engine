@@ -1,3 +1,5 @@
+#include "libs.h"
+
 GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
 
@@ -11,6 +13,7 @@ GLFWwindow* main_window;
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <MISP/misp.h>
 
 bool isDebugButtonDown;
 float biasOffset = 0.0;
