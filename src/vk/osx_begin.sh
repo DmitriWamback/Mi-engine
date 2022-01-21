@@ -16,7 +16,7 @@ for dir in $RS_LIB/*; do
     CMD="${CMD} ${dir}"
 done
 
-g++ -framework OpenAL -I $INCLUDES \
+g++ -std=c++17 -framework OpenAL -I $INCLUDES \
     -L $GLFW_LIB $GLFW_LIB/libglfw.dylib \
     $GLFW_LIB/libglfw.3.3.dylib $GLFW_LIB/libglfw.3.dylib \
     -L $VK_LIB $VK_LIB/libvulkan.1.2.198.dylib $VK_LIB/libvulkan.1.dylib \

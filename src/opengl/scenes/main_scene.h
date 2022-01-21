@@ -46,7 +46,7 @@ public:
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
         tex = mi::Texture("src/res/images/diamondplate.jpg");
-        fb = new mi::Depthbuffer(1024 * 10, 1024 * 10);
+        fb = new mi::Depthbuffer(1024 * 2, 1024 * 2);
     }
 
     void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
