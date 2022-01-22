@@ -15,26 +15,25 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
     <li>rustc (Rust compiler)</li>
     <li>GLFW 3.0+ (libraries and includes)</li>
     <li>GLEW 3.0+ (libraries and includes)</li>
+    <li>(WINDOWS) OpenAL
 </ul>
 
 ## SUPPORTED LANGUAGES FOR LIBRARIES
 <ul>
-    <li>C# (for Windows exclusive libraries) (in development)</li>
-    <li>Swift + Objective-C (for MacOS exclusive libraries) (in development)</li>
     <li>Rust (multiplatform)</li>
 </ul>
 
 ## BUILDING AND COMPILING
 
 <pre>
-    <span class="pl-s1">python3 src/MiExtern/multiplatform/pylib/load_lib.py</span>
-    <span class="pl-s1">(MAC) sh src/osx_begin.sh</span>
-    <span class="pl-s1">(WINDOWS) src\wind_begin.bat</span>
+    <span class="pl-s1">python3 src/mi-extern/multiplatform/pylib/load_lib.py</span>
+    <span class="pl-s1">(MAC) sh src/opengl/osx_begin.sh</span>
+    <span class="pl-s1">(WINDOWS) src\opengl\wind_begin.bat</span>
 </pre>
 
 ### IMPORTANT!
 
-<p>After running the 'src/MiExtern/multiplatform/pylib/load_lib.py' script, move the libmi_[...].lib or dylib (found in [...]/target/release) into src/MiLibraries</p>
+<p>After running the 'src/mi-extern/multiplatform/pylib/load_lib.py' script, move the libmi_[...].lib or dylib (found in [...]/target/release) into src/mi-libs</p>
 
 ## AVAILABLE UTILITIES:
 <ul>

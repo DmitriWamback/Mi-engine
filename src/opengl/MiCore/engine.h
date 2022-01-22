@@ -1,4 +1,5 @@
 #include "libs.h"
+#define MI_ENGINE_OPENGL
 
 GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
@@ -13,6 +14,7 @@ GLFWwindow* main_window;
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <MISND/audioplayer.h>
 
 bool isDebugButtonDown;
 float biasOffset = 0.0;
@@ -93,11 +95,11 @@ namespace mi_core {
 #include "util/camera.h"
 #include "util/static_camera.h"
 #include "util/scene.h"
-#include "audio/audio_manager.h"
 #include "util/mouse.h"
 #include "input.h"
 #define MI_LIBRARIES_LOADED
 #include <MISP/misp.h>
+#include <MIBINDING/mibind.h>
 
 namespace mi_input {
 
@@ -151,12 +153,11 @@ namespace mi_engine {
 
     // Plays a given audio source
     void MiCorePlaySource(std::string source_name) {
-        audioPlayer.PlaySound(mi_core::sources[source_name]);
+
     }
     
     // Stops playing a given audio source
     void MiCoreStopSource(std::string source_name) {
-        audioPlayer.StopSound(mi_core::sources[source_name]);
     }
 
     // Adds a shader to the engine
@@ -208,18 +209,6 @@ namespace mi_engine {
 
             if (mi_input::subKeyboard != nullptr) mi_input::subKeyboard->Listen();
             if (mi_input::subMouse != nullptr) mi_input::subMouse->Listen();
-
-        /*
-            if (glfwGetKey(main_window, GLFW_KEY_T) == GLFW_PRESS) {
-                glm::vec3 r = scene->camera.GetMouseRayNormalized(mi_input::camera_last_mouse_position);
-                mi_inheritable::Entity* e = new Cube(buffer);
-                e->position = scene->camera.position + r;
-                e->size = glm::vec3((float)(rand() % 2 + 1),(float)(rand() % 2 + 1),(float)(rand() % 2 + 1));
-                e->velocity = r;
-                MiCoreEntityAssignShader(e, mi_core::all_shaders["SHADOW SHADER"]);
-                MiCoreSceneAddEntity(scene, e);
-            }
-        */
 
             scene->RenderAll(mi_input::movement_motion, mi_input::camera_rotation_movement);
 
