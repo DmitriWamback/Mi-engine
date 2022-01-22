@@ -13,7 +13,6 @@ GLFWwindow* main_window;
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <MISP/misp.h>
 
 bool isDebugButtonDown;
 float biasOffset = 0.0;
@@ -91,16 +90,14 @@ namespace mi_core {
 #include "gfx/ui/ui_button.h"
 #include "gfx/ui/ui_frame.h"
 #include "gfx/ui/ui_renderer.h"
-
-
 #include "util/camera.h"
 #include "util/static_camera.h"
 #include "util/scene.h"
-
 #include "audio/audio_manager.h"
 #include "util/mouse.h"
-
 #include "input.h"
+#define MI_LIBRARIES_LOADED
+#include <MISP/misp.h>
 
 namespace mi_input {
 

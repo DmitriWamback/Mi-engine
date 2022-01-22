@@ -1,8 +1,6 @@
 /* Including required libraries */
 /* C++ built-in libraries */
 
-#define MI_LIBRARIES_LOADED
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
