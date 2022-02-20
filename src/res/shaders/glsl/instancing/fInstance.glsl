@@ -30,6 +30,7 @@ void main() {
     vec3 halfway = normalize(lightDir + viewDirection);
     float spec = pow(max(dot(i.normal, halfway), 0.0), 1.0);
     vec3 specular = vec3(1.0, 0.9, 0.6) * spec;
+    
 
     vec3 R = refract(-viewDirection, i.normal, 1.0 / 1.52);
 
