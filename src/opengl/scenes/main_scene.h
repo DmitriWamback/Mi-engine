@@ -16,7 +16,7 @@ public:
             glm::vec3 v = scene->camera.GetMouseRayNormalized();
 
             e->position = scene->camera.position + (2.f * v);
-            e->velocity = v;
+            //e->velocity = v;
             mi_engine::MiCoreEntityAssignShader(e, s);
             mi_engine::MiCoreSceneAddEntity(scene, e);
         }
@@ -63,7 +63,7 @@ public:
         currentPos = camera.position / 20.0f;
         currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
-        mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb);
+        mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
         ResetViewport();
 
         glActiveTexture(GL_TEXTURE0);
@@ -156,6 +156,9 @@ public:
         shader.use();
         shader.setMatr4("projection", camera.projection);
         shader.setMatr4("view", camera.view);
+        shader.setInt("skybox", 2);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, c.tex_id);
 
         r.Render(shader);
     }

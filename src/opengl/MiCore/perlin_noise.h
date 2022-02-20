@@ -86,6 +86,21 @@ namespace mi {
         return n;
     }
 
+    double abs_noise_layer(float x, float y, float lacunarity, float persistance, float seed, int octaves) {
+
+        float n = 0;
+        float ampl = 20;
+        float freq = 0.05;
+
+        for (int i = 0; i < octaves; i++) {
+            n += (1 - abs(noise(x * freq, y * freq, seed))) * ampl;
+            freq *= lacunarity;
+            ampl *= persistance;
+        }
+
+        return n - 30;
+    }
+
     float get_noise_density_at(int x, int y, int z, float seed, float freq) {
         float xNoise, yNoise, zNoise;
         xNoise = mi::noise(y/freq, z/freq, seed);

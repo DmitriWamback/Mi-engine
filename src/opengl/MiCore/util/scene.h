@@ -96,7 +96,7 @@ namespace mi_inheritable {
             
         }
 
-        virtual mi::RenderTexture LoadSceneThroughFramebuffer(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer) {
+        virtual mi::RenderTexture LoadSceneThroughFramebuffer(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer, bool includeInstancing) {
             
             glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
             glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
@@ -116,9 +116,11 @@ namespace mi_inheritable {
                 camera.lightSpaceMatrix_view = cam.view;
                 glClear(GL_DEPTH_BUFFER_BIT);
 
-                depthShader.setInt("isInstanced", 1);
-                for (int i = 0; i < renderers.size(); i++) {
-                    renderers.at(i).Render(depthShader);
+                if (includeInstancing) {
+                    depthShader.setInt("isInstanced", 1);
+                    for (int i = 0; i < renderers.size(); i++) {
+                        renderers.at(i).Render(depthShader);
+                    }
                 }
 
                 depthShader.setInt("isInstanced", 0);

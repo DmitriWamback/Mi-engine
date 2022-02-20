@@ -32,7 +32,7 @@ int main() {
     Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
     Shader skyboxShader("skybox/vMain.glsl", "skybox/fMain.glsl", "SKYBOX");
     Shader debugModelShader("model/vMain.glsl", "model/fMain.glsl", "MODEL DEBUG");
-    Shader instancedShader("shadow/viMain.glsl", "shadow/fMain.glsl", "INSTANCED SHADER");
+    Shader instancedShader("instancing/vInstance.glsl", "instancing/fInstance.glsl", "INSTANCED SHADER");
     Shader wireframeShader("wireframe/vMain.glsl", "wireframe/fMain.glsl", "WIREFRAME");
     Shader uiShader("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
     mi_engine::MiCoreAddShader(shadowShader);
@@ -60,12 +60,12 @@ int main() {
 
     float s = rand() % 100000;
 
-    int __size = 50;
+    int __size = 1000;
 
     for (int x = 0; x < __size; x++) {
         for (int z = 0; z < __size; z++) {
 
-            float y = mi::noise_layer(x/15.f, z/15.f, 2.f, 0.5f, s, 5) * 5.0;
+            float y = mi::abs_noise_layer(x/15.f, z/15.f, 2.f, 0.5f, s, 5) * 4;
 
             renderer.AddTransformation(glm::vec3(x - (float)__size/2.f, floor(y), z - (float)__size/2.f), glm::vec3(), glm::vec3(1.0, 2.0, 1.0));
         }
