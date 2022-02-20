@@ -100,6 +100,7 @@ namespace mi_core {
 #define MI_LIBRARIES_LOADED
 #include <MISP/misp.h>
 #include <MIBINDING/mibind.h>
+#include <MIPHYSICS/physicsbox.h>
 
 namespace mi_input {
 

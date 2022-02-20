@@ -60,7 +60,7 @@ int main() {
 
     float s = rand() % 100000;
 
-    int __size = 10;
+    int __size = 50;
 
     for (int x = 0; x < __size; x++) {
         for (int z = 0; z < __size; z++) {
@@ -80,8 +80,8 @@ int main() {
     mi::modelbuf m1, m2;
 
     mi_inheritable::Entity* m = mi::LoadModel("src/res/models/monkey2.obj", m2);
-    m->size = glm::vec3(2.0);
-    m->position = glm::vec3(0.0);
+    m->size = glm::vec3(5.0);
+    m->position = glm::vec3(0.0, 10.0, 0.0);
     mi_engine::MiCoreEntityAssignShader(m, shadowShader);
     mi_engine::MiCoreSceneAddEntity(scene1, m);
 

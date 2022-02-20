@@ -120,7 +120,7 @@ void main() {
     col = col / (col + vec3(1.0));
     col = pow(col, vec3(1.0 / 5.2));
     col *= shadowIntensity;
-    col += objectColor * min((1 - (shadow * dotD)), MIN_SHADOW_BRIGHTNESS);
+    col = objectColor * min((1 - (shadow * dotD)), MIN_SHADOW_BRIGHTNESS);
 
     vec3 diffuse = dotD * lightColor * shadow;
     fragc = vec4(col + (objectColor / 5.0), 1.0) + texture(skybox, R) * reflectionIntensity * shadowIntensity;
