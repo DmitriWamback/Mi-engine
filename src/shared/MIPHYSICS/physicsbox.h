@@ -14,18 +14,16 @@ public:
     std::vector<glm::vec3> vertices;
     std::vector<uint32_t> indices;
 
-    PhysicsBox() {}
+    PhysicsBox(std::vector<glm::vec3> vertices) {
+        this->boxtype = NON_INDEXED;
+        this->vertices = vertices;
+    }
 
     PhysicsBox(std::vector<glm::vec3> vertices, std::vector<uint32_t> indices) {
 
         this->vertices = vertices;
         this->indices = indices;
         this->boxtype = INDEXED;
-    }
-
-    PhysicsBox(std::vector<glm::vec3> vertices) {
-        this->boxtype = NON_INDEXED;
-        this->vertices = vertices;
     }
 
     static PhysicsBox* Create(mi_inheritable::Entity* entity) {
@@ -52,7 +50,7 @@ public:
             m_vertices.push_back(worldCoordsxyz);
         }
 
-        return new PhysicsBox(m_vertices, NON_INDEXED);
+        return new PhysicsBox(m_vertices);
     }
 
     static PhysicsBox* CreateIndexed(mi_inheritable::Entity* entity) {
