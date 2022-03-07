@@ -101,6 +101,7 @@ namespace Mi { namespace Core {
 #include <MISP/misp.h>
 #include <MIBINDING/mibind.h>
 #include <MIPHYSICS/physicsbox.h>
+#include <MIPOSTPROCESSING/effect.h>
 
 namespace Mi { namespace Input {
 
@@ -159,6 +160,7 @@ namespace Mi { namespace Engine {
     
     // Stops playing a given audio source
     void MiCoreStopSource(std::string source_name) {
+
     }
 
     // Adds a shader to the engine
