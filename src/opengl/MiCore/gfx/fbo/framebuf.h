@@ -3,17 +3,16 @@
 The framebuffer is used to determine how a scene should be rendered to a render texture
 */
 
-namespace mi_enum {
+namespace Mi { namespace Enum {
 
     enum BUFFERTYPE {
         BUFTYPE_STANDARD            = 0x008C,
         BUFTYPE_DEPTH               = 0x008D,
         BUFTYPE_POINTDEPTH          = 0x008E
     };
+}}
 
-}
-
-namespace mi_inheritable {
+namespace Mi { namespace Inheritable {
     
     class Framebuffer {
     public:
@@ -22,27 +21,27 @@ namespace mi_inheritable {
 
         int WIDTH, HEIGHT;
 
-        mi_enum::BUFFERTYPE type;
+        Mi::Enum::BUFFERTYPE type;
 
         Framebuffer() {}
 
         Framebuffer(int WIDTH, int HEIGHT) {
-            type = mi_enum::BUFTYPE_STANDARD;
+            type = Mi::Enum::BUFTYPE_STANDARD;
         }
     };
-}
+}}
 
 /* classes inheriting from the Framebuffer class*/
 
-namespace mi {
-    class Depthbuffer: public mi_inheritable::Framebuffer {
+namespace Mi {
+    class Depthbuffer: public Mi::Inheritable::Framebuffer {
     private:
 
     public:
 
         Depthbuffer(int WIDTH, int HEIGHT) {
 
-            type = mi_enum::BUFTYPE_DEPTH;
+            type = Mi::Enum::BUFTYPE_DEPTH;
             this->WIDTH = WIDTH;
             this->HEIGHT = HEIGHT;
             glGenFramebuffers(1, &fbo);

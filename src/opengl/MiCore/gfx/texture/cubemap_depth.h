@@ -1,6 +1,6 @@
-namespace mi {
+namespace Mi {
 
-    class CubeMap_Depth: public mi_inheritable::Framebuffer {
+    class CubeMap_Depth: public Mi::Inheritable::Framebuffer {
     public:
 
 

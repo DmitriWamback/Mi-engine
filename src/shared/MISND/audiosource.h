@@ -1,4 +1,4 @@
-namespace mi_audio {
+namespace Mi { namespace Audio {
 
     class AudioSource {
     private:
@@ -38,4 +38,4 @@ namespace mi_audio {
 
         }
     };
-}
+}}

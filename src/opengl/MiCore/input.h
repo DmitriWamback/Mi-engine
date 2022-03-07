@@ -1,12 +1,12 @@
 #define GetKeyDown(key) glfwGetKey(main_window, key)
 #define GetMouseDown(button) glfwGetMouseButton(main_window, button)
 
-namespace mi_inheritable {
+namespace Mi { namespace Inheritable {
     class Keyboard {
     public:
-        mi_inheritable::Scene* scene;
+        Mi::Inheritable::Scene* scene;
         Keyboard() {}
-        Keyboard(mi_inheritable::Scene* scene) { this->scene = scene; }
+        Keyboard(Mi::Inheritable::Scene* scene) { this->scene = scene; }
 
         virtual void Listen() {}
     };
@@ -16,4 +16,4 @@ namespace mi_inheritable {
         virtual void Listen() {}
         virtual glm::vec2 GetMousePosition() { return glm::vec2(0.0); }
     };
-}
+}}

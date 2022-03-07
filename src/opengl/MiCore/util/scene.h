@@ -7,21 +7,21 @@ The scene is a way to easily organize and render several places
 */
 
 float t = 0;
-namespace mi_inheritable {
+namespace Mi { namespace Inheritable {
 
     class Scene {
     public: 
 
-        std::vector<mi::InstancedRenderer> renderers;
-        std::vector<mi_ui::UIRenderer> uiRenderers;
+        std::vector<Mi::InstancedRenderer> renderers;
+        std::vector<Mi::UI::UIRenderer> uiRenderers;
 
         int nb_entities;
         int nb_cameras;
 
         Entity* allEntities[__SCENE_MAX_ENTITIES];
-        mi::StaticCamera static_cameras[__SCENE_MAX_STATIC_CAMERAS];
+        Mi::StaticCamera static_cameras[__SCENE_MAX_STATIC_CAMERAS];
 
-        mi::Camera camera;
+        Mi::Camera camera;
         Shader depthShader;
 
         glm::vec3 camera_pos;
@@ -66,29 +66,29 @@ namespace mi_inheritable {
             return camera.view;
         }
 
-        mi::StaticCamera FindStaticCameraByName(std::string name) {
+        Mi::StaticCamera FindStaticCameraByName(std::string name) {
             for (int i = 0; i < nb_cameras; i++) {
                 if (static_cameras[i].camera_name == name) return static_cameras[i];
             }
         }
 
-        mi::InstancedRenderer FindRendererByName(std::string name) {
+        Mi::InstancedRenderer FindRendererByName(std::string name) {
             for (int i = 0; i < renderers.size(); i++) {
                 if (renderers.at(i).name == name) return renderers.at(i);
             }
         }
 
-        mi_ui::UIRenderer FindUIRendererByName(std::string name) {
+        Mi::UI::UIRenderer FindUIRendererByName(std::string name) {
             for (int i = 0; i < uiRenderers.size(); i++) {
                 if (uiRenderers.at(i).name == name) return uiRenderers.at(i);
             }
         }
 
-        void AddInstancedRenderer(mi::InstancedRenderer r) {
+        void AddInstancedRenderer(Mi::InstancedRenderer r) {
             renderers.push_back(r);
         }
 
-        void AddUIRenderer(mi_ui::UIRenderer renderer) {
+        void AddUIRenderer(Mi::UI::UIRenderer renderer) {
             uiRenderers.push_back(renderer);
         }
 
@@ -96,7 +96,7 @@ namespace mi_inheritable {
             
         }
 
-        virtual mi::RenderTexture LoadSceneThroughFramebuffer(mi::StaticCamera cam, mi_inheritable::Framebuffer* framebuffer, bool includeInstancing) {
+        virtual Mi::RenderTexture LoadSceneThroughFramebuffer(Mi::StaticCamera cam, Mi::Inheritable::Framebuffer* framebuffer, bool includeInstancing) {
             
             glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
             glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
@@ -105,7 +105,7 @@ namespace mi_inheritable {
             //cam.set_target(cam.get_start_target() + mi::Vec3(camera.position.x, 0, camera.position.z));
             camera_pos = cam.position;
             
-            if (framebuffer->type == mi_enum::BUFTYPE_DEPTH) {
+            if (framebuffer->type == Mi::Enum::BUFTYPE_DEPTH) {
 
                 glCullFace(GL_FRONT);
                 depthShader.use();
@@ -134,7 +134,7 @@ namespace mi_inheritable {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             glCullFace(GL_FRONT_AND_BACK);
 
-            return mi::RenderTexture(framebuffer->tex_id);
+            return Mi::RenderTexture(framebuffer->tex_id);
         }
 
         void ResetViewport() {
@@ -155,7 +155,7 @@ namespace mi_inheritable {
 
         void MoveEntities() {
             for (int i = 0; i < nb_entities; i++) {
-                mi_inheritable::Entity* e = allEntities[i];
+                Mi::Inheritable::Entity* e = allEntities[i];
                 if (e != nullptr) e->Move();
             }
         }
@@ -165,7 +165,7 @@ namespace mi_inheritable {
             nb_entities++;
         }
 
-        void AddStaticCamera(mi::StaticCamera static_camera) {
+        void AddStaticCamera(Mi::StaticCamera static_camera) {
             static_cameras[nb_cameras] = static_camera;
             nb_cameras++;
         }
@@ -180,4 +180,4 @@ namespace mi_inheritable {
             depthShader = Shader("shadow/vDepth.glsl", "shadow/fDepth.glsl", "DEPTH SHADER");
         }
     };
-}
+}}

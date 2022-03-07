@@ -1,8 +1,8 @@
-namespace mi {
+namespace Mi {
 
-    class CubeNoise: public mi_inheritable::Entity {
+    class CubeNoise: public Mi::Inheritable::Entity {
     private:
-        mi_inheritable::Entity* cubes[10000];
+        Mi::Inheritable::Entity* cubes[10000];
         int nb_cubes;
         glm::vec2 size;
 
@@ -13,7 +13,7 @@ namespace mi {
         CubeNoise(renderbuf buffer, glm::vec3 position, glm::vec2 size, float seed) {
 
             nb_cubes = 0;
-            type = mi_enum::ENT_NOISE_CUBE;
+            type = Mi::Enum::ENT_NOISE_CUBE;
             this->buf = buffer;
             this->position = position;
 
@@ -39,7 +39,7 @@ namespace mi {
                         if (density > _density && has_empty_space) {
                             glm::vec3 _position = glm::vec3((x - size.x/2), (y - size.y/2), (z - size.x/2)) + position;
 
-                            mi_inheritable::Entity* en = new Cube(buffer);
+                            Mi::Inheritable::Entity* en = new Cube(buffer);
                             en->position = _position;
                             en->size = glm::vec3(1.0);
                             cubes[nb_cubes] = en;
@@ -77,7 +77,7 @@ namespace mi {
                         if (density > _density && has_empty_space) {
                             glm::vec3 _position = glm::vec3((x - size.x/2), (y - size.y/2), (z - size.x/2)) + pos;
 
-                            mi_inheritable::Entity* en = new Cube(buf);
+                            Mi::Inheritable::Entity* en = new Cube(buf);
                             en->position = _position;
                             en->size = glm::vec3(1.0);
                             cubes[nb_cubes] = en;
@@ -91,7 +91,7 @@ namespace mi {
         void render(Shader& shader) {
             if (shouldRender) {
                 for (int i = 0; i < nb_cubes; i++) {
-                    mi_inheritable::Entity* e = cubes[i];
+                    Mi::Inheritable::Entity* e = cubes[i];
                     cubes[i]->render(shader);
                 }
             }
@@ -100,7 +100,7 @@ namespace mi {
         void renderWithWireFrame(Shader& shader, Shader& wireframeShader) {
             if (shouldRender) {
                 for (int i = 0; i < nb_cubes; i++) {
-                    mi_inheritable::Entity* e = cubes[i];
+                    Mi::Inheritable::Entity* e = cubes[i];
                     cubes[i]->renderWithWireFrame(shader, wireframeShader);
                 }
             }

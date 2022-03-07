@@ -1,4 +1,4 @@
-namespace mi {
+namespace Mi {
 
     class InstancedRenderer {
     private:
@@ -6,18 +6,18 @@ namespace mi {
         uint32_t verticesVBO;
         uint32_t transformationsVBO;
         uint32_t vao;
-        mi::Texture tex;
+        Mi::Texture tex;
         bool hasTexture;
 
     public:
-        mi_inheritable::Entity* baseEntity;
+        Mi::Inheritable::Entity* baseEntity;
         std::string shaderName;
         std::string name;
         bool indexed;
 
         InstancedRenderer() {}
 
-        InstancedRenderer(mi_inheritable::Entity* base, bool indexed, std::string name) {
+        InstancedRenderer(Mi::Inheritable::Entity* base, bool indexed, std::string name) {
             glGenVertexArrays(1, &vao);
             glGenBuffers(1, &verticesVBO);
             glGenBuffers(1, &transformationsVBO);
@@ -27,7 +27,7 @@ namespace mi {
             this->indexed = indexed;
         }
 
-        void SetTexture(mi::Texture tex) {
+        void SetTexture(Mi::Texture tex) {
             this->tex = tex;
             hasTexture = true;
         }

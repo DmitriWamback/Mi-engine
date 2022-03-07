@@ -1,4 +1,4 @@
-namespace mi {    
+namespace Mi {    
     int p[512] = {
         151,160,137,91,90,105,
         131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,203,
@@ -103,9 +103,9 @@ namespace mi {
 
     float get_noise_density_at(int x, int y, int z, float seed, float freq) {
         float xNoise, yNoise, zNoise;
-        xNoise = mi::noise(y/freq, z/freq, seed);
-        yNoise = mi::noise(x/freq, z/freq, seed);
-        zNoise = mi::noise(x/freq, y/freq, seed);
+        xNoise = noise(y/freq, z/freq, seed);
+        yNoise = noise(x/freq, z/freq, seed);
+        zNoise = noise(x/freq, y/freq, seed);
 
         return xNoise + yNoise + zNoise;
     }

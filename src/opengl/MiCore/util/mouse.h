@@ -1,20 +1,20 @@
-namespace mi_enum {
+namespace Mi { namespace Enum {
 
     enum MOUSESTATE {
         LOCKED = 0x0d8E,
         FREE = 0x0f8F
     };
-}
+}}
 
-namespace mi_engine {
+namespace Mi { namespace Engine {
 
-    void MiSetCursorState(mi_enum::MOUSESTATE mouseState) {
+    void MiSetCursorState(Mi::Enum::MOUSESTATE mouseState) {
 
-        if (mouseState == mi_enum::LOCKED) {
+        if (mouseState == Mi::Enum::LOCKED) {
 
         }
-        if (mouseState == mi_enum::FREE) {
+        if (mouseState == Mi::Enum::FREE) {
 
         }
     }
-}
+}}

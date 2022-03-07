@@ -7,7 +7,7 @@
 #include "sndfile.h"
 #include "audiosource.h"
 
-namespace mi_audio {
+namespace Mi { namespace Audio {
 
     class AudioPlayer {
     private:
@@ -20,4 +20,4 @@ namespace mi_audio {
             sources.push_back(source);
         }
     };
-}
+}}

@@ -3,12 +3,14 @@
 The static camera is an unmovable camera used to render scenes to a render texture
 */
 
-namespace mi {
-
+namespace Mi { namespace Enum {
     enum CAMERA_TYPE {
         PERSPECTIVE     = 0x08A,
         ORTHOGRAPHIC    = 0x08B
     };
+}}
+
+namespace Mi {
 
     class STATICCAMERAPROPERTIES_PERSPECTIVE {
     public:
@@ -85,7 +87,7 @@ namespace mi {
         glm::vec3 position;
         glm::vec3 target;
 
-        CAMERA_TYPE type;
+        Mi::Enum::CAMERA_TYPE type;
         glm::mat4 projection;
         glm::mat4 view;
 
@@ -101,7 +103,7 @@ namespace mi {
             
             isActive = true;
             camera_name = name;
-            type = ORTHOGRAPHIC;
+            type = Mi::Enum::ORTHOGRAPHIC;
 
             projection = glm::ortho(orthographic_prop.left, 
                                     orthographic_prop.right, 
@@ -124,7 +126,7 @@ namespace mi {
 
             isActive = true;
             camera_name = name;
-            type = PERSPECTIVE;
+            type = Mi::Enum::PERSPECTIVE;
 
             projection = glm::perspective(
                 glm::radians(perspective_prop.fovdeg),

@@ -1,7 +1,7 @@
-class MainKeyboard: public mi_inheritable::Keyboard {
+class MainKeyboard: public Mi::Inheritable::Keyboard {
 public:
 
-    MainKeyboard(mi_inheritable::Scene* scene) {
+    MainKeyboard(Mi::Inheritable::Scene* scene) {
         this->scene = scene;
     }
 
@@ -10,24 +10,24 @@ public:
         renderbuf r;
 
         if (GetKeyDown(GLFW_KEY_F)) {
-            Shader s = mi_engine::MiCoreFindShader("SHADOW SHADER");
-            mi_inheritable::Entity* e = new Cube(r);
+            Shader s = Mi::Engine::MiCoreFindShader("SHADOW SHADER");
+            Mi::Inheritable::Entity* e = new Cube(r);
 
             glm::vec3 v = scene->camera.GetMouseRayNormalized();
 
-            e->position = scene->camera.position + (2.f * v);
+            e->position = scene->camera.position + (10.f * v);
             //e->velocity = v;
-            mi_engine::MiCoreEntityAssignShader(e, s);
-            mi_engine::MiCoreSceneAddEntity(scene, e);
+            Mi::Engine::MiCoreEntityAssignShader(e, s);
+            Mi::Engine::MiCoreSceneAddEntity(scene, e);
         }
     }
 };
 
-class MainScene: public mi_inheritable::Scene {
+class MainScene: public Mi::Inheritable::Scene {
 public:
 
-    mi::Texture tex;
-    mi_inheritable::Framebuffer* fb;
+    Mi::Texture tex;
+    Mi::Inheritable::Framebuffer* fb;
 
     float t;
     glm::vec3 currentPos;
@@ -41,12 +41,12 @@ public:
         nb_cameras = 0;
     }
 
-    mi::CubeMap c;
+    Mi::CubeMap c;
 
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
-        tex = mi::Texture("src/res/images/diamondplate.jpg");
-        fb = new mi::Depthbuffer(1024 * 10, 1024 * 10);
+        tex = Mi::Texture("src/res/images/diamondplate.jpg");
+        fb = new Mi::Depthbuffer(1024 * 10, 1024 * 10);
     }
 
     void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
@@ -56,14 +56,14 @@ public:
         MoveEntities();
         
         // MAIN GAME LOOP HERE
-        mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
+        Mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
         stC.set_position(stC.get_start_position() + camera.position);
         stC.set_target(stC.get_start_target() + camera.position);
 
         currentPos = camera.position / 20.0f;
         currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
-        mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
+        Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
         ResetViewport();
 
         glActiveTexture(GL_TEXTURE0);
@@ -71,13 +71,13 @@ public:
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, tex.tex_id);
 
-        Shader wireframe = mi_core::all_shaders["WIREFRAME"];
+        Shader wireframe = Mi::Core::all_shaders["WIREFRAME"];
         wireframe.use();
         wireframe.setMatr4("projection", camera.projection);
         wireframe.setMatr4("view", camera.view);
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
 
-        Shader instancedShadowShader = mi_core::all_shaders["INSTANCED SHADER"];
+        Shader instancedShadowShader = Mi::Core::all_shaders["INSTANCED SHADER"];
         instancedShadowShader.use();
         instancedShadowShader.setVec3("camera_position", camera.position);
         instancedShadowShader.setVec3("mouse_ray", mouseRay);
@@ -96,16 +96,16 @@ public:
 
         // rendering entities
         for (int en = 0; en < nb_entities; en++) {
-            mi_inheritable::Entity* entity = allEntities[en];
-            Shader shader = mi_core::all_shaders[entity->shaderToUse];
+            Mi::Inheritable::Entity* entity = allEntities[en];
+            Shader shader = Mi::Core::all_shaders[entity->shaderToUse];
 
-            if (entity->type == mi_enum::ENT_SKYBOX) {
+            if (entity->type == Mi::Enum::ENT_SKYBOX) {
                 entity->position = camera.position;
             }
 
             if (shader.shaderName == "SKYBOX") {
                 glCullFace(GL_FRONT);
-                mi::Skybox* skybox = dynamic_cast<mi::Skybox*>(entity);
+                Mi::Skybox* skybox = dynamic_cast<Mi::Skybox*>(entity);
                 c = skybox->cubemap;
             }
 
@@ -151,8 +151,8 @@ public:
         }
 
         // using instanced renderers
-        mi::InstancedRenderer r = FindRendererByName("test");
-        Shader shader = mi_core::all_shaders[r.shaderName];
+        Mi::InstancedRenderer r = FindRendererByName("test");
+        Shader shader = Mi::Core::all_shaders[r.shaderName];
         shader.use();
         shader.setMatr4("projection", camera.projection);
         shader.setMatr4("view", camera.view);

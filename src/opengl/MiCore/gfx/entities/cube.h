@@ -1,4 +1,4 @@
-class Cube: public mi_inheritable::Entity {
+class Cube: public Mi::Inheritable::Entity {
 public:
 
     float vertices[288] = {
@@ -48,7 +48,7 @@ public:
     Cube(renderbuf buffer) {
         this->buf = buffer;
 
-        type = mi_enum::ENT_CUBE;
+        type = Mi::Enum::ENT_CUBE;
 
         glBindVertexArray(buf.vao);
         glBindBuffer(GL_ARRAY_BUFFER, buf.vbo);

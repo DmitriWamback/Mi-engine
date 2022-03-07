@@ -1,4 +1,4 @@
-namespace mi {
+namespace Mi {
 
     class modelbuf {
     public:
@@ -17,7 +17,7 @@ namespace mi {
         }
     };
 
-    class Model: public mi_inheritable::Entity {
+    class Model: public Mi::Inheritable::Entity {
     private:
         int v_index_count;
         int v_count;
@@ -121,8 +121,8 @@ namespace mi {
         }
     };
 
-
-    mi_inheritable::Entity* LoadModel(const char* file_path, modelbuf buffer) {
+namespace IO {
+    Mi::Inheritable::Entity* LoadModel(const char* file_path, modelbuf buffer) {
 
         int index_count;
         int vertex_count;
@@ -145,5 +145,5 @@ namespace mi {
                                  indices, 
                                  n_indices,
                                  iuvs, index_count, vertex_count, normal_count, n_index_count, uv_count, uv_index_count);
-    }
+    }}
 }

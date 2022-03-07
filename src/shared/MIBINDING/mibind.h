@@ -6,11 +6,11 @@
 
 namespace mibind {
 
-    void BindTextureToId(mi::Texture tex, int id) {
+    void BindTextureToId(Mi::Texture tex, int id) {
         
     }
 
-    void SetEntityTexture(mi_inheritable::Entity* entity, mi::Texture tex) {
+    void SetEntityTexture(Mi::Inheritable::Entity* entity, Mi::Texture tex) {
 
     }   
 }

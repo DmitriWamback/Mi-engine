@@ -1,5 +1,5 @@
-namespace mi {
-    class PointLight: public mi_inheritable::Light {
+namespace Mi {
+    class PointLight: public Mi::Inheritable::Light {
     private:
 
     public:

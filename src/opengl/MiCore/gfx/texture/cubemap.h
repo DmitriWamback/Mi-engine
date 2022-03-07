@@ -1,4 +1,4 @@
-namespace mi {
+namespace Mi {
 
     class CubeMap {
     public:

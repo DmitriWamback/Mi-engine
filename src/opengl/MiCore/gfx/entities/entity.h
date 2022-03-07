@@ -6,16 +6,16 @@ The entity is a base class for rendering hard-coded vertex placements
 */
 
 
-namespace mi_enum {
+namespace Mi { namespace Enum {
     enum ENTITYTYPE {
         ENT_CUBE = 0, 
         ENT_MESH = 1, 
         ENT_SKYBOX = 2,
         ENT_NOISE_CUBE = 3
     };
-}
+}}
 
-namespace mi_inheritable {
+namespace Mi { namespace Inheritable {
 
     class Entity {
     private:
@@ -35,7 +35,7 @@ namespace mi_inheritable {
         glm::vec3 velocity;
         
         renderbuf buf;
-        mi_enum::ENTITYTYPE type;
+        Mi::Enum::ENTITYTYPE type;
 
         Entity() {
 
@@ -75,4 +75,4 @@ namespace mi_inheritable {
         virtual int get_vertex_length() { return 0; }
         virtual void initialize() {}
     };
-}
+}}

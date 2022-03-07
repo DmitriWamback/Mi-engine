@@ -6,7 +6,7 @@ The texture is an image that can be rendered on the surfaces of a polygon
 Furthermore, the RenderTexture is used mainly for holding the texture of a rendered scene
 */
 
-namespace mi {
+namespace Mi {
 
     class Texture {
     public:

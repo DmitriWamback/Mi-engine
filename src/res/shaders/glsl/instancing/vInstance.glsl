@@ -23,7 +23,9 @@ out VERTEX {
 
 void main() {
     mat4 model = mat4(r1, r2, r3, r4);
-    o.fragp = (model * vec4(position + vec3(1.0), 1.0)).xyz;
+
+    vec3 p = (model * vec4(position, 1.0)).xyz;
+    o.fragp = p;
     o.normal = mat3(transpose(inverse(model))) * normal;
     o.uv = uv;
 

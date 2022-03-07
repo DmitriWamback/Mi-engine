@@ -3,7 +3,7 @@
 The camera is the main utility to move around within a 3D space
 */
 
-namespace mi {
+namespace Mi {
 
     class Camera {
 
@@ -58,8 +58,8 @@ namespace mi {
             glfwGetWindowSize(main_window, &width, &height);
 
             glm::vec2 mouseCoords = glm::vec2(
-                ((2*mi_input::camera_last_mouse_position.x / (float)width) - 1) * ((float)height / (float)width * 1.15f),
-               -((2*mi_input::camera_last_mouse_position.y / (float)height) - 1) * ((float)height / (float)width * 1.15f)
+                ((2*Mi::Input::camera_last_mouse_position.x / (float)width) - 1) * ((float)height / (float)width * 1.15f),
+               -((2*Mi::Input::camera_last_mouse_position.y / (float)height) - 1) * ((float)height / (float)width * 1.15f)
             );
 
 

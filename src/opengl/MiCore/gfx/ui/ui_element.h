@@ -1,4 +1,4 @@
-namespace mi_inheritable {
+namespace Mi { namespace Inheritable {
 
     class UIElement {
     public:
@@ -67,4 +67,4 @@ namespace mi_inheritable {
             this->size = localizedSize;
         }
     };
-}
+}}

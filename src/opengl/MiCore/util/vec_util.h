@@ -1,4 +1,4 @@
-namespace mi {
+namespace Mi {
 
 float find_biggest_comp(glm::vec3 vec) {
     if (vec.x > vec.y && vec.x > vec.z) return vec.x;

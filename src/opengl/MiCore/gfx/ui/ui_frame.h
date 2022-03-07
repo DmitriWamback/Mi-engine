@@ -1,6 +1,6 @@
-namespace mi_ui {
+namespace Mi { namespace UI {
     
-    class UIFrame: public mi_inheritable::UIElement {
+    class UIFrame: public Mi::Inheritable::UIElement {
     public:
 
         UIFrame(renderbuf buffer, glm::vec2 screenPositionPXL, glm::vec2 screenSizePXL) {
@@ -24,4 +24,4 @@ namespace mi_ui {
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
     };
-}
+}}

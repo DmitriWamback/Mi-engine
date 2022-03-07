@@ -1,13 +1,13 @@
-namespace mi_ui {
+namespace Mi { namespace UI {
 
-    void UIElementAssignShader(mi_inheritable::UIElement* elem, Shader shader) {
+    void UIElementAssignShader(Mi::Inheritable::UIElement* elem, Shader shader) {
         elem->shaderName = shader.shaderName;
     }
 
     class UIRenderer {
     private:
 
-        mi_inheritable::UIElement* _uiElements[1000];
+        Mi::Inheritable::UIElement* _uiElements[1000];
         int nbElements;
     public: 
 
@@ -19,7 +19,7 @@ namespace mi_ui {
             nbElements = 0;
         }
 
-        void AddUIElement(mi_inheritable::UIElement* uiElement) {
+        void AddUIElement(Mi::Inheritable::UIElement* uiElement) {
             _uiElements[nbElements] = uiElement;
             nbElements++;
         }
@@ -27,10 +27,10 @@ namespace mi_ui {
         void Update() {
 
             for (int i = 0; i < nbElements; i++) {
-                mi_inheritable::UIElement* elem = _uiElements[i];
+                Mi::Inheritable::UIElement* elem = _uiElements[i];
                 glDepthMask(GL_TRUE);
-                elem->Render(mi_core::all_shaders[elem->shaderName]);
+                elem->Render(Mi::Core::all_shaders[elem->shaderName]);
             }
         }
     };
-}
+}}

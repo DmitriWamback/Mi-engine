@@ -1,6 +1,6 @@
-namespace mi_ui {
+namespace Mi { namespace UI {
 
-    class UIButton: public mi_inheritable::UIElement {
+    class UIButton: public Mi::Inheritable::UIElement {
 
     };
-}
+}}

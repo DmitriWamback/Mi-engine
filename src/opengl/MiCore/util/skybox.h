@@ -1,6 +1,6 @@
-namespace mi {
+namespace Mi {
 
-    class Skybox: public mi_inheritable::Entity {
+    class Skybox: public Mi::Inheritable::Entity {
     private:
 
     float vertices[288] = {
@@ -49,15 +49,15 @@ namespace mi {
 
     public:
 
-        mi::CubeMap cubemap;
+        Mi::CubeMap cubemap;
 
         Skybox() {}
         
         Skybox(renderbuf buffer, std::string images[]) {
             this->buf = buffer;
             //this->usesDepthBuffer = false;
-            cubemap = mi::CubeMap(images);
-            type = mi_enum::ENT_SKYBOX;
+            cubemap = Mi::CubeMap(images);
+            type = Mi::Enum::ENT_SKYBOX;
 
             glBindVertexArray(buf.vao);
             glBindBuffer(GL_ARRAY_BUFFER, buf.vbo);
