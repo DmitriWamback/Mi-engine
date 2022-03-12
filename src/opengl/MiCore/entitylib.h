@@ -14,4 +14,4 @@
 #include "gfx/fbo/light/light.h"
 #include "gfx/fbo/light/pointlight.h"
 
-#include "gfx/instancing/instanced_renderer.h"
+#include "gfx/renderers/instanced_renderer.h"
