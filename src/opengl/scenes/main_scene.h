@@ -66,10 +66,8 @@ public:
         Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
         ResetViewport();
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, depthMap.tex_id);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, tex.tex_id);
+        depthMap.Bind(0);
+        tex.Bind(1);
 
         Shader wireframe = Mi::Core::all_shaders["WIREFRAME"];
         wireframe.use();

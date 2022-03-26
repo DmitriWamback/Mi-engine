@@ -40,7 +40,8 @@ namespace Mi {
             }
         };
 
-        void bind() {
+        void Bind(int index) {
+            glActiveTexture(GL_TEXTURE0 + index);
             glBindTexture(GL_TEXTURE_2D, tex_id);
         }
     };
@@ -55,7 +56,8 @@ namespace Mi {
             this->tex_id = tex_id;
         }
 
-        void bind() {
+        void Bind(int index) {
+            glActiveTexture(GL_TEXTURE0 + index);
             glBindTexture(GL_TEXTURE_2D, tex_id);
         }
     };  

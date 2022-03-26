@@ -80,7 +80,7 @@ namespace Mi {
             shader.use();
             glBindVertexArray(vao);
 
-            if (hasTexture) tex.bind();
+            if (hasTexture) tex.Bind(0);
             glDrawArraysInstanced(RENDER_OPTION, 0, size, count);
             glBindVertexArray(0);
         }
