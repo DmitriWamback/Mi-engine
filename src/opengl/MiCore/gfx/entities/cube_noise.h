@@ -1,8 +1,8 @@
 namespace Mi {
 
-    class CubeNoise: public Mi::Inheritable::Entity {
+    class CubeNoise: public Mi::Inheritable::Renderable {
     private:
-        Mi::Inheritable::Entity* cubes[10000];
+        Mi::Inheritable::Renderable* cubes[10000];
         int nb_cubes;
         glm::vec2 size;
 
@@ -39,7 +39,7 @@ namespace Mi {
                         if (density > _density && has_empty_space) {
                             glm::vec3 _position = glm::vec3((x - size.x/2), (y - size.y/2), (z - size.x/2)) + position;
 
-                            Mi::Inheritable::Entity* en = new Cube(buffer);
+                            Mi::Inheritable::Renderable* en = new Cube(buffer);
                             en->position = _position;
                             en->size = glm::vec3(1.0);
                             cubes[nb_cubes] = en;
@@ -77,7 +77,7 @@ namespace Mi {
                         if (density > _density && has_empty_space) {
                             glm::vec3 _position = glm::vec3((x - size.x/2), (y - size.y/2), (z - size.x/2)) + pos;
 
-                            Mi::Inheritable::Entity* en = new Cube(buf);
+                            Mi::Inheritable::Renderable* en = new Cube(buf);
                             en->position = _position;
                             en->size = glm::vec3(1.0);
                             cubes[nb_cubes] = en;
@@ -91,7 +91,7 @@ namespace Mi {
         void render(Shader& shader) {
             if (shouldRender) {
                 for (int i = 0; i < nb_cubes; i++) {
-                    Mi::Inheritable::Entity* e = cubes[i];
+                    Mi::Inheritable::Renderable* e = cubes[i];
                     cubes[i]->render(shader);
                 }
             }
@@ -100,7 +100,7 @@ namespace Mi {
         void renderWithWireFrame(Shader& shader, Shader& wireframeShader) {
             if (shouldRender) {
                 for (int i = 0; i < nb_cubes; i++) {
-                    Mi::Inheritable::Entity* e = cubes[i];
+                    Mi::Inheritable::Renderable* e = cubes[i];
                     cubes[i]->renderWithWireFrame(shader, wireframeShader);
                 }
             }

@@ -55,10 +55,10 @@ namespace Mi {
         glm::vec3 look_target;
         glm::vec3 local_up;
 
-        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left              = -50.0, 
-                                            float right             =  50.0, 
-                                            float top               =  50.0, 
-                                            float bottom            = -50.0,
+        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left              = -10.0, 
+                                            float right             =  10.0, 
+                                            float top               =  10.0, 
+                                            float bottom            = -10.0,
                                             float zfar              = 10000.0,
                                             float znear             = 0.1,
                                             glm::vec3 position           = glm::vec3(4600.0, 2000.0, 2000.0), 

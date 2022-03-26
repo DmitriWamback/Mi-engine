@@ -8,7 +8,7 @@ Mi::Inheritable::Scene* scene1 = new MainScene("Hello");
 
 int main() {
 
-    Mi::Engine::MiCoreBegin();
+    Mi::Engine::MiCoreBegin(1200, 800, "Mi");
 
     renderbuf cbuffer = renderbuf();
     renderbuf mesh_buf = renderbuf();
@@ -23,7 +23,7 @@ int main() {
         "src/res/images/skyboxF.jpg"
     };
 
-    Mi::Inheritable::Entity* skybox = new Mi::Skybox(mesh_buf, faces);
+    Mi::Inheritable::Renderable* skybox = new Mi::Skybox(mesh_buf, faces);
     skybox->size = glm::vec3(1000.0);
     skybox->position = glm::vec3(0.0);
 
@@ -79,7 +79,7 @@ int main() {
 
     Mi::modelbuf m1, m2;
 
-    Mi::Inheritable::Entity* m = Mi::IO::LoadModel("src/res/models/monkey2.obj", m2);
+    Mi::Inheritable::Renderable* m = Mi::IO::LoadModel("src/res/models/monkey2.obj", m2);
     m->size = glm::vec3(5.0);
     m->position = glm::vec3(0.0, 10.0, 0.0);
     Mi::Engine::MiCoreEntityAssignShader(m, shadowShader);

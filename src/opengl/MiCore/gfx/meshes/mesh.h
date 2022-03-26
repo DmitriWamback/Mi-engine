@@ -1,9 +1,9 @@
 namespace Mi {
 
-    class Mesh: public Mi::Inheritable::Entity {
+    class Mesh: public Mi::Inheritable::Renderable {
     public:
 
-        void sync_add_entity(Mi::Inheritable::Entity* entity, glm::vec3 at_position, glm::vec3 rotation, glm::vec3 msize) {
+        void sync_add_entity(Mi::Inheritable::Renderable* entity, glm::vec3 at_position, glm::vec3 rotation, glm::vec3 msize) {
 
         }
 
@@ -17,7 +17,7 @@ namespace Mi {
             type = Mi::Enum::ENT_MESH;
         }
 
-        void add_entity(Mi::Inheritable::Entity* entity) {
+        void add_entity(Mi::Inheritable::Renderable* entity) {
             float* vertices = entity->get_vertices();
             int size = entity->get_vertex_length();
             vertex_count += size;
@@ -61,7 +61,7 @@ namespace Mi {
         }
     };
     
-    class Mesh_ibo: public Mi::Inheritable::Entity {
+    class Mesh_ibo: public Mi::Inheritable::Renderable {
 
     };
 }

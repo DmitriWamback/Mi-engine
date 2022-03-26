@@ -1,6 +1,6 @@
 namespace Mi {
 
-    class Skybox: public Mi::Inheritable::Entity {
+    class Skybox: public Mi::Inheritable::Renderable {
     private:
 
     float vertices[288] = {

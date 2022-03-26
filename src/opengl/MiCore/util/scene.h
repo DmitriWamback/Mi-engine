@@ -18,7 +18,7 @@ namespace Mi { namespace Inheritable {
         int nb_entities;
         int nb_cameras;
 
-        Entity* allEntities[__SCENE_MAX_ENTITIES];
+        Renderable* allEntities[__SCENE_MAX_ENTITIES];
         Mi::StaticCamera static_cameras[__SCENE_MAX_STATIC_CAMERAS];
 
         Mi::Camera camera;
@@ -40,7 +40,7 @@ namespace Mi { namespace Inheritable {
             camera.moveCamera(1.0, motion);
         }
 
-        void Remove(Entity* e) {
+        void Remove(Renderable* e) {
             for (int i = 0; i < nb_entities; i++) {
                 if (allEntities[i] == e) allEntities[i] = nullptr;
             }
@@ -125,7 +125,7 @@ namespace Mi { namespace Inheritable {
 
                 depthShader.setInt("isInstanced", 0);
                 for (int i = 0; i < nb_entities; i++) {
-                    Entity* entity = allEntities[i];
+                    Renderable* entity = allEntities[i];
                     if (entity != nullptr) {
                         if (entity->usesDepthBuffer) entity->render(depthShader);
                     }
@@ -155,12 +155,12 @@ namespace Mi { namespace Inheritable {
 
         void MoveEntities() {
             for (int i = 0; i < nb_entities; i++) {
-                Mi::Inheritable::Entity* e = allEntities[i];
+                Mi::Inheritable::Renderable* e = allEntities[i];
                 if (e != nullptr) e->Move();
             }
         }
 
-        void AddEntity(Entity* entity) {
+        void AddEntity(Renderable* entity) {
             allEntities[nb_entities] = entity;
             nb_entities++;
         }

@@ -85,23 +85,26 @@ namespace Mi { namespace Input {
 namespace Mi { namespace Core {
     std::map<std::string, Shader> all_shaders;
 }}
+#include <MIPHYSICS/physicsbox.h>
+#include <MIPOSTPROCESSING/effect.h>
+#include <MIATTRIBUTE/attribute.h>
 #include "util/renderbuf.h"
-
+#include "gfx/colorbuf/colorbuf.h"
+#include "util/camera.h"
 #include "entitylib.h"
 #include "gfx/ui/ui_element.h"
 #include "gfx/ui/ui_button.h"
 #include "gfx/ui/ui_frame.h"
 #include "gfx/ui/ui_renderer.h"
-#include "util/camera.h"
 #include "util/static_camera.h"
 #include "util/scene.h"
 #include "util/mouse.h"
 #include "input.h"
+#include "util/t_sort.h"
 #define MI_LIBRARIES_LOADED
 #include <MISP/misp.h>
 #include <MIBINDING/mibind.h>
-#include <MIPHYSICS/physicsbox.h>
-#include <MIPOSTPROCESSING/effect.h>
+#include "effects/effects.h"
 
 namespace Mi { namespace Input {
 
@@ -136,7 +139,7 @@ namespace Mi { namespace Engine {
     }
 
     // Assigns an entity a shader to use when being rendered
-    void MiCoreEntityAssignShader(Mi::Inheritable::Entity* entity, Shader shader) {
+    void MiCoreEntityAssignShader(Mi::Inheritable::Renderable* entity, Shader shader) {
         entity->shaderToUse = shader.shaderName;
     }
 
@@ -144,7 +147,7 @@ namespace Mi { namespace Engine {
         scene->AddUIRenderer(renderer);
     }
 
-    void MiCoreEntityAssignWireframeShader(Mi::Inheritable::Entity* entity, Shader shader) {
+    void MiCoreEntityAssignWireframeShader(Mi::Inheritable::Renderable* entity, Shader shader) {
         entity->wireframeShaderToUse = shader.shaderName;
     }
 
@@ -169,7 +172,7 @@ namespace Mi { namespace Engine {
     }
 
     // Adds an entity to a scene
-    void MiCoreSceneAddEntity(Mi::Inheritable::Scene* scene, Mi::Inheritable::Entity* entity) {
+    void MiCoreSceneAddEntity(Mi::Inheritable::Scene* scene, Mi::Inheritable::Renderable* entity) {
         if (Mi::Core::scenes.find(scene->scene_name) == Mi::Core::scenes.end()) {
             scene->AddEntity(entity);
             Mi::Core::scenes[scene->scene_name] = scene;
@@ -199,6 +202,8 @@ namespace Mi { namespace Engine {
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
 
         renderbuf buffer = renderbuf();
 
@@ -222,7 +227,7 @@ namespace Mi { namespace Engine {
     }
 
     // Initializes Mi
-    void MiCoreBegin() {
+    void MiCoreBegin(int width, int height, const char* name) {
         
         if (!glfwInit()) std::cout << "couldn't initialize GLFW\n";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -233,7 +238,7 @@ namespace Mi { namespace Engine {
 #endif
 
         glfwWindowHint(GLFW_SAMPLES, 4);
-        main_window = glfwCreateWindow(1200, 800, "Test", NULL, NULL);
+        main_window = glfwCreateWindow(width, height, name, NULL, NULL);
         glfwMakeContextCurrent(main_window);
 
         glewExperimental = GL_TRUE;

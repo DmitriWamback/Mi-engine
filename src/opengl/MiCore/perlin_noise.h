@@ -71,6 +71,7 @@ namespace Mi {
                                           gradient(p[BB + 1], x - 1, y - 1, z - 1))));
     }
 
+    // Generic Perlin Noise algorithm
     double noise_layer(float x, float y, float lacunarity, float persistance, float seed, int octaves) {
 
         float n = 0;
@@ -86,6 +87,8 @@ namespace Mi {
         return n;
     }
 
+
+    // Perlin Noise algorithm that generates absolute values
     double abs_noise_layer(float x, float y, float lacunarity, float persistance, float seed, int octaves) {
 
         float n = 0;

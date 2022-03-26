@@ -10,7 +10,7 @@ namespace mibind {
         
     }
 
-    void SetEntityTexture(Mi::Inheritable::Entity* entity, Mi::Texture tex) {
+    void SetEntityTexture(Mi::Inheritable::Renderable* entity, Mi::Texture tex) {
 
     }   
 }

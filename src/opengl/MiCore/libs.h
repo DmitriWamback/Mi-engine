@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <functional>
 
 /* 3rd Party libraries */
 #include <GL/glew.h>

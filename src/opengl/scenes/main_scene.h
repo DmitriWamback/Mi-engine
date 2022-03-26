@@ -11,7 +11,7 @@ public:
 
         if (GetKeyDown(GLFW_KEY_F)) {
             Shader s = Mi::Engine::MiCoreFindShader("SHADOW SHADER");
-            Mi::Inheritable::Entity* e = new Cube(r);
+            Mi::Inheritable::Renderable* e = new Cube(r);
 
             glm::vec3 v = scene->camera.GetMouseRayNormalized();
 
@@ -96,7 +96,7 @@ public:
 
         // rendering entities
         for (int en = 0; en < nb_entities; en++) {
-            Mi::Inheritable::Entity* entity = allEntities[en];
+            Mi::Inheritable::Renderable* entity = allEntities[en];
             Shader shader = Mi::Core::all_shaders[entity->shaderToUse];
 
             if (entity->type == Mi::Enum::ENT_SKYBOX) {

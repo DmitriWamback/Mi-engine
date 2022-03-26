@@ -1,6 +1,6 @@
 #include "gfx/fbo/framebuf.h"
 
-#include "gfx/entities/entity.h"
+#include "gfx/entities/renderable.h"
 #include "gfx/texture/texture.h"
 #include "gfx/texture/cubemap.h"
 #include "gfx/entities/cube.h"
@@ -14,4 +14,6 @@
 #include "gfx/fbo/light/light.h"
 #include "gfx/fbo/light/pointlight.h"
 
+#include "gfx/renderers/renderer.h"
 #include "gfx/renderers/instanced_renderer.h"
+#include "gfx/renderers/deferred_renderer.h"

@@ -26,7 +26,7 @@ public:
         this->boxtype = INDEXED;
     }
 
-    static PhysicsBox* Create(Mi::Inheritable::Entity* entity) {
+    static PhysicsBox* Create(Mi::Inheritable::Renderable* entity) {
         int ATTRIB_LENGTH = 8;
         int VERTEX_LENGTH = 3;
         int arrsize = entity->get_vertex_length() / ATTRIB_LENGTH;
@@ -53,7 +53,7 @@ public:
         return new PhysicsBox(m_vertices);
     }
 
-    static PhysicsBox* CreateIndexed(Mi::Inheritable::Entity* entity) {
+    static PhysicsBox* CreateIndexed(Mi::Inheritable::Renderable* entity) {
 
     }
 };

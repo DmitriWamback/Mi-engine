@@ -17,7 +17,7 @@ namespace Mi { namespace Enum {
 
 namespace Mi { namespace Inheritable {
 
-    class Entity {
+    class Renderable {
     private:
         glm::mat4 model_matrix;
 
@@ -28,16 +28,19 @@ namespace Mi { namespace Inheritable {
 
         bool usesDepthBuffer;
         bool shouldRender;
+        float opacity;
 
         glm::vec3 position;
         glm::vec3 rotation;
         glm::vec3 size;
         glm::vec3 velocity;
+
+        std::vector<Mi::RAttribute> attributes;
         
         renderbuf buf;
         Mi::Enum::ENTITYTYPE type;
 
-        Entity() {
+        Renderable() {
 
             shouldRender = true;
             usesDepthBuffer = true;
