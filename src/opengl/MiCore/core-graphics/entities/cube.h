@@ -50,6 +50,9 @@ public:
 
         type = Mi::Enum::ENT_CUBE;
 
+        position = glm::vec3(0.0f);
+        size = glm::vec3(1.0f);
+
         glBindVertexArray(buf.vao);
         glBindBuffer(GL_ARRAY_BUFFER, buf.vbo);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);

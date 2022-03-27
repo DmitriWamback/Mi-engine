@@ -81,7 +81,7 @@ namespace Mi { namespace Input {
 
 #include "perlin_noise.h"
 
-#include "gfx/shader.h"
+#include "core-graphics/shader.h"
 namespace Mi { namespace Core {
     std::map<std::string, Mi::Shader> all_shaders;
 }}
@@ -89,13 +89,13 @@ namespace Mi { namespace Core {
 #include <MIPOSTPROCESSING/effect.h>
 #include <MIATTRIBUTE/attribute.h>
 #include "util/renderbuf.h"
-#include "gfx/colorbuf/colorbuf.h"
+#include "core-graphics/colorbuf/colorbuf.h"
 #include "util/camera.h"
 #include "entitylib.h"
-#include "gfx/ui/ui_element.h"
-#include "gfx/ui/ui_button.h"
-#include "gfx/ui/ui_frame.h"
-#include "gfx/ui/ui_renderer.h"
+#include "core-graphics/ui/ui_element.h"
+#include "core-graphics/ui/ui_button.h"
+#include "core-graphics/ui/ui_frame.h"
+#include "core-graphics/ui/ui_renderer.h"
 #include "util/static_camera.h"
 #include "util/scene.h"
 #include "util/mouse.h"

@@ -11,6 +11,7 @@ namespace Mi { namespace PostProcessing {
 
         uint32_t tex_result;
         float canvas[24];
+        const char* shader_key;
 
         static Effect* Create(std::map<const char*, uint32_t> renders);
 

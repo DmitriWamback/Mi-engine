@@ -56,7 +56,7 @@ namespace Mi {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
             //glDepthFunc(GL_LEQUAL);
             float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
-            //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+            glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
             glBindFramebuffer(GL_FRAMEBUFFER, fbo);
             glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, tex_id, 0);

@@ -29,6 +29,8 @@ public:
     Mi::Texture tex;
     Mi::Inheritable::Framebuffer* fb;
 
+    Mi::DeferredRenderer* dr;
+
     float t;
     glm::vec3 currentPos;
     glm::vec3 lastPos;
@@ -47,10 +49,11 @@ public:
     void MiEngineBegun() {
         tex = Mi::Texture::Create("src/res/images/diamondplate.jpg");
         fb = new Mi::Depthbuffer(1024 * 10, 1024 * 10);
+        dr = Mi::DeferredRenderer::Create();
+        dr->AddRenderable(new Cube(renderbuf()));
     }
 
     void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
-
         MoveCamera(motion, rotation); // IMPORTANT
 
         MoveEntities();
@@ -64,10 +67,17 @@ public:
         currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
         Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
-        ResetViewport();
+        dr->Render(camera);
 
         depthMap.Bind(0);
+        // debugging
+        /*
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, dr->GetBuffers(camera)[MI_DEFERRED_RENDER_NORMAL_KEY]);
+        */
         tex.Bind(1);
+
+        ResetViewport();
 
         Mi::Shader wireframe = Mi::Core::all_shaders["WIREFRAME"];
         wireframe.use();
