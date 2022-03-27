@@ -83,7 +83,7 @@ namespace Mi { namespace Input {
 
 #include "gfx/shader.h"
 namespace Mi { namespace Core {
-    std::map<std::string, Shader> all_shaders;
+    std::map<std::string, Mi::Shader> all_shaders;
 }}
 #include <MIPHYSICS/physicsbox.h>
 #include <MIPOSTPROCESSING/effect.h>
@@ -125,10 +125,12 @@ namespace Mi { namespace Core {
 
 namespace Mi { namespace Engine {
 
-    Shader MiCoreFindShader(std::string name) {
+    Mi::Shader MiCoreFindShader(std::string name) {
         if (Mi::Core::all_shaders.find(name) != Mi::Core::all_shaders.end()) {
             return Mi::Core::all_shaders[name];
         }
+
+        return Mi::Core::all_shaders["STANDARD"];
     }
 
     Mi::Audio::AudioPlayer audioPlayer;
@@ -139,7 +141,7 @@ namespace Mi { namespace Engine {
     }
 
     // Assigns an entity a shader to use when being rendered
-    void MiCoreEntityAssignShader(Mi::Inheritable::Renderable* entity, Shader shader) {
+    void MiCoreEntityAssignShader(Mi::Inheritable::Renderable* entity, Mi::Shader shader) {
         entity->shaderToUse = shader.shaderName;
     }
 
@@ -147,7 +149,7 @@ namespace Mi { namespace Engine {
         scene->AddUIRenderer(renderer);
     }
 
-    void MiCoreEntityAssignWireframeShader(Mi::Inheritable::Renderable* entity, Shader shader) {
+    void MiCoreEntityAssignWireframeShader(Mi::Inheritable::Renderable* entity, Mi::Shader shader) {
         entity->wireframeShaderToUse = shader.shaderName;
     }
 
@@ -167,7 +169,7 @@ namespace Mi { namespace Engine {
     }
 
     // Adds a shader to the engine
-    void MiCoreAddShader(Shader shader) {
+    void MiCoreAddShader(Mi::Shader shader) {
         Mi::Core::all_shaders[shader.shaderName] = shader;
     }
 
@@ -244,7 +246,9 @@ namespace Mi { namespace Engine {
         glewExperimental = GL_TRUE;
         glewInit();
         glEnable(GL_CULL_FACE);
-        glEnable(GL_MULTISAMPLE);  
+        glEnable(GL_MULTISAMPLE);
+
+        MiCoreAddShader(Mi::Shader::Create("standard/vMain.glsl", "standard/fMain.glsl", "STANDARD"));  
 
         glfwSetCursorPosCallback(main_window, Mi::Input::mouseMove);
         glfwSetMouseButtonCallback(main_window, Mi::Input::mouseDown);

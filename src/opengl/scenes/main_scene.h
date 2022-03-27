@@ -10,7 +10,7 @@ public:
         renderbuf r;
 
         if (GetKeyDown(GLFW_KEY_F)) {
-            Shader s = Mi::Engine::MiCoreFindShader("SHADOW SHADER");
+            Mi::Shader s = Mi::Engine::MiCoreFindShader("SHADOW SHADER");
             Mi::Inheritable::Renderable* e = new Cube(r);
 
             glm::vec3 v = scene->camera.GetMouseRayNormalized();
@@ -45,7 +45,7 @@ public:
 
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
-        tex = Mi::Texture("src/res/images/diamondplate.jpg");
+        tex = Mi::Texture::Create("src/res/images/diamondplate.jpg");
         fb = new Mi::Depthbuffer(1024 * 10, 1024 * 10);
     }
 
@@ -69,13 +69,13 @@ public:
         depthMap.Bind(0);
         tex.Bind(1);
 
-        Shader wireframe = Mi::Core::all_shaders["WIREFRAME"];
+        Mi::Shader wireframe = Mi::Core::all_shaders["WIREFRAME"];
         wireframe.use();
         wireframe.setMatr4("projection", camera.projection);
         wireframe.setMatr4("view", camera.view);
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
 
-        Shader instancedShadowShader = Mi::Core::all_shaders["INSTANCED SHADER"];
+        Mi::Shader instancedShadowShader = Mi::Core::all_shaders["INSTANCED SHADER"];
         instancedShadowShader.use();
         instancedShadowShader.setVec3("camera_position", camera.position);
         instancedShadowShader.setVec3("mouse_ray", mouseRay);
@@ -95,7 +95,7 @@ public:
         // rendering entities
         for (int en = 0; en < nb_entities; en++) {
             Mi::Inheritable::Renderable* entity = allEntities[en];
-            Shader shader = Mi::Core::all_shaders[entity->shaderToUse];
+            Mi::Shader shader = Mi::Core::all_shaders[entity->shaderToUse];
 
             if (entity->type == Mi::Enum::ENT_SKYBOX) {
                 entity->position = camera.position;
@@ -150,7 +150,7 @@ public:
 
         // using instanced renderers
         Mi::InstancedRenderer r = FindRendererByName("test");
-        Shader shader = Mi::Core::all_shaders[r.shaderName];
+        Mi::Shader shader = Mi::Core::all_shaders[r.shaderName];
         shader.use();
         shader.setMatr4("projection", camera.projection);
         shader.setMatr4("view", camera.view);

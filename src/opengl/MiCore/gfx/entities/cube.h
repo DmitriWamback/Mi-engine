@@ -71,7 +71,7 @@ public:
         return sizeof(vertices) / sizeof(vertices[0]);
     }
 
-    void render(Shader &shader) {
+    void render(Mi::Shader &shader) {
         shader.use();
         create_model_matrix();
         glm::mat4 model = get_model();
@@ -83,7 +83,7 @@ public:
         glBindVertexArray(0);
     }
 
-    void renderWithWireFrame(Shader &shader, Shader &wireframeShader) {
+    void renderWithWireFrame(Mi::Shader &shader, Mi::Shader &wireframeShader) {
         shader.use();
         create_model_matrix();
         glm::mat4 model = get_model();

@@ -76,6 +76,8 @@ namespace Mi { namespace Inheritable {
             for (int i = 0; i < renderers.size(); i++) {
                 if (renderers.at(i).name == name) return renderers.at(i);
             }
+
+            std::runtime_error("Cannot find IR of name: " + name);
         }
 
         Mi::UI::UIRenderer FindUIRendererByName(std::string name) {
@@ -138,11 +140,12 @@ namespace Mi { namespace Inheritable {
         }
 
         void ResetViewport() {
-#ifdef __APPLE__
+
             int width;
             int height;
-
             glfwGetWindowSize(main_window, &width, &height);
+
+#if defined(__APPLE__)
 
             if (width > height) glViewport(0, -abs(width-height), width*2, width*2);
             else glViewport(-abs(width-height), 0, height*2, height*2);
@@ -177,7 +180,7 @@ namespace Mi { namespace Inheritable {
 
         void __MI_ENGINE_BEGUN() {
             MiEngineBegun();
-            depthShader = Shader("shadow/vDepth.glsl", "shadow/fDepth.glsl", "DEPTH SHADER");
+            depthShader = Shader::Create("shadow/vDepth.glsl", "shadow/fDepth.glsl", "DEPTH SHADER");
         }
     };
 }}

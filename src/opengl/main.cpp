@@ -28,13 +28,14 @@ int main() {
     skybox->position = glm::vec3(0.0);
 
     /* SHADER DEFINITIONS HERE */
-    Shader shadowShader("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
-    Shader debugShader2("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
-    Shader skyboxShader("skybox/vMain.glsl", "skybox/fMain.glsl", "SKYBOX");
-    Shader debugModelShader("model/vMain.glsl", "model/fMain.glsl", "MODEL DEBUG");
-    Shader instancedShader("instancing/vInstance.glsl", "instancing/fInstance.glsl", "INSTANCED SHADER");
-    Shader wireframeShader("wireframe/vMain.glsl", "wireframe/fMain.glsl", "WIREFRAME");
-    Shader uiShader("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
+    Mi::Shader shadowShader     = Mi::Shader::Create("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
+    Mi::Shader debugShader2     = Mi::Shader::Create("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
+    Mi::Shader skyboxShader     = Mi::Shader::Create("skybox/vMain.glsl", "skybox/fMain.glsl", "SKYBOX");
+    Mi::Shader debugModelShader = Mi::Shader::Create("model/vMain.glsl", "model/fMain.glsl", "MODEL DEBUG");
+    Mi::Shader instancedShader  = Mi::Shader::Create("instancing/vInstance.glsl", "instancing/fInstance.glsl", "INSTANCED SHADER");
+    Mi::Shader wireframeShader  = Mi::Shader::Create("wireframe/vMain.glsl", "wireframe/fMain.glsl", "WIREFRAME");
+    Mi::Shader uiShader         = Mi::Shader::Create("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
+
     Mi::Engine::MiCoreAddShader(shadowShader);
     Mi::Engine::MiCoreAddShader(instancedShader);
     Mi::Engine::MiCoreAddShader(skyboxShader);

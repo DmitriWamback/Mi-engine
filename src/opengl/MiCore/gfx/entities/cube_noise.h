@@ -88,7 +88,7 @@ namespace Mi {
             }
         }
 
-        void render(Shader& shader) {
+        void render(Mi::Shader& shader) {
             if (shouldRender) {
                 for (int i = 0; i < nb_cubes; i++) {
                     Mi::Inheritable::Renderable* e = cubes[i];
@@ -97,7 +97,7 @@ namespace Mi {
             }
         }
         
-        void renderWithWireFrame(Shader& shader, Shader& wireframeShader) {
+        void renderWithWireFrame(Mi::Shader& shader, Mi::Shader& wireframeShader) {
             if (shouldRender) {
                 for (int i = 0; i < nb_cubes; i++) {
                     Mi::Inheritable::Renderable* e = cubes[i];

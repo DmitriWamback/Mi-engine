@@ -62,7 +62,7 @@ namespace Mi { namespace Inheritable {
             return model_matrix;
         }
 
-        virtual void render(Shader &shader) {
+        virtual void render(Mi::Shader &shader) {
             shader.use();
             //model_matrix = scale(glm::vec3(1.0));
             //shader.setMatr4("model", model_matrix);
@@ -72,7 +72,7 @@ namespace Mi { namespace Inheritable {
             position += velocity;
         }
 
-        virtual void renderWithWireFrame(Shader &mainShader, Shader &wireframeShader) {}
+        virtual void renderWithWireFrame(Mi::Shader &mainShader, Mi::Shader &wireframeShader) {}
 
         virtual float* get_vertices() { return nullptr; }
         virtual int get_vertex_length() { return 0; }

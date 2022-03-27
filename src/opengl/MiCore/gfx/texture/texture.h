@@ -14,13 +14,16 @@ namespace Mi {
 
         Texture() {}
 
-        Texture(const char* file_path) {
+        static Texture Create(const char* file_path) {
             int width, height, channels;
+
+            uint32_t tex;
+            Texture t = Texture();
 
             unsigned char* data = stbi_load(file_path, &width, &height, &channels, 0);
             if (data) {
-                glGenTextures(1, &tex_id);
-                glBindTexture(GL_TEXTURE_2D, tex_id);
+                glGenTextures(1, &tex);
+                glBindTexture(GL_TEXTURE_2D, tex);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
@@ -38,6 +41,9 @@ namespace Mi {
             else {
                 std::cout << "COULDN'T FIND IMAGE\n";
             }
+
+            t.tex_id = tex;
+            return t;
         };
 
         void Bind(int index) {

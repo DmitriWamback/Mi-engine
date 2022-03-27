@@ -21,13 +21,15 @@ namespace Mi {
 
         glm::vec2 rotation;
 
+        float farplane = 1000.f;
+
         Camera() {
             position = glm::vec3(0.0, 0.0, 0.0);
             look_direction = normalize(glm::vec3(-1.0, -1.0, -1.0));
             rotation = glm::vec2(0.0);
             up = glm::vec3(0.0, 1.0, 0.0);
 
-            projection = glm::perspective(glm::radians(130.0f), 1.0f, 0.1f, 1000.0f);
+            projection = glm::perspective(glm::radians(130.0f), 1.0f, 0.1f, farplane);
             view = glm::lookAt(position, position + look_direction, up);
         };
 
