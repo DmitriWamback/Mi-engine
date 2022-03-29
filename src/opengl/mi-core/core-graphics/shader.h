@@ -115,6 +115,19 @@ namespace Mi {
             glUniform1f(loc, a);
         }
 
+        void setMultipleMatr4(std::map<std::string, glm::mat4&> mat) {
+            for (std::map<std::string, glm::mat4&>::iterator t = mat.begin(); t != mat.end(); t++) setMatr4(t->first, t->second);
+        }
+        void setMultipleVec3(std::map<std::string, glm::vec3> vec) {
+            for (std::map<std::string, glm::vec3>::iterator t = vec.begin(); t != vec.end(); t++) setVec3(t->first, t->second);
+        }
+        void setMultipleInt(std::map<std::string, int> i) {
+            for (std::map<std::string, int>::iterator t = i.begin(); t != i.end(); t++) setInt(t->first, t->second);
+        }
+        void setMultipleFloat(std::map<std::string, float> f) {
+            for (std::map<std::string, float>::iterator t = f.begin(); t != f.end(); t++) setFloat(t->first, t->second);
+        }
+
         void use() {
             glUseProgram(program);
         }

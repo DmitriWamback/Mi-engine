@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ports.h"
 
-namespace mi_duino {
+namespace Mi { namespace Hardware {
 
     class Serialport {
     public:
@@ -16,11 +16,16 @@ namespace mi_duino {
             p.p_name = port;
             p.p_baud = baud;
             p.p_location = open(port, O_RDWR | O_NOCTTY | O_SYNC);
-            int status = mi_duino::hardware::SetBaudRate(p.p_location, p.p_baud);
+            int status = Mi::Hardware::SetBaudRate(p.p_location, p.p_baud);
 
             if (status != 0) std::cout << std::string("Could not set baud rate of serial port: ").append(port) << std::endl;
 
             return p;
+        }
+
+        void Reopen(int baud) {
+            int status = Mi::Hardware::SetBaudRate(p_location, p_baud);
+            if (status != 0) std::cout << std::string("Could not set baud rate of serial port: ").append(p_name) << std::endl;
         }
 
         char* Read(int bufsize) {
@@ -45,4 +50,4 @@ namespace mi_duino {
             write(p_location, message, msglen);
         }
     };
-}
+}}

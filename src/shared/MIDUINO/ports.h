@@ -4,7 +4,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-namespace mi_duino { namespace hardware {
+namespace Mi { namespace Hardware {
 
     int SetBaudRate(int port, int baud) {
 

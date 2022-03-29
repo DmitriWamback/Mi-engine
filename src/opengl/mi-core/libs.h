@@ -9,6 +9,7 @@
 #include <string>
 #include <thread>
 #include <functional>
+#include <list>
 
 /* 3rd Party libraries */
 #include <GL/glew.h>

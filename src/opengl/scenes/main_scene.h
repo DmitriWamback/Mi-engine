@@ -79,13 +79,13 @@ public:
 
         ResetViewport();
 
-        Mi::Shader wireframe = Mi::Core::all_shaders["WIREFRAME"];
+        Mi::Shader wireframe = Mi::Engine::MiCoreFindShader("WIREFRAME");
         wireframe.use();
         wireframe.setMatr4("projection", camera.projection);
         wireframe.setMatr4("view", camera.view);
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
 
-        Mi::Shader instancedShadowShader = Mi::Core::all_shaders["INSTANCED SHADER"];
+        Mi::Shader instancedShadowShader = Mi::Engine::MiCoreFindShader("INSTANCED SHADER");
         instancedShadowShader.use();
         instancedShadowShader.setVec3("camera_position", camera.position);
         instancedShadowShader.setVec3("mouse_ray", mouseRay);
@@ -105,7 +105,7 @@ public:
         // rendering entities
         for (int en = 0; en < nb_entities; en++) {
             Mi::Inheritable::Renderable* entity = allEntities[en];
-            Mi::Shader shader = Mi::Core::all_shaders[entity->shaderToUse];
+            Mi::Shader shader = Mi::Engine::MiCoreFindShader(entity->shaderToUse);
 
             if (entity->type == Mi::Enum::ENT_SKYBOX) {
                 entity->position = camera.position;
@@ -118,6 +118,7 @@ public:
             }
 
             shader.use();
+
             shader.setVec3("mouse_ray", mouseRay);
             shader.setVec3("camera_position", camera.position);
             shader.setMatr4("projection", camera.projection);
@@ -148,11 +149,6 @@ public:
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);
         }
 
-        //glActiveTexture(GL_TEXTURE0);
-        //glBindTexture(GL_TEXTURE_2D, 0);
-        //glActiveTexture(GL_TEXTURE1);
-        //glBindTexture(GL_TEXTURE_2D, 0);
-
         // Rendering UIs
         for (int i = 0; i < uiRenderers.size(); i++) {
             uiRenderers.at(i).Update();
@@ -160,7 +156,7 @@ public:
 
         // using instanced renderers
         Mi::InstancedRenderer r = FindRendererByName("test");
-        Mi::Shader shader = Mi::Core::all_shaders[r.shaderName];
+        Mi::Shader shader = Mi::Engine::MiCoreFindShader(r.shaderName);
         shader.use();
         shader.setMatr4("projection", camera.projection);
         shader.setMatr4("view", camera.view);

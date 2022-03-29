@@ -19,7 +19,7 @@ namespace Mi { namespace Inheritable {
             Initialize(screenPositionPXL, screenSizePXL);
         }
 
-        virtual void Render(Shader& shader) {
+        virtual void Render(Shader shader) {
 
         }
 

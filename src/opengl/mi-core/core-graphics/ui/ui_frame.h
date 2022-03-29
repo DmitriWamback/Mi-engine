@@ -18,7 +18,7 @@ namespace Mi { namespace UI {
             glBindVertexArray(0);
         }
 
-        void Render(Shader &shader) {
+        void Render(Shader shader) {
             shader.use();
             glBindVertexArray(buf.vao);
             glDrawArrays(GL_TRIANGLES, 0, 6);

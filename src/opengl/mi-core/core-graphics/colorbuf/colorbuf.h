@@ -35,7 +35,7 @@ namespace Mi {
             uint32_t cbuf;
             glGenTextures(1, &cbuf);
             glBindTexture(GL_TEXTURE_2D, cbuf);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 2000, 2000, 0, GL_RGBA, GL_FLOAT, NULL);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, 2000, 2000, 0, GL_RGBA, GL_FLOAT, NULL);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glFramebufferTexture2D(GL_FRAMEBUFFER, attr, GL_TEXTURE_2D, cbuf, 0);

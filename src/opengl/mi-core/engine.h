@@ -15,6 +15,7 @@ GLFWwindow* main_window;
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <MISND/audioplayer.h>
+#include <unordered_map>
 
 bool isDebugButtonDown;
 float biasOffset = 0.0;
@@ -78,13 +79,27 @@ namespace Mi { namespace Input {
 }}
 #include "util/vec_util.h"
 #include "util/glm_additions.h"
-
 #include "perlin_noise.h"
-
+#include <MIDUINO/serialport.h>
 #include "core-graphics/shader.h"
+
 namespace Mi { namespace Core {
-    std::map<std::string, Mi::Shader> all_shaders;
+    std::map<std::string, Mi::Shader> allShaders;
+    std::map<std::string, Mi::Hardware::Serialport> ports;
+    std::map<std::string, const char*> portMessages;
+}
+namespace Engine {
+
+    Mi::Shader MiCoreFindShader(std::string name) {
+        if (Mi::Core::allShaders.find(name) != Mi::Core::allShaders.end()) {
+            return Mi::Core::allShaders[name];
+        }
+
+        return Mi::Core::allShaders["STANDARD"];
+    }
 }}
+
+
 #include <MIPHYSICS/physicsbox.h>
 #include <MIPOSTPROCESSING/effect.h>
 #include <MIATTRIBUTE/attribute.h>
@@ -125,19 +140,16 @@ namespace Mi { namespace Core {
 
 namespace Mi { namespace Engine {
 
-    Mi::Shader MiCoreFindShader(std::string name) {
-        if (Mi::Core::all_shaders.find(name) != Mi::Core::all_shaders.end()) {
-            return Mi::Core::all_shaders[name];
-        }
-
-        return Mi::Core::all_shaders["STANDARD"];
-    }
-
     Mi::Audio::AudioPlayer audioPlayer;
 
     // Adds a static camera to a given scene
     void MiCoreAddStaticCamera(Mi::Inheritable::Scene* scene, Mi::StaticCamera camera) {
         scene->AddStaticCamera(camera);
+    }
+
+    // Adds a serial port for serial communication
+    void MiCoreAddSerialPort(Mi::Hardware::Serialport port, std::string name) {
+        Mi::Core::ports[name] = port;
     }
 
     // Assigns an entity a shader to use when being rendered
@@ -170,7 +182,7 @@ namespace Mi { namespace Engine {
 
     // Adds a shader to the engine
     void MiCoreAddShader(Mi::Shader shader) {
-        Mi::Core::all_shaders[shader.shaderName] = shader;
+        Mi::Core::allShaders[shader.shaderName] = shader;
     }
 
     // Adds an entity to a scene

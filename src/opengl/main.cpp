@@ -1,5 +1,5 @@
 // ENGINE
-#include "MiCore/engine.h"
+#include "mi-core/engine.h"
 #include "scenes/main_scene.h"
 
 /* Main method */
