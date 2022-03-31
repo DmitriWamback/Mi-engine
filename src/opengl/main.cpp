@@ -43,6 +43,8 @@ int main() {
     Mi::Engine::MiCoreAddShader(wireframeShader);
     Mi::Engine::MiCoreAddShader(uiShader);
 
+    Mi::System* _s = Mi::ParticleSystem::Create();
+
     Mi::StaticCamera shadowCamera = Mi::StaticCamera(Mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
     float seed = rand() % 100000;

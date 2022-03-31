@@ -9,6 +9,11 @@ namespace Mi {
         void Listen() {
             
         }
+
+        template<class T>
+        T CastTo() {
+            return dynamic_cast<T>(this);
+        }
     };
 }
 

@@ -4,6 +4,11 @@
 GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
 
+namespace Mi { namespace Engine {
+
+    float deltaTime;
+}}
+
 #define LOG_OUT(a) std::cout << a << '\n'
 #define LOG_OUT2(a, b) std::cout << a << ' ' << b << '\n'
 #define LOG_OUT3(a, b, c) std::cout << a << ' ' << b << ' ' << c << '\n'
@@ -220,6 +225,7 @@ namespace Mi { namespace Engine {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
 
         renderbuf buffer = renderbuf();
+        float oldTime = 0;
 
         while (!glfwWindowShouldClose(main_window)) {
 
@@ -231,6 +237,10 @@ namespace Mi { namespace Engine {
 
             if (Mi::Input::subKeyboard != nullptr) Mi::Input::subKeyboard->Listen();
             if (Mi::Input::subMouse != nullptr) Mi::Input::subMouse->Listen();
+
+            float currentTime = glfwGetTime();
+            deltaTime = currentTime - oldTime;
+            oldTime = currentTime;
 
             scene->RenderAll(Mi::Input::movement_motion, Mi::Input::camera_rotation_movement);
 

@@ -22,6 +22,9 @@ namespace Mi {
         glm::vec2 rotation;
 
         float farplane = 1000.f;
+        float speed = 20.f;
+
+        bool isSmooth = true;
 
         Camera() {
             position = glm::vec3(0.0, 0.0, 0.0);
@@ -29,7 +32,7 @@ namespace Mi {
             rotation = glm::vec2(0.0);
             up = glm::vec3(0.0, 1.0, 0.0);
 
-            projection = glm::perspective(glm::radians(130.0f), 1.0f, 0.1f, farplane);
+            projection = glm::perspective(glm::radians(130.0f), 1200.f / 800.f, 0.1f, farplane);
             view = glm::lookAt(position, position + look_direction, up);
         };
 
@@ -60,24 +63,38 @@ namespace Mi {
             glfwGetWindowSize(main_window, &width, &height);
 
             glm::vec2 mouseCoords = glm::vec2(
-                ((2*Mi::Input::camera_last_mouse_position.x / (float)width) - 1) * ((float)height / (float)width * 1.15f),
-               -((2*Mi::Input::camera_last_mouse_position.y / (float)height) - 1) * ((float)height / (float)width * 1.15f)
+                ((2*Mi::Input::camera_last_mouse_position.x / (float)width) - 1),
+               -((2*Mi::Input::camera_last_mouse_position.y / (float)height) - 1)
             );
 
-
             glm::vec4 clipCoords = glm::vec4(mouseCoords, 1.f, 1.f);
-            glm::mat4 inv = glm::inverse(projection * view);
+            glm::mat4 inv = glm::inverse(projection * glm::lookAt(glm::vec3(0.0f), glm::normalize(look_direction), glm::vec3(0.0f, 1.0f, 0.0f)));
             glm::vec4 r = inv * clipCoords;
             glm::vec3 mouseRay = glm::vec3(r.x, r.y, r.z);
 
             return glm::normalize(mouseRay);
         }
 
-        void moveCamera(float speed, glm::vec2 motion) {
+        glm::vec2 direction;
+        float t = 1.0;
 
-            position += look_direction * motion.x;
+        void moveCamera(float _speed, glm::vec2 motion) {
+            
             glm::vec3 right = glm::normalize(glm::cross(look_direction, up));
-            position += right * motion.y;
+            if (motion.x == 0 && motion.y == 0) {
+                LOG_OUT("here");
+                position += look_direction * direction.x * Mi::Engine::deltaTime * speed * t;
+                position += right * direction.y * Mi::Engine::deltaTime * speed * t;
+                t -= 0.15;
+                if (t <= 0) t = 0;
+            }
+            else {
+                position += look_direction * motion.x * Mi::Engine::deltaTime * speed;
+                position += right * motion.y * Mi::Engine::deltaTime * speed;
+                t = 1.0;
+
+                direction = motion;
+            }
 
             view = glm::lookAt(position, position + look_direction, up);
         }
