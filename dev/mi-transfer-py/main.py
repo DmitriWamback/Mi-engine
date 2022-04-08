@@ -1,6 +1,6 @@
-import core.MiTPY as Mi
+import core.MiTIPY as Mi
 
-a = Mi.MiTPY()
+a = Mi.MiTIPY()
 a.attemptConnection()
 
 d = [0, 0, 0, 1,
@@ -11,7 +11,7 @@ d = [0, 0, 0, 1,
      0, 5, 0, 115,
      0, 6, 0, -115]
 
-Mi.MiTPY.formData(d, Mi.MITPY_3D_DATA_TRANSFER)
+Mi.MiTIPY.formDataToStringify(d, Mi.MITPY_3D_DATA_TRANSFER)
 
 while 1:
     a.transfer('hello')

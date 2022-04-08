@@ -12,7 +12,7 @@ ATTR = {
     MITPY_3D_DATA_TRANSFER: 4
 }
 
-class MiTPY:
+class MiTIPY:
 
     def __init__(self):
         # Default Mi transfer p 
