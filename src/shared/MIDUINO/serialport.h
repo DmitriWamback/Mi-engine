@@ -28,7 +28,7 @@ namespace Mi { namespace Hardware {
             if (status != 0) std::cout << std::string("Could not set baud rate of serial port: ").append(p_name) << std::endl;
         }
 
-        char* Read(int bufsize) {
+        std::string Read(int bufsize) {
             char result[bufsize];
             memset(&result, '\0', bufsize);
 
@@ -42,7 +42,7 @@ namespace Mi { namespace Hardware {
             }
             while (buf != '\r' && nbchars > 0);
 
-            return result;
+            return std::string(result);
         }
 
         void Write(const char* message) {

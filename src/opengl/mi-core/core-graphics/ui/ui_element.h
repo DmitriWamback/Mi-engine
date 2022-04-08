@@ -10,11 +10,12 @@ namespace Mi { namespace Inheritable {
         float* vertices;
         std::string shaderName;
 
-        bool scaleWithScreenSize = false;
+        bool scaleWithScreenSize;
 
         UIElement() {}
 
         UIElement(renderbuf buffer, glm::vec2 screenPositionPXL, glm::vec2 screenSizePXL) {
+            scaleWithScreenSize = false;
             this->buf = buffer;
             Initialize(screenPositionPXL, screenSizePXL);
         }

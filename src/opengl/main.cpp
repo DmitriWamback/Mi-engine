@@ -82,7 +82,7 @@ int main() {
 
     Mi::modelbuf m1, m2;
 
-    Mi::Inheritable::Renderable* m = Mi::IO::LoadModel("src/res/models/monkey2.obj", m2);
+    Mi::Inheritable::Renderable* m = Mi::IO::LoadModel("src/res/models/lowpoly_monkey.obj", m2);
     m->size = glm::vec3(5.0);
     m->position = glm::vec3(0.0, 10.0, 0.0);
     Mi::Engine::MiCoreEntityAssignShader(m, shadowShader);

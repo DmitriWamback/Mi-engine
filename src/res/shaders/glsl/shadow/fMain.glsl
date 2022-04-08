@@ -123,7 +123,7 @@ void main() {
     col = objectColor * min((1 - (shadow * dotD)), MIN_SHADOW_BRIGHTNESS);
 
     vec3 diffuse = dotD * lightColor * shadow;
-    fragc = vec4(col + (objectColor / 5.0), 1.0) + texture(skybox, R) * reflectionIntensity * shadowIntensity;
+    fragc = vec4(col + (objectColor / 2.0), 1.0) + texture(skybox, R) * reflectionIntensity * shadowIntensity;
 
     float fdist = GetDistance(i.fragp, camera_position, 50.0);
     vec3 fog = ComputeFog(fdist, vec3(1.0, 0.9, 0.8), fragc.rgb);

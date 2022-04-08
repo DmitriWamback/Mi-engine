@@ -33,6 +33,9 @@ namespace Mi { namespace Inheritable {
             this->scene_name = scene_name;
             nb_entities = 0;
             nb_cameras = 0;
+
+            uiRenderers.push_back(Mi::UI::UIRenderer(""));
+            renderers.push_back(Mi::InstancedRenderer());
         }
 
         void MoveCamera(glm::vec2 motion, glm::vec2 camera_rotation) {
@@ -67,9 +70,13 @@ namespace Mi { namespace Inheritable {
         }
 
         Mi::StaticCamera FindStaticCameraByName(std::string name) {
+
+            Mi::StaticCamera s;
+
             for (int i = 0; i < nb_cameras; i++) {
-                if (static_cameras[i].camera_name == name) return static_cameras[i];
+                if (static_cameras[i].camera_name == name) s = static_cameras[i];
             }
+            return s;
         }
 
         Mi::InstancedRenderer FindRendererByName(std::string name) {
@@ -77,13 +84,16 @@ namespace Mi { namespace Inheritable {
                 if (renderers.at(i).name == name) return renderers.at(i);
             }
 
-            std::runtime_error("Cannot find IR of name: " + name);
+            std::cout << "Couldn't find Instanced Renderer of name: " << name << ", returning empty IR\n";
+            return renderers[0];
         }
 
         Mi::UI::UIRenderer FindUIRendererByName(std::string name) {
             for (int i = 0; i < uiRenderers.size(); i++) {
                 if (uiRenderers.at(i).name == name) return uiRenderers.at(i);
             }
+            std::cout << "Couldn't find Ui Renderer of name: " << name << ", returning empty UR\n";
+            return uiRenderers[0];
         }
 
         void AddInstancedRenderer(Mi::InstancedRenderer r) {

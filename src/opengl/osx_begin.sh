@@ -24,5 +24,6 @@ g++ -framework OpenGL -framework OpenAL -I $INCLUDES \
                 -I src/vendor/include \
                 -I src/shared \
                 $CMD \
+                -I src/mit \
                 src/opengl/main.cpp
 ./a.out

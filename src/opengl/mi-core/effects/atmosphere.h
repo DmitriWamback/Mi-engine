@@ -4,7 +4,7 @@ namespace Mi { namespace PostProcessing {
     public:
 
         static Effect* Create(std::map<const char*, uint32_t> renders) {
-
+            return new Effect();
         }
     };
 }}

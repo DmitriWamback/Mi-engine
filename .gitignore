@@ -4,3 +4,4 @@ a.out
 /.vscode/
 *.lock
 *.mtl
+__pycache__

@@ -7,23 +7,21 @@ namespace Mi { namespace Audio {
 
     public:
 
-        float volume    = 1;
-        float pitch     = 1;
-        bool looped     = false;
+        float volume;
+        float pitch;
+        bool looped;
         std::string name;
 
         AudioSource() {}
-        AudioSource(const char* audiofile, std::string name) {
+        static AudioSource Create(const char* audiofile, std::string name) {
             
-            this->name = name;
-            alGenSources(1, &source);
-        }
-
-        static AudioSource Load(const char* audiofile, std::string name) {
-
-            AudioSource source = AudioSource(audiofile, name);
-            source.LinkProperties();
-            return source;
+            AudioSource s = AudioSource();
+            s.name = name;
+            s.volume = 1;
+            s.pitch = 1;
+            s.looped = false;
+            alGenSources(1, &s.source);
+            return s;
         }
 
         uint32_t GetSource() {

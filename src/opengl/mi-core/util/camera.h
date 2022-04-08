@@ -21,18 +21,26 @@ namespace Mi {
 
         glm::vec2 rotation;
 
-        float farplane = 1000.f;
-        float speed = 20.f;
+        float farplane;
+        float speed;
 
-        bool isSmooth = true;
+        bool isSmooth;
+        glm::vec2 direction;
+        float t;
 
         Camera() {
+            
+            farplane = 1000.f;
+            speed = 20.f;
+            isSmooth = true;
+            t = 1.0f;
+
             position = glm::vec3(0.0, 0.0, 0.0);
             look_direction = normalize(glm::vec3(-1.0, -1.0, -1.0));
             rotation = glm::vec2(0.0);
             up = glm::vec3(0.0, 1.0, 0.0);
 
-            projection = glm::perspective(glm::radians(130.0f), 1200.f / 800.f, 0.1f, farplane);
+            projection = glm::perspective(glm::radians(130.0f), 1.0f, 0.1f, farplane);
             view = glm::lookAt(position, position + look_direction, up);
         };
 
@@ -75,17 +83,13 @@ namespace Mi {
             return glm::normalize(mouseRay);
         }
 
-        glm::vec2 direction;
-        float t = 1.0;
-
         void moveCamera(float _speed, glm::vec2 motion) {
             
             glm::vec3 right = glm::normalize(glm::cross(look_direction, up));
             if (motion.x == 0 && motion.y == 0) {
-                LOG_OUT("here");
                 position += look_direction * direction.x * Mi::Engine::deltaTime * speed * t;
                 position += right * direction.y * Mi::Engine::deltaTime * speed * t;
-                t -= 0.15;
+                t -= 0.2;
                 if (t <= 0) t = 0;
             }
             else {
