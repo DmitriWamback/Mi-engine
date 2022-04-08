@@ -38,7 +38,7 @@ namespace MITI {
         }
 
         void Listen() {
-            MitiConn = accept(server, (struct sockaddr*)NULL, NULL);
+            MitiConn = accept(ServerFD, (struct sockaddr*)NULL, NULL);
         }
 
         std::map<int, const char*> HasContent() {
