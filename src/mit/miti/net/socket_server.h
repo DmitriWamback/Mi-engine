@@ -51,9 +51,7 @@ namespace MITI {
         float* ReadVertices() {
 
             std::map<int, const char*> r = HasContent();
-            if (std::string(r[0]) != "none") {
-                
-            }
+            if (std::string(r[0]) != "none") { }
 
             return nullptr;
         }        
