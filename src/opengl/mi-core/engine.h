@@ -108,7 +108,6 @@ namespace Engine {
 #include <MIPHYSICS/physicsbox.h>
 #include <MIPOSTPROCESSING/effect.h>
 #include <MIATTRIBUTE/attribute.h>
-#include <miti/net/socket_server.h>
 #include "util/renderbuf.h"
 #include "core-graphics/colorbuf/colorbuf.h"
 #include "util/camera.h"
