@@ -34,9 +34,9 @@ class MiTIPY:
 
     def transfer(self, data):
         try:
-            self.client.send(str(datetime.datetime.now()).encode())
-            time.sleep(0.01)
-        except:
+            self.client.send(str(data).encode())
+            time.sleep(0.05)
+        except Exception as e:
             print(f'[{str(datetime.datetime.now())}] Error: Connection halted! reconnecting...')
             while 1:
                 if self.attemptConnection() == True:

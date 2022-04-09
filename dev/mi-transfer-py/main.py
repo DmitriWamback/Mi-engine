@@ -11,7 +11,7 @@ d = [0, 0, 0, 1,
      0, 5, 0, 115,
      0, 6, 0, -115]
 
-Mi.MiTIPY.formDataToStringify(d, Mi.MITPY_3D_DATA_TRANSFER)
-
 while 1:
-    a.transfer('hello')
+
+     stringified = Mi.MiTIPY.formDataToStringify(d, Mi.MITPY_3D_DATA_TRANSFER)
+     a.transfer(stringified)

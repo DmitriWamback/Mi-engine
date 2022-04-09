@@ -11,6 +11,9 @@
 #include <sys/types.h> 
 #include <sys/socket.h> 
 #include <netinet/in.h> 
+#include <thread>
+
+#define READBYTES_SIZE 4096
 
 namespace MITI {
 
@@ -20,6 +23,7 @@ namespace MITI {
         int ServerFD; // server
         int MitiConn; // connection
         struct sockaddr_in SocketAddress;
+        bool isConnected;
 
         // Creates a Socket Server binded at localhost:6060
         static MITISocketServer CreateLocalhost() {
@@ -32,28 +36,58 @@ namespace MITI {
             s.SocketAddress.sin_addr.s_addr     = htons(INADDR_ANY);
             s.SocketAddress.sin_port            = htons(6060);
             
-            bind(s.ServerFD, (struct socketaddr*)&s.SocketAddress, sizeof(s.SocketAddress));
+            bind(s.ServerFD, (struct sockaddr*)&s.SocketAddress, sizeof(s.SocketAddress));
             listen(s.ServerFD, 10);
             return s;
         }
 
-        void Listen() {
-            MitiConn = accept(ServerFD, (struct sockaddr*)NULL, NULL);
+        ~MITISocketServer() { }
+
+        void __wait() {
+            while (true) {
+                std::cout << "Host: localhost:6060\n";
+                std::cout << "Waiting for a connection...\n";
+                MitiConn = accept(ServerFD, (struct sockaddr*)NULL, NULL);
+                std::cout << "Connection Accepted!\n";
+                isConnected = true;
+            }
+        }
+
+        void WaitConnection() {
+            std::thread obj = std::thread(&MITISocketServer::__wait, this);
+            obj.detach();
         }
 
         std::map<int, const char*> HasContent() {
-
+            
             std::map<int, const char*> result;
-            result[0] = "none";
+            char buf[READBYTES_SIZE];
+            bzero(buf, READBYTES_SIZE);
+
+            int err = 0;
+            if (isConnected) {
+                err = recv(MitiConn, buf, READBYTES_SIZE, 0);
+            }
+            if (err == 0 && isConnected) {
+                isConnected = false;
+                WaitConnection();
+                result[0] = "none";
+                return result;
+            }
+            if (!isConnected) {
+                result[0] = "none";
+                return result;
+            }
+            result[0] = buf;
             return result;
         }
 
-        float* ReadVertices() {
+        std::string Read() {
 
             std::map<int, const char*> r = HasContent();
-            if (std::string(r[0]) != "none") { }
+            return std::string(r[0]);
+        }
 
-            return nullptr;
-        }        
+    private:
     };
 }
