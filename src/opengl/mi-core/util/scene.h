@@ -99,9 +99,6 @@ namespace Mi { namespace Inheritable {
             
             glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
             glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
-
-            //cam.set_position(cam.get_start_position() + mi::Vec3(camera.position.x, 0, camera.position.z));
-            //cam.set_target(cam.get_start_target() + mi::Vec3(camera.position.x, 0, camera.position.z));
             camera_pos = cam.position;
             
             if (framebuffer->type == Mi::Enum::BUFTYPE_DEPTH) {
@@ -129,13 +126,13 @@ namespace Mi { namespace Inheritable {
                 }
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            glCullFace(GL_FRONT_AND_BACK);
+            glCullFace(GL_BACK);
 
             return Mi::RenderTexture(framebuffer->tex_id);
         }
 
         void ResetViewport() {
-
+            
             int width;
             int height;
             glfwGetWindowSize(main_window, &width, &height);

@@ -133,6 +133,8 @@ void main() {
     else
         fragc.rgb = fog;
 
+    fragc.rgb = vec3(1.0, 0.0, 1.0);
+
     // VISUALIZE MOUSE RAY
     // fragc.rgb += vec3(1.0, 0.0, 0.0) * max(dot(-normalize(camera_position - i.fragp), mouse_ray), 0.0);
 

@@ -28,21 +28,9 @@ int main() {
     Mi::Shader uiShader         = Mi::Shader::Create("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
     Mi::Shader standard         = Mi::Shader::Create("standard/vMain.glsl", "standard/fMain.glsl", "standard");
 
-    Mi::Engine::MiCoreAddShader(shadowShader);
-    Mi::Engine::MiCoreAddShader(instancedShader);
-    Mi::Engine::MiCoreAddShader(skyboxShader);
-    Mi::Engine::MiCoreAddShader(debugModelShader);
-    Mi::Engine::MiCoreAddShader(wireframeShader);
-    Mi::Engine::MiCoreAddShader(uiShader);
     Mi::Engine::MiCoreAddShader(standard);
 
     Mi::System* _s = Mi::ParticleSystem::Create();
-
-    Mi::StaticCamera shadowCamera = Mi::StaticCamera(Mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
-
-    Mi::Engine::MiCoreAddStaticCamera(scene1, shadowCamera);
-
-    Mi::Renderable a;
 
     Mi::Inheritable::Keyboard* k = new MainKeyboard(scene1);
     Mi::Engine::MiCoreSetSubKeyboard(k);
@@ -50,10 +38,13 @@ int main() {
     glm::vec2 cubeSize = glm::vec2(10, 40);
     int xzSize = 5;
     
-    Mi::Renderable r = Mi::Renderable::Create();
-    r.AttachAttribute(new Mi::CubeRenderer(RenderBuffer::Create()));
-    r.shaderToUse = shadowShader.shaderName;
-    scene1->AddEntity(r);
+    for (int i = 0; i < 100; i++) {
+        Mi::Renderable r = Mi::Renderable::Create();
+        r.position = glm::vec3(i, 0.f, 0.f);
+        r.AttachAttribute(new Mi::CubeRenderer(RenderBuffer::Create()));
+        r.shaderToUse = standard.shaderName;
+        scene1->AddEntity(r);
+    }
 
     Mi::Engine::MiCoreAddScene(scene1);
     Mi::Engine::MiCoreStartMainLoop(scene1->scene_name);
