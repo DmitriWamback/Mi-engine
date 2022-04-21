@@ -38,12 +38,14 @@ int main() {
     glm::vec2 cubeSize = glm::vec2(10, 40);
     int xzSize = 5;
     
-    for (int i = 0; i < 100; i++) {
-        Mi::Renderable r = Mi::Renderable::Create();
-        r.position = glm::vec3(i, 0.f, 0.f);
-        r.AttachAttribute(new Mi::CubeRenderer(RenderBuffer::Create()));
-        r.shaderToUse = standard.shaderName;
-        scene1->AddEntity(r);
+    for (int x = 0; x < 100; x++) {
+        for (int y = 0; y < 100; y++) {
+            Mi::Renderable r = Mi::Renderable::Create();
+            r.position = glm::vec3(x, sin(x), y);
+            r.AttachAttribute(new Mi::CubeRenderer(RenderBuffer::Create()));
+            r.shaderToUse = standard.shaderName;
+            scene1->AddEntity(r);
+        }
     }
 
     Mi::Engine::MiCoreAddScene(scene1);
