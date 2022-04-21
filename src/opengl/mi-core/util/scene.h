@@ -1,4 +1,3 @@
-#define __SCENE_MAX_ENTITIES 5000000
 #define __SCENE_MAX_STATIC_CAMERAS 10
 
 /* 
@@ -6,50 +5,38 @@
 The scene is a way to easily organize and render several places
 */
 
-float t = 0;
 namespace Mi { namespace Inheritable {
 
     class Scene {
     public: 
-
+    
         std::vector<Mi::InstancedRenderer> renderers;
         std::vector<Mi::UI::UIRenderer> uiRenderers;
 
         int nb_entities;
         int nb_cameras;
 
-        Renderable* allEntities[__SCENE_MAX_ENTITIES];
+        std::vector<Mi::Renderable> renderableCollection;
         Mi::StaticCamera static_cameras[__SCENE_MAX_STATIC_CAMERAS];
 
-        Mi::Camera camera;
+        static Mi::Camera camera;
         Shader depthShader;
 
         glm::vec3 camera_pos;
         std::string scene_name;
 
         Scene() {}
-
+    
         Scene(std::string scene_name) {
             this->scene_name = scene_name;
-            nb_entities = 0;
-            nb_cameras = 0;
-
-            uiRenderers.push_back(Mi::UI::UIRenderer(""));
-            renderers.push_back(Mi::InstancedRenderer());
         }
+
+        virtual void MiEngineBegun() {}
 
         void MoveCamera(glm::vec2 motion, glm::vec2 camera_rotation) {
             camera.rotateCamera(camera_rotation.x, camera_rotation.y);
             camera.moveCamera(1.0, motion);
         }
-
-        void Remove(Renderable* e) {
-            for (int i = 0; i < nb_entities; i++) {
-                if (allEntities[i] == e) allEntities[i] = nullptr;
-            }
-        }
-
-        virtual void MiEngineBegun() {}
         
         virtual void SceneMainLoop(glm::vec2 motion, glm::vec2 camera_rotation) {}
 
@@ -137,10 +124,8 @@ namespace Mi { namespace Inheritable {
 
                 depthShader.setInt("isInstanced", 0);
                 for (int i = 0; i < nb_entities; i++) {
-                    Renderable* entity = allEntities[i];
-                    if (entity != nullptr) {
-                        if (entity->usesDepthBuffer) entity->render(depthShader);
-                    }
+                    Renderable entity = renderableCollection[i];
+                    if (entity.usesDepthBuffer) entity.render(depthShader);
                 }
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -168,14 +153,13 @@ namespace Mi { namespace Inheritable {
 
         void MoveEntities() {
             for (int i = 0; i < nb_entities; i++) {
-                Mi::Inheritable::Renderable* e = allEntities[i];
-                if (e != nullptr) e->Move();
+                Mi::Renderable e = renderableCollection[i];
+                e.Move();
             }
         }
 
-        void AddEntity(Renderable* entity) {
-            allEntities[nb_entities] = entity;
-            nb_entities++;
+        void AddEntity(Renderable entity) {
+            renderableCollection.push_back(entity);
         }
 
         void AddStaticCamera(Mi::StaticCamera static_camera) {
@@ -186,11 +170,12 @@ namespace Mi { namespace Inheritable {
         void RenderAll(glm::vec2 motion, glm::vec2 camera_rotation) {
             SceneMainLoop(motion, camera_rotation);
         }
-        
 
         void __MI_ENGINE_BEGUN() {
             MiEngineBegun();
             depthShader = Shader::Create("shadow/vDepth.glsl", "shadow/fDepth.glsl", "DEPTH SHADER");
         }
     };
+
+    Mi::Camera Scene::camera = Mi::Camera();
 }}

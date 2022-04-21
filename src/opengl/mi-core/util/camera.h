@@ -35,10 +35,10 @@ namespace Mi {
             isSmooth = true;
             t = 1.0f;
 
-            position = glm::vec3(0.0, 0.0, 0.0);
-            look_direction = normalize(glm::vec3(-1.0, -1.0, -1.0));
-            rotation = glm::vec2(0.0);
-            up = glm::vec3(0.0, 1.0, 0.0);
+            position = glm::vec3(0.0f);
+            look_direction = normalize(glm::vec3(-1.0f, -1.0f, -1.0f));
+            rotation = glm::vec2(0.0f);
+            up = glm::vec3(0.0f, 1.0f, 0.0f);
 
             projection = glm::perspective(glm::radians(130.0f), 1.0f, 0.1f, farplane);
             view = glm::lookAt(position, position + look_direction, up);

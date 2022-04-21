@@ -5,9 +5,16 @@ GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
 
 namespace Mi { namespace Engine {
-
     float deltaTime;
 }}
+
+#define RenderNonIndexed(mode, first, count)            glDrawArrays(mode, first, count)
+#define RenderIndexed(mode, count, type, indices)       glDrawElements(mode, first, type, count)
+#define Triangle                                        GL_TRIANGLES
+#define Wireframe                                       GL_LINES
+#define ConnectedWireframe                              GL_LINE_STRIP
+#define Point                                           GL_POINTS
+
 
 #define LOG_OUT(a) std::cout << a << '\n'
 #define LOG_OUT2(a, b) std::cout << a << ' ' << b << '\n'
@@ -107,8 +114,9 @@ namespace Engine {
 
 #include <MIPHYSICS/physicsbox.h>
 #include <MIPOSTPROCESSING/effect.h>
+#include <MIATTRIBUTE/renderbuf.h>
 #include <MIATTRIBUTE/attribute.h>
-#include "util/renderbuf.h"
+#include "attributes/cube_renderer.h"
 #include "core-graphics/colorbuf/colorbuf.h"
 #include "util/camera.h"
 #include "entitylib.h"
@@ -149,7 +157,7 @@ namespace Mi { namespace Engine {
 
     // Adds a static camera to a given scene
     void MiCoreAddStaticCamera(Mi::Inheritable::Scene* scene, Mi::StaticCamera camera) {
-        scene->AddStaticCamera(camera);
+        //scene->AddStaticCamera(camera);
     }
 
     // Adds a serial port for serial communication
@@ -158,16 +166,16 @@ namespace Mi { namespace Engine {
     }
 
     // Assigns an entity a shader to use when being rendered
-    void MiCoreEntityAssignShader(Mi::Inheritable::Renderable* entity, Mi::Shader shader) {
-        entity->shaderToUse = shader.shaderName;
+    void MiCoreEntityAssignShader(Mi::Renderable entity, Mi::Shader shader) {
+        entity.shaderToUse = shader.shaderName;
     }
 
     void MiCoreSceneAddUIRenderer(Mi::Inheritable::Scene* scene, Mi::UI::UIRenderer renderer) {
-        scene->AddUIRenderer(renderer);
+        //scene->AddUIRenderer(renderer);
     }
 
-    void MiCoreEntityAssignWireframeShader(Mi::Inheritable::Renderable* entity, Mi::Shader shader) {
-        entity->wireframeShaderToUse = shader.shaderName;
+    void MiCoreEntityAssignWireframeShader(Mi::Renderable entity, Mi::Shader shader) {
+        entity.wireframeShaderToUse = shader.shaderName;
     }
 
     // Adds an audio source to the engine
@@ -185,24 +193,28 @@ namespace Mi { namespace Engine {
 
     }
 
+    void MiCoreAddScene(Mi::Inheritable::Scene* scene) {
+        Mi::Core::scenes[scene->scene_name] = scene;
+    }
+
     // Adds a shader to the engine
     void MiCoreAddShader(Mi::Shader shader) {
         Mi::Core::allShaders[shader.shaderName] = shader;
     }
 
     // Adds an entity to a scene
-    void MiCoreSceneAddEntity(Mi::Inheritable::Scene* scene, Mi::Inheritable::Renderable* entity) {
+    void MiCoreSceneAddEntity(Mi::Inheritable::Scene* scene, Mi::Renderable entity) {
         if (Mi::Core::scenes.find(scene->scene_name) == Mi::Core::scenes.end()) {
-            scene->AddEntity(entity);
+            //scene->AddEntity(entity);
             Mi::Core::scenes[scene->scene_name] = scene;
         }
         else {
-            Mi::Core::scenes[scene->scene_name]->AddEntity(entity);
+            //Mi::Core::scenes[scene->scene_name]->AddEntity(entity);
         }
     }
 
     void MiCoreSceneAddInstancedRenderer(Mi::Inheritable::Scene* scene, Mi::InstancedRenderer renderer) {
-        scene->AddInstancedRenderer(renderer);
+        //scene->AddInstancedRenderer(renderer);
     }
 
     void MiCoreSetSubKeyboard(Mi::Inheritable::Keyboard* keyboard) {
@@ -224,7 +236,6 @@ namespace Mi { namespace Engine {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
 
-        renderbuf buffer = renderbuf();
         float oldTime = 0;
 
         while (!glfwWindowShouldClose(main_window)) {

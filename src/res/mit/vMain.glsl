@@ -8,9 +8,11 @@ uniform mat4 view;
 uniform mat4 model;
 
 out vec3 color;
+out vec3 pos;
 
 void main() {
-    gl_PointSize = 5.0;
+    pos = position;
+    gl_PointSize = 10.0;
     gl_Position = projection * view * vec4(position, 1.0);
     color = vec3(weight);
 }

@@ -6,83 +6,45 @@ public:
     }
 
     void Listen() {
-
-        renderbuf r;
-
-        if (GetKeyDown(GLFW_KEY_F)) {
-            Mi::Shader s = Mi::Engine::MiCoreFindShader("SHADOW SHADER");
-            Mi::Inheritable::Renderable* e = new Cube(r);
-
-            glm::vec3 v = scene->camera.GetMouseRayNormalized();
-
-            e->position = scene->camera.position + (10.f * v);
-            //e->velocity = v;
-            Mi::Engine::MiCoreEntityAssignShader(e, s);
-            Mi::Engine::MiCoreSceneAddEntity(scene, e);
-        }
     }
 };
 
 class MainScene: public Mi::Inheritable::Scene {
 public:
 
-    Mi::Texture tex;
-    Mi::Inheritable::Framebuffer* fb;
-
-    Mi::DeferredRenderer* dr;
-
-    float t;
-    glm::vec3 currentPos;
-    glm::vec3 lastPos;
-
     MainScene(std::string n) {
-
-        // Initialize state
         this->scene_name = n;
-        nb_entities = 0;
-        nb_cameras = 0;
     }
-
-    Mi::CubeMap c;
 
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
-        tex = Mi::Texture::Create("src/res/images/diamondplate.jpg");
-        fb = new Mi::Depthbuffer(1024 * 10, 1024 * 10);
-        dr = Mi::DeferredRenderer::Create();
-        dr->AddRenderable(new Cube(renderbuf()));
+
     }
 
     void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
         MoveCamera(motion, rotation); // IMPORTANT
-
         MoveEntities();
+        LOG_OUT(camera.position.x);
         
         // MAIN GAME LOOP HERE
-        Mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
-        stC.set_position(stC.get_start_position() + camera.position);
-        stC.set_target(stC.get_start_target() + camera.position);
+        //Mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
+        //stC.set_position(stC.get_start_position() + camera.position);
+        //stC.set_target(stC.get_start_target() + camera.position);
 
-        currentPos = camera.position / 20.0f;
-        currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
+        //currentPos = camera.position / 20.0f;
+        //currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
-        Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
-        dr->Render(camera);
+        //Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
+        //dr->Render(camera);
 
-        depthMap.Bind(0);
+        //depthMap.Bind(0);
         // debugging
-        /*
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, dr->GetBuffers(camera)[MI_DEFERRED_RENDER_NORMAL_KEY]);
-        */
-        tex.Bind(1);
+        //glActiveTexture(GL_TEXTURE1);
+        //glBindTexture(GL_TEXTURE_2D, dr->GetBuffers(camera)[MI_DEFERRED_RENDER_NORMAL_KEY]);
+        //tex.Bind(1);
 
         ResetViewport();
 
-        Mi::Shader wireframe = Mi::Engine::MiCoreFindShader("WIREFRAME");
-        wireframe.use();
-        wireframe.setMatr4("projection", camera.projection);
-        wireframe.setMatr4("view", camera.view);
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
 
         Mi::Shader instancedShadowShader = Mi::Engine::MiCoreFindShader("INSTANCED SHADER");
@@ -94,27 +56,26 @@ public:
         instancedShadowShader.setMatr4("view", camera.view);
         instancedShadowShader.setMatr4("lightSpaceMatrix_projection", camera.lightSpaceMatrix_projection);
         instancedShadowShader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
-        instancedShadowShader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());
+        //instancedShadowShader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());
         instancedShadowShader.setInt("main_tex", 1);
         instancedShadowShader.setInt("depthMap", 0);
         instancedShadowShader.setInt("skybox", 2);
         instancedShadowShader.setFloat("biasOffset", biasOffset);
-        instancedShadowShader.setFloat("sCameraFarPlane", stC.zfar);
+        //instancedShadowShader.setFloat("sCameraFarPlane", stC.zfar);
         
 
         // rendering entities
-        for (int en = 0; en < nb_entities; en++) {
-            Mi::Inheritable::Renderable* entity = allEntities[en];
-            Mi::Shader shader = Mi::Engine::MiCoreFindShader(entity->shaderToUse);
+        for (int en = 0; en < renderableCollection.size(); en++) {
+            Mi::Renderable entity = renderableCollection[en];
+            Mi::Shader shader = Mi::Engine::MiCoreFindShader(entity.shaderToUse);
 
-            if (entity->type == Mi::Enum::ENT_SKYBOX) {
-                entity->position = camera.position;
+            if (entity.type == Mi::Enum::ENT_SKYBOX) {
+                entity.position = camera.position;
             }
 
             if (shader.shaderName == "SKYBOX") {
                 glCullFace(GL_FRONT);
-                Mi::Skybox* skybox = dynamic_cast<Mi::Skybox*>(entity);
-                c = skybox->cubemap;
+                //c = skybox->cubemap;
             }
 
             shader.use();
@@ -127,43 +88,23 @@ public:
             shader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
 
             glm::vec3 _cam;
-            if (stC.get_current_position() - glm::vec3(camera.position.x, 0, camera.position.z) == stC.get_start_position()) _cam = stC.get_start_position();
-            else _cam = stC.get_current_position();
+            //if (stC.get_current_position() - glm::vec3(camera.position.x, 0, camera.position.z) == stC.get_start_position()) _cam = stC.get_start_position();
+            //else _cam = stC.get_current_position();
 
-            shader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());
+            //shader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());
             shader.setInt("main_tex", 1);
             shader.setInt("depthMap", 0);
             shader.setInt("skybox", 2);
             shader.setFloat("biasOffset", biasOffset);
-            shader.setFloat("sCameraFarPlane", stC.zfar);
+            //shader.setFloat("sCameraFarPlane", stC.zfar);
 
-            if (c.isActive) {
-                glActiveTexture(GL_TEXTURE2);
-                glBindTexture(GL_TEXTURE_CUBE_MAP, c.tex_id);
-            }
-            if (entity != nullptr) {
-                entity->render(shader);
-                //entity->renderWithWireFrame(shader, wireframe);
-            }
+            //if (c.isActive) {
+            //    glActiveTexture(GL_TEXTURE2);
+            //    glBindTexture(GL_TEXTURE_CUBE_MAP, c.tex_id);
+            //}
+            entity.render(shader);
 
             if (shader.shaderName == "SKYBOX") glCullFace(GL_BACK);
         }
-
-        // Rendering UIs
-        for (int i = 0; i < uiRenderers.size(); i++) {
-            uiRenderers.at(i).Update();
-        }
-
-        // using instanced renderers
-        Mi::InstancedRenderer r = FindRendererByName("test");
-        Mi::Shader shader = Mi::Engine::MiCoreFindShader(r.shaderName);
-        shader.use();
-        shader.setMatr4("projection", camera.projection);
-        shader.setMatr4("view", camera.view);
-        shader.setInt("skybox", 2);
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, c.tex_id);
-
-        r.Render(shader);
     }
 };

@@ -16,7 +16,7 @@ namespace Mi {
     class DeferredRenderer: public Mi::Renderer {
     public:
 
-        std::vector<Mi::Inheritable::Renderable*> renderables;
+        std::vector<Mi::Renderable> renderables;
         std::vector<Mi::PostProcessing::Effect*> effects;
         Mi::ColorBuffer c_buffer;
         Mi::Shader deferredShader;
@@ -44,7 +44,7 @@ namespace Mi {
             effects.push_back(effect);
         }
 
-        void AddRenderable(Mi::Inheritable::Renderable* r) {
+        void AddRenderable(Mi::Renderable r) {
             renderables.push_back(r);
         }       
 
@@ -60,7 +60,7 @@ namespace Mi {
             deferredShader.setVec3("camera_position", camera.position);
 
             for (int i = 0; i < renderables.size(); i++) {
-                renderables[i]->render(deferredShader);
+                renderables[i].render(deferredShader);
             }
             c_buffer.Unbind();
 

@@ -17,6 +17,11 @@ GLFWwindow* main_window;
 #define MOUSE_BUTTON_RIGHT      GLFW_MOUSE_BUTTON_RIGHT
 #define MOUSE_BUTTON_LEFT       GLFW_MOUSE_BUTTON_LEFT
 
+// Index = position in dimension n + the weight attribute (1)
+#define DTYPE2 3
+#define DTYPE3 4
+#define DTYPE1 2
+
 #define GetKeyDown(key)             glfwGetKey(main_window, key) == KEY_UP
 #define GetKeyUp(key)               glfwGetKey(main_window, key) == KEY_DOWN
 #define GetMouseButtonDown(key)     glfwGetMouseButton(main_window, key) == KEY_UP

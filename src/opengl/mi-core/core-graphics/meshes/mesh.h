@@ -1,3 +1,4 @@
+/*
 namespace Mi {
 
     class Mesh: public Mi::Inheritable::Renderable {
@@ -65,3 +66,4 @@ namespace Mi {
 
     };
 }
+*/

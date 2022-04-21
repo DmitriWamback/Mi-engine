@@ -3,11 +3,21 @@
 
 namespace Mi {
     class RAttribute {
-        
-        std::vector< std::function<void()> > listeners;
+    public:
+        RenderBuffer buffer;        
 
-        void Listen() {
-            
+        RAttribute() {}
+        RAttribute(RenderBuffer buffer) {}
+
+        // Updates the attribute with a shader
+        virtual void Update(Mi::Shader& shader) {}
+
+        // Updates the attribute
+        virtual void Update() {}
+
+        void __ATTRUPDATE(Mi::Shader& shader) {
+            Update();
+            Update(shader);
         }
 
         template<class T>

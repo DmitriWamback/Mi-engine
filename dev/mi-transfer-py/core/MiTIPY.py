@@ -42,10 +42,6 @@ class MiTIPY:
                 if self.attemptConnection() == True:
                     break
 
-    def _toDType(self, data, d_type):
-
-        pass
-
     def formDataToStringify(data, d_type: int) -> str:
         
         attr = ATTR[d_type]
@@ -86,7 +82,7 @@ class MiTIPY:
             pointWeightData.append(points[i])
             pointWeightData.append(weights[i])
 
-        stringifiedData = f'[DTYPE: {str(d_type)}]: '
+        stringifiedData = f'[DTYPE: {str(attr)}]: '
 
         # TURNING DATA TO STRING
         for i in range(int(len(pointWeightData)/2)):
@@ -94,6 +90,6 @@ class MiTIPY:
             currentPoint = pointWeightData[i*2]
             currentWeight = pointWeightData[i*2+1]
 
-            stringifiedData += str(currentPoint) + ' ' + str(currentWeight) + ', '
+            stringifiedData += str(currentPoint) + ' ' + str(currentWeight) + '; '
 
         return stringifiedData

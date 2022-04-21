@@ -3,8 +3,6 @@
 #include "core-graphics/core-utilities/renderable.h"
 #include "core-graphics/texture/texture.h"
 #include "core-graphics/texture/cubemap.h"
-#include "core-graphics/core-utilities/cube.h"
-#include "core-graphics/core-utilities/cube_noise.h"
 #include "core-graphics/meshes/mesh.h"
 #include "util/skybox.h"
 #include "core-graphics/texture/cubemap_depth.h"

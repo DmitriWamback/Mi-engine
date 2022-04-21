@@ -88,6 +88,7 @@ namespace Mi {
         static void compileShader(int shader) {
             int success;
             char infoLog[1024];
+
             glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
             if (!success) {
                 glGetShaderInfoLog(shader, 1024, NULL, infoLog);

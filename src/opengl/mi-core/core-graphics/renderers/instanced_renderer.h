@@ -10,14 +10,14 @@ namespace Mi {
         bool hasTexture;
 
     public:
-        Mi::Inheritable::Renderable* baseEntity;
+        Mi::Renderable baseEntity;
         std::string shaderName;
         std::string name;
         bool indexed;
 
         InstancedRenderer() {}
 
-        InstancedRenderer(Mi::Inheritable::Renderable* base, bool indexed, std::string name) {
+        InstancedRenderer(Mi::Renderable base, bool indexed, std::string name) {
             glGenVertexArrays(1, &vao);
             glGenBuffers(1, &verticesVBO);
             glGenBuffers(1, &transformationsVBO);
@@ -44,7 +44,7 @@ namespace Mi {
             glBindVertexArray(vao);
 
             glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-            glBufferData(GL_ARRAY_BUFFER, baseEntity->get_vertex_length() * sizeof(float), baseEntity->get_vertices(), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, baseEntity.get_vertex_length() * sizeof(float), baseEntity.get_vertices(), GL_STATIC_DRAW);
 
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), nullptr);
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -76,7 +76,7 @@ namespace Mi {
 
         void Render(Shader& shader) {
             int count = transformations.size();
-            int size = baseEntity->get_vertex_length() / 8;
+            int size = baseEntity.get_vertex_length() / 8;
             shader.use();
             glBindVertexArray(vao);
 

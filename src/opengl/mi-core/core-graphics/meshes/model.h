@@ -1,3 +1,4 @@
+/*
 namespace Mi {
 
     class modelbuf {
@@ -147,3 +148,4 @@ namespace IO {
                                  iuvs, index_count, vertex_count, normal_count, n_index_count, uv_count, uv_index_count);
     }}
 }
+*/

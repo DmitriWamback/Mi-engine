@@ -13,7 +13,7 @@ namespace MITI {
 
             Camera c = Camera();
             c.target = glm::vec3(0.f);
-            c.position = glm::vec3(1.f);
+            c.position = glm::vec3(0.f, 0.f, 0.f);
             c.projection = glm::perspective(glm::radians(90.f), 1.0f, 0.1f, 1000.f);
             c.offset = glm::vec3(0.f);
             return c;
@@ -40,12 +40,14 @@ namespace MITI {
             glm::vec2 current = glm::vec2(xLocalized, yLocalized);
 
             glm::vec3 right = glm::normalize(glm::cross(glm::normalize(position - target), glm::vec3(0.f, 1.f, 0.f)));
+            glm::vec3 dir = -glm::normalize(position - target);
+            glm::vec3 tdir = glm::normalize(glm::vec3(dir.x, 0.0, dir.z));
 
-            if (GetKeyDown(GLFW_KEY_A)) offset += right;
-            if (GetKeyDown(GLFW_KEY_D)) offset -= right;
+            if (GetKeyDown(GLFW_KEY_A)) offset += right * zoomDistance/50.f;
+            if (GetKeyDown(GLFW_KEY_D)) offset -= right * zoomDistance/50.f;
 
-            if (GetKeyDown(GLFW_KEY_W)) offset -= glm::normalize(position - target);
-            if (GetKeyDown(GLFW_KEY_S)) offset += glm::normalize(position - target);
+            if (GetKeyDown(GLFW_KEY_W)) offset += tdir * zoomDistance/50.f;
+            if (GetKeyDown(GLFW_KEY_S)) offset -= tdir * zoomDistance/50.f;
 
             if (GetMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
                 glm::vec2 d = current - lastMousePosition;

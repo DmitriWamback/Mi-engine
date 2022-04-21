@@ -15,7 +15,7 @@ namespace Mi { namespace Enum {
     };
 }}
 
-namespace Mi { namespace Inheritable {
+namespace Mi {
 
     class Renderable {
     private:
@@ -35,20 +35,21 @@ namespace Mi { namespace Inheritable {
         glm::vec3 size;
         glm::vec3 velocity;
 
-        std::vector<Mi::RAttribute> attributes;
+        std::vector<Mi::RAttribute*> attributes;
         
-        renderbuf buf;
         Mi::Enum::ENTITYTYPE type;
 
-        Renderable() {
+        static Renderable Create() {
 
-            shouldRender = true;
-            usesDepthBuffer = true;
+            Renderable tempRenderable;
+            tempRenderable.shouldRender = true;
+            tempRenderable.usesDepthBuffer = true;
+            tempRenderable.position = glm::vec3(1.0f);
+            tempRenderable.rotation = glm::vec3(0.0f);
+            tempRenderable.velocity = glm::vec3(0.0f);
+            tempRenderable.size = glm::vec3(1.0f);
 
-            position = glm::vec3(0.0);
-            rotation = glm::vec3(0.0);
-            velocity = glm::vec3(0.0);
-            size = glm::vec3(1.0);
+            return tempRenderable;
         }
 
         void create_model_matrix() {
@@ -58,14 +59,21 @@ namespace Mi { namespace Inheritable {
             model_matrix = t * s;
         }
 
-        glm::mat4 get_model() {
-            return model_matrix;
+        template<class T>
+        T GetAttribute() {
+
         }
 
-        virtual void render(Mi::Shader &shader) {
-            shader.use();
-            //model_matrix = scale(glm::vec3(1.0));
-            //shader.setMatr4("model", model_matrix);
+        void AttachAttribute(Mi::RAttribute* attrib) {
+            attributes.push_back(attrib);
+        }
+
+        void render(Mi::Shader &shader) {
+            create_model_matrix();
+            shader.setMatr4("model", model_matrix);
+            for (int i = 0; i < attributes.size(); i++) {
+                attributes[i]->__ATTRUPDATE(shader);
+            }
         }
 
         void Move() {
@@ -78,4 +86,4 @@ namespace Mi { namespace Inheritable {
         virtual int get_vertex_length() { return 0; }
         virtual void initialize() {}
     };
-}}
+}

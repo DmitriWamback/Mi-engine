@@ -1,9 +1,9 @@
 namespace Mi {
     
-    std::vector<Mi::Inheritable::Renderable*> t_renderables;
+    std::vector<Mi::Renderable> t_renderables;
 
     // Adds transparent objects to render separately
-    void AddTransparent(Mi::Inheritable::Renderable* transparent) {
+    void AddTransparent(Mi::Renderable transparent) {
         t_renderables.push_back(transparent);
     }
 

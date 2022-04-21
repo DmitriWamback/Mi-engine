@@ -10,10 +10,6 @@ int main() {
 
     Mi::Engine::MiCoreBegin(1200, 800, "Mi");
 
-    renderbuf cbuffer = renderbuf();
-    renderbuf mesh_buf = renderbuf();
-    Mi::Mesh mesh = Mi::Mesh(mesh_buf);
-
     std::string faces[6] = {
         "src/res/images/skyboxF.jpg",
         "src/res/images/skyboxF.jpg",
@@ -23,11 +19,6 @@ int main() {
         "src/res/images/skyboxF.jpg"
     };
 
-    Mi::Inheritable::Renderable* skybox = new Mi::Skybox(mesh_buf, faces);
-    skybox->size = glm::vec3(1000.0);
-    skybox->position = glm::vec3(0.0);
-
-    /* SHADER DEFINITIONS HERE */
     Mi::Shader shadowShader     = Mi::Shader::Create("shadow/vMain.glsl", "shadow/fMain.glsl", "SHADOW SHADER");
     Mi::Shader debugShader2     = Mi::Shader::Create("debug/vMain.glsl", "debug/fMain1.glsl", "RED");
     Mi::Shader skyboxShader     = Mi::Shader::Create("skybox/vMain.glsl", "skybox/fMain.glsl", "SKYBOX");
@@ -35,6 +26,7 @@ int main() {
     Mi::Shader instancedShader  = Mi::Shader::Create("instancing/vInstance.glsl", "instancing/fInstance.glsl", "INSTANCED SHADER");
     Mi::Shader wireframeShader  = Mi::Shader::Create("wireframe/vMain.glsl", "wireframe/fMain.glsl", "WIREFRAME");
     Mi::Shader uiShader         = Mi::Shader::Create("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
+    Mi::Shader standard         = Mi::Shader::Create("standard/vMain.glsl", "standard/fMain.glsl", "standard");
 
     Mi::Engine::MiCoreAddShader(shadowShader);
     Mi::Engine::MiCoreAddShader(instancedShader);
@@ -42,58 +34,15 @@ int main() {
     Mi::Engine::MiCoreAddShader(debugModelShader);
     Mi::Engine::MiCoreAddShader(wireframeShader);
     Mi::Engine::MiCoreAddShader(uiShader);
+    Mi::Engine::MiCoreAddShader(standard);
 
     Mi::System* _s = Mi::ParticleSystem::Create();
 
     Mi::StaticCamera shadowCamera = Mi::StaticCamera(Mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "DEPTH TEXTURE");
 
-    float seed = rand() % 100000;
-    //seed = 4730;
-    float CUBE_SIZE = 1.0;
-    float _density = 0.1;
-
-    LOG_OUT("Running Mi Engine");
-
     Mi::Engine::MiCoreAddStaticCamera(scene1, shadowCamera);
-    Mi::Engine::MiCoreEntityAssignShader(skybox, skyboxShader);
-    Mi::Engine::MiCoreSceneAddEntity(scene1, skybox);
 
-    Mi::InstancedRenderer renderer = Mi::InstancedRenderer(new Cube(renderbuf()), false, "test");
-    //renderer.AddTransformation(glm::vec3(0.0), glm::vec3(), glm::vec3(1.0));
-
-    float s = rand() % 100000;
-
-    int __size = 1000;
-
-    for (int x = 0; x < __size; x++) {
-        for (int z = 0; z < __size; z++) {
-
-            float y = Mi::abs_noise_layer(x/15.f, z/15.f, 2.f, 0.5f, s, 5) * 4;
-
-            renderer.AddTransformation(glm::vec3(x - (float)__size/2.f, floor(y), z - (float)__size/2.f), glm::vec3(), glm::vec3(1.0, 2.0, 1.0));
-        }
-    }
-    //renderer.AddTransformation(glm::vec3(1.0), glm::vec3(), glm::vec3(1.0));
-    //renderer.AddTransformation(glm::vec3(2.0), glm::vec3(), glm::vec3(1.0));
-    renderer.LinkTransformations();
-    renderer.AssignShader(instancedShader);
-
-    Mi::Engine::MiCoreSceneAddInstancedRenderer(scene1, renderer);
-
-    Mi::modelbuf m1, m2;
-
-    Mi::Inheritable::Renderable* m = Mi::IO::LoadModel("src/res/models/lowpoly_monkey.obj", m2);
-    m->size = glm::vec3(5.0);
-    m->position = glm::vec3(0.0, 10.0, 0.0);
-    Mi::Engine::MiCoreEntityAssignShader(m, shadowShader);
-    Mi::Engine::MiCoreSceneAddEntity(scene1, m);
-
-    Mi::UI::UIRenderer urenderer = Mi::UI::UIRenderer("ui1");
-    Mi::Inheritable::UIElement* elem = new Mi::UI::UIFrame(renderbuf(), glm::vec2(600.f, 400.f), glm::vec2(200.f));
-    Mi::UI::UIElementAssignShader(elem, uiShader);
-    urenderer.AddUIElement(elem);
-
-    //Mi::Engine::MiCoreSceneAddUIRenderer(scene1, urenderer);
+    Mi::Renderable a;
 
     Mi::Inheritable::Keyboard* k = new MainKeyboard(scene1);
     Mi::Engine::MiCoreSetSubKeyboard(k);
@@ -101,17 +50,11 @@ int main() {
     glm::vec2 cubeSize = glm::vec2(10, 40);
     int xzSize = 5;
     
-    /*
-    for (int x = 0; x < xzSize; x++) {
-        for (int y = 0; y < xzSize; y++) {
-            mi_inheritable::Entity* cubeNoise = new mi::CubeNoise(cbuffer, glm::vec3((x-(xzSize/2))*cubeSize.x, 0, (y-(xzSize/2))*cubeSize.x), cubeSize, seed);
-            
-            Mi::Engine::MiCoreEntityAssignShader(cubeNoise, shadowShader);
-            Mi::Engine::MiCoreEntityAssignWireframeShader(cubeNoise, wireframeShader);
-            Mi::Engine::MiCoreSceneAddEntity(scene1, cubeNoise);
-        }
-    }
-    */
+    Mi::Renderable r = Mi::Renderable::Create();
+    r.AttachAttribute(new Mi::CubeRenderer(RenderBuffer::Create()));
+    r.shaderToUse = standard.shaderName;
+    scene1->AddEntity(r);
 
+    Mi::Engine::MiCoreAddScene(scene1);
     Mi::Engine::MiCoreStartMainLoop(scene1->scene_name);
 }

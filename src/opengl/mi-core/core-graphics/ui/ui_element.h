@@ -5,7 +5,6 @@ namespace Mi { namespace Inheritable {
         glm::vec2 position;
         float rotation;
         glm::vec2 size;
-        renderbuf buf;
 
         float* vertices;
         std::string shaderName;
@@ -14,9 +13,8 @@ namespace Mi { namespace Inheritable {
 
         UIElement() {}
 
-        UIElement(renderbuf buffer, glm::vec2 screenPositionPXL, glm::vec2 screenSizePXL) {
+        UIElement(glm::vec2 screenPositionPXL, glm::vec2 screenSizePXL) {
             scaleWithScreenSize = false;
-            this->buf = buffer;
             Initialize(screenPositionPXL, screenSizePXL);
         }
 

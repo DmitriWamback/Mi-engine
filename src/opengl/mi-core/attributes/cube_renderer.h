@@ -1,66 +1,35 @@
-class Cube: public Mi::Inheritable::Renderable {
-private:
-    static float vertices[288];
-public:
+namespace Mi {
 
-    Cube(renderbuf buffer) {
-        this->buf = buffer;
+    class CubeRenderer: public Mi::RAttribute {
+    private:
+        static float vertices[288];
 
-        type = Mi::Enum::ENT_CUBE;
+    public:
 
-        position = glm::vec3(0.0f);
-        size = glm::vec3(1.0f);
+        CubeRenderer(RenderBuffer buf) {
+            this->buffer = buf;
 
-        glBindVertexArray(buf.vao);
-        glBindBuffer(GL_ARRAY_BUFFER, buf.vbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+            glBindVertexArray(buffer.VertexArrayObject);
+            glBindBuffer(GL_ARRAY_BUFFER, buffer.VertexBufferObject);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glEnableVertexAttribArray(2);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), NULL);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-        glBindVertexArray(0);
-    }
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(2);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), NULL);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+            glBindVertexArray(0);
+        }
 
-    float* get_vertices() {
-        return vertices;
-    }
+        void Update(Mi::Shader& shader) {
+            glBindVertexArray(buffer.VertexArrayObject);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+            glBindVertexArray(0);
+        }
+    };
 
-    int get_vertex_length() {
-        return sizeof(vertices) / sizeof(vertices[0]);
-    }
-
-    void render(Mi::Shader &shader) {
-        shader.use();
-        create_model_matrix();
-        glm::mat4 model = get_model();
-
-        shader.setMatr4("model", model);
-
-        glBindVertexArray(buf.vao);
-        glDrawArrays(RENDER_OPTION, 0, 36);
-        glBindVertexArray(0);
-    }
-
-    void renderWithWireFrame(Mi::Shader &shader, Mi::Shader &wireframeShader) {
-        shader.use();
-        create_model_matrix();
-        glm::mat4 model = get_model();
-        shader.setMatr4("model", model);
-        glBindVertexArray(buf.vao);
-        glDrawArrays(RENDER_OPTION, 0, 36);
-
-        wireframeShader.use();
-        wireframeShader.setMatr4("model", model);
-        glDrawArrays(WIREFRAME_RENDER_STATE, 0, 36);
-
-        glBindVertexArray(0);
-    }
-};
-
-float Cube::vertices[] = {
+    float CubeRenderer::vertices[] = {
         -1.0f, -1.0f, -1.0f, /* POSITIONS */  0.0f,  0.0f, -1.0f, /* NORMALS */ 0.0f, 0.0f /* UV COORDS */,
          1.0f,  1.0f, -1.0f,                  0.0f,  0.0f, -1.0f,               1.0f, 1.0f,
          1.0f, -1.0f, -1.0f,                  0.0f,  0.0f, -1.0f,               1.0f, 0.0f,
@@ -103,3 +72,4 @@ float Cube::vertices[] = {
         -1.0f,  1.0f, -1.0f,                  0.0f,  1.0f,  0.0f,               0.0f, 1.0f,
         -1.0f,  1.0f,  1.0f,                  0.0f,  1.0f,  0.0f,               0.0f, 0.0f
     };
+}

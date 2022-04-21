@@ -40,13 +40,15 @@ namespace MITI { namespace CoreGraphics {
                         float xc = (float)x/(float)size;
                         float yc = (float)y/(float)size;
                         float zc = (float)z/(float)size;
-                        float intensity = (Mi::noise(xc * 14.f, yc * 14.f, zc * 14.f) + 1.f) / 2.f;
+                        float intensity = (Mi::noise(xc * 2.f, yc * 2.f, zc * 2.f) + 1.f) / 2.f;
 
-                        vertices[i] = x;
-                        vertices[i+1] = y;
-                        vertices[i+2] = z;
-                        vertices[i+3] = intensity;
-                        i+=4;
+                        if (intensity > 0.6) {
+                            vertices[i] = x;
+                            vertices[i+1] = y;
+                            vertices[i+2] = z;
+                            vertices[i+3] = intensity;
+                            i+=4;
+                        }
                     }
                 }
             }
@@ -65,6 +67,11 @@ namespace MITI { namespace CoreGraphics {
         }
 
         void Render() override {
+
+            glBindVertexArray(buf.vertexArrayObject);
+            glBindBuffer(GL_ARRAY_BUFFER, buf.vertexBufferObject);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
             glBindVertexArray(buf.vertexArrayObject);
             glDrawArrays(GL_POINTS, 0, size * size * size * 3);
             glBindVertexArray(0);
