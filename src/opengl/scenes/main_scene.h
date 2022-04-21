@@ -10,6 +10,10 @@ public:
 };
 
 class MainScene: public Mi::Inheritable::Scene {
+private:
+    Mi::Inheritable::Framebuffer* fb;
+    Mi::Texture tex;
+
 public:
 
     MainScene(std::string n) {
@@ -18,7 +22,10 @@ public:
 
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
-
+        fb = new Mi::Depthbuffer(1000, 1000);
+        tex = Mi::Texture::Create("brick.jpg");
+        Mi::StaticCamera cam = Mi::StaticCamera(Mi::STATICCAMERAPROPERTIES_PERSPECTIVE(), "Depth");
+        AddStaticCamera(cam);
     }
 
     void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
@@ -27,17 +34,19 @@ public:
         LOG_OUT(camera.position.x);
         
         // MAIN GAME LOOP HERE
-        //Mi::StaticCamera stC = FindStaticCameraByName("DEPTH TEXTURE");
-        //stC.set_position(stC.get_start_position() + camera.position);
-        //stC.set_target(stC.get_start_target() + camera.position);
+        Mi::StaticCamera stC = FindStaticCameraByName("Depth");
+        stC.set_position(stC.get_start_position() + camera.position);
+        stC.set_target(stC.get_start_target() + camera.position);
 
-        //currentPos = camera.position / 20.0f;
-        //currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
+        glm::vec3 currentPos;
 
-        //Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
-        //dr->Render(camera);
+        currentPos = camera.position / 20.0f;
+        currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
-        //depthMap.Bind(0);
+        Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
+
+        depthMap.Bind(0);
+        tex.Bind(1);
         // debugging
         //glActiveTexture(GL_TEXTURE1);
         //glBindTexture(GL_TEXTURE_2D, dr->GetBuffers(camera)[MI_DEFERRED_RENDER_NORMAL_KEY]);

@@ -52,7 +52,7 @@ int main() {
     
     Mi::Renderable r = Mi::Renderable::Create();
     r.AttachAttribute(new Mi::CubeRenderer(RenderBuffer::Create()));
-    r.shaderToUse = standard.shaderName;
+    r.shaderToUse = shadowShader.shaderName;
     scene1->AddEntity(r);
 
     Mi::Engine::MiCoreAddScene(scene1);
