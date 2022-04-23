@@ -29,6 +29,8 @@ namespace Mi { namespace Engine {
 #include <MISND/audioplayer.h>
 #include <unordered_map>
 
+#include "util/math.h"
+
 bool isDebugButtonDown;
 float biasOffset = 0.0;
 
@@ -116,7 +118,10 @@ namespace Engine {
 #include <MIPOSTPROCESSING/effect.h>
 #include <MIATTRIBUTE/renderbuf.h>
 #include <MIATTRIBUTE/attribute.h>
+
 #include "attributes/cube_renderer.h"
+#include "attributes/terrain_renderer.h"
+
 #include "core-graphics/colorbuf/colorbuf.h"
 #include "util/camera.h"
 #include "entitylib.h"
@@ -167,7 +172,7 @@ namespace Mi { namespace Engine {
 
     // Assigns an entity a shader to use when being rendered
     void MiCoreEntityAssignShader(Mi::Renderable entity, Mi::Shader shader) {
-        entity.shaderToUse = shader.shaderName;
+        entity.shaderName = shader.shaderName;
     }
 
     void MiCoreSceneAddUIRenderer(Mi::Inheritable::Scene* scene, Mi::UI::UIRenderer renderer) {
@@ -214,7 +219,7 @@ namespace Mi { namespace Engine {
     }
 
     void MiCoreSceneAddInstancedRenderer(Mi::Inheritable::Scene* scene, Mi::InstancedRenderer renderer) {
-        //scene->AddInstancedRenderer(renderer);
+        scene->AddInstancedRenderer(renderer);
     }
 
     void MiCoreSetSubKeyboard(Mi::Inheritable::Keyboard* keyboard) {

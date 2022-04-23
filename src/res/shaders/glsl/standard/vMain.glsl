@@ -10,7 +10,17 @@ uniform mat4 model;
 
 out vec2 uv;
 
+out VERTEX {
+    vec3 normal;
+    vec3 fragp;
+    vec2 uv;
+} o;
+
 void main() {
     uv = auv;
+
+    o.normal = normal;
+    o.fragp = (model * vec4(position, 1.0)).xyz;
+    o.uv = auv;
     gl_Position = projection * view * model * vec4(position, 1.0);
 }

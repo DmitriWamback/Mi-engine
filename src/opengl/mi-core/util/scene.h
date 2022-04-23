@@ -68,7 +68,7 @@ namespace Mi { namespace Inheritable {
 
         Mi::InstancedRenderer FindRendererByName(std::string name) {
             for (int i = 0; i < renderers.size(); i++) {
-                if (renderers.at(i).name == name) return renderers.at(i);
+                if (renderers[i].name == name) return renderers.at(i);
             }
 
             std::cout << "Couldn't find Instanced Renderer of name: " << name << ", returning empty IR\n";
@@ -107,9 +107,6 @@ namespace Mi { namespace Inheritable {
                 depthShader.use();
                 depthShader.setMatr4("lightSpaceMatrix_projection", cam.projection);
                 depthShader.setMatr4("lightSpaceMatrix_view", cam.view);
-
-                camera.lightSpaceMatrix_projection = cam.projection;
-                camera.lightSpaceMatrix_view = cam.view;
                 glClear(GL_DEPTH_BUFFER_BIT);
 
                 if (includeInstancing) {
@@ -118,7 +115,7 @@ namespace Mi { namespace Inheritable {
                         renderers.at(i).Render(depthShader);
                     }
                 }
-
+                
                 depthShader.setInt("isInstanced", 0);
                 for (int i = 0; i < nb_entities; i++) {
                     Renderable entity = renderableCollection[i];

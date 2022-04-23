@@ -34,8 +34,8 @@ public:
         
         // MAIN GAME LOOP HERE
         Mi::StaticCamera stC = FindStaticCameraByName("Depth");
-        stC.set_position(stC.get_start_position() + camera.position);
-        stC.set_target(stC.get_start_target() + camera.position);
+        stC.set_position(stC.GetStartPosition() + camera.position);
+        stC.set_target(stC.GetStartPosition() + camera.position);
 
         glm::vec3 currentPos;
 
@@ -43,34 +43,46 @@ public:
         currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
         Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
-        tex.Bind(0);
+        depthMap.Bind(0);
+        tex.Bind(1);
         ResetViewport();
+
+        Mi::InstancedRenderer r = FindRendererByName("INSTANCED TEST");
+        Mi::Shader rs = Mi::Engine::MiCoreFindShader(r.shaderName);
+
+        rs.use();
+        rs.setMatr4("projection", camera.projection);
+        rs.setMatr4("view", camera.view);
+        r.Render(rs);
 
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
         // rendering entities
         for (int en = 0; en < renderableCollection.size(); en++) {
             Mi::Renderable entity = renderableCollection[en];
-            Mi::Shader shader = Mi::Engine::MiCoreFindShader(entity.shaderToUse);
+            Mi::Shader shader = Mi::Engine::MiCoreFindShader(entity.shaderName);
             shader.use();
 
-            //shader.setVec3("mouse_ray", mouseRay);
-            //shader.setVec3("camera_position", camera.position);
+            shader.setVec3("mouse_ray", mouseRay);
+            shader.setVec3("camera_position", camera.position);
             shader.setMatr4("projection", camera.projection);
             shader.setMatr4("view", camera.view);
-            entity.render(shader);
-            //shader.setMatr4("lightSpaceMatrix_projection", camera.lightSpaceMatrix_projection);
-            //shader.setMatr4("lightSpaceMatrix_view", camera.lightSpaceMatrix_view);
+            shader.setMatr4("lightSpaceMatrix_projection", stC.projection);
+            shader.setMatr4("lightSpaceMatrix_view", stC.view);
 
             glm::vec3 _cam;
-            if (stC.get_current_position() - glm::vec3(camera.position.x, 0, camera.position.z) == stC.get_start_position()) _cam = stC.get_start_position();
-            else _cam = stC.get_current_position();
+            if (stC.GetCurrentPosition() - glm::vec3(camera.position.x, 0, camera.position.z) == stC.GetStartPosition()) _cam = stC.GetStartTarget();
+            else _cam = stC.GetCurrentPosition();
+            stC.set_position(stC.GetStartPosition() + camera.position);
+            stC.set_target(stC.GetStartTarget() + camera.position);
 
-            //shader.setVec3("directional_shadow_light_position", stC.get_current_position() - stC.get_current_target());
-            //shader.setInt("main_tex", 1);
-            //shader.setInt("depthMap", 0);
-            //shader.setInt("skybox", 2);
-            //shader.setFloat("biasOffset", biasOffset);
-            //shader.setFloat("sCameraFarPlane", stC.zfar);
+            shader.setVec3("directional_shadow_light_position", stC.GetCurrentPosition() - stC.GetCurrentTarget());
+            shader.setInt("main_tex", 1);
+            shader.setInt("depthMap", 0);
+            shader.setInt("skybox", 2);
+            shader.setFloat("biasOffset", biasOffset);
+            shader.setFloat("sCameraFarPlane", stC.zfar);
+
+            entity.render(shader);
 
             //if (c.isActive) {
             //    glActiveTexture(GL_TEXTURE2);

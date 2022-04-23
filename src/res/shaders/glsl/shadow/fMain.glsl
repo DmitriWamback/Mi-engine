@@ -69,11 +69,11 @@ void main() {
     float shadow = 0;
 
     shadow = CalculateShadow(depthMap,
-                                i.normal,
-                                i.fragpl,
-                                directional_shadow_light_position,
-                                i.fragp,
-                                sCameraFarPlane);
+                             i.normal,
+                             i.fragpl,
+                             directional_shadow_light_position,
+                             i.fragp,
+                             sCameraFarPlane);
     
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
@@ -132,8 +132,6 @@ void main() {
         fragc.rgb += fog;
     else
         fragc.rgb = fog;
-
-    fragc.rgb = vec3(1.0, 0.0, 1.0);
 
     // VISUALIZE MOUSE RAY
     // fragc.rgb += vec3(1.0, 0.0, 0.0) * max(dot(-normalize(camera_position - i.fragp), mouse_ray), 0.0);

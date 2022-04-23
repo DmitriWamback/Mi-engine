@@ -1,4 +1,4 @@
-namespace miGLM {
+namespace MiGLM {
 
     glm::mat4 eulerAngles(glm::vec3 rotation_deg) {
 

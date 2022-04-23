@@ -25,6 +25,29 @@ namespace Mi {
             return dynamic_cast<T>(this);
         }
     };
+
+    class RRenderer {
+    public:
+
+        RenderBuffer buffer;        
+
+        RRenderer() {}
+        RRenderer(RenderBuffer buffer) {}
+
+        // Updates the attribute with a shader
+        virtual void Update(Mi::Shader& shader) {}
+
+        // Updates the attribute
+        virtual void Update() {}
+
+        virtual float* GetVertices() { return nullptr; }
+        virtual int GetVertexSize()  { return 0; }
+
+        void __ATTRUPDATE(Mi::Shader& shader) {
+            Update();
+            Update(shader);
+        }
+    };
 }
 
 #endif

@@ -1,6 +1,6 @@
 namespace Mi {
 
-    class CubeRenderer: public Mi::RAttribute {
+    class CubeRenderer: public Mi::RRenderer {
     private:
         static float vertices[288];
 
@@ -26,6 +26,14 @@ namespace Mi {
             glBindVertexArray(buffer.VertexArrayObject);
             glDrawArrays(GL_TRIANGLES, 0, 36);
             glBindVertexArray(0);
+        }
+        
+        float* GetVertices() {
+            return vertices;
+        }
+
+        int GetVertexSize() {
+            return sizeof(vertices)/sizeof(vertices[0]);
         }
     };
 

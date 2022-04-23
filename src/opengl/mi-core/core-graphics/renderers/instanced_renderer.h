@@ -1,7 +1,8 @@
 namespace Mi {
 
     class InstancedRenderer: Mi::Renderer {
-    private:
+    public:
+
         std::vector<glm::mat4> transformations;
         uint32_t verticesVBO;
         uint32_t transformationsVBO;
@@ -9,22 +10,24 @@ namespace Mi {
         Mi::Texture tex;
         bool hasTexture;
 
-    public:
-        Mi::Renderable baseEntity;
+        Mi::RRenderer* base;
         std::string shaderName;
         std::string name;
         bool indexed;
 
         InstancedRenderer() {}
 
-        InstancedRenderer(Mi::Renderable base, bool indexed, std::string name) {
-            glGenVertexArrays(1, &vao);
-            glGenBuffers(1, &verticesVBO);
-            glGenBuffers(1, &transformationsVBO);
-            baseEntity = base;
-            this->name = name;
-            
-            this->indexed = indexed;
+        static InstancedRenderer Create(Mi::RRenderer* base, bool indexed, std::string name) {
+
+            InstancedRenderer r = InstancedRenderer();
+
+            glGenVertexArrays(1, &r.vao);
+            glGenBuffers(1, &r.verticesVBO);
+            glGenBuffers(1, &r.transformationsVBO);
+            r.base = base;
+            r.name = name;
+            r.indexed = indexed;
+            return r;
         }
 
         void SetTexture(Mi::Texture tex) {
@@ -44,7 +47,7 @@ namespace Mi {
             glBindVertexArray(vao);
 
             glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-            glBufferData(GL_ARRAY_BUFFER, baseEntity.get_vertex_length() * sizeof(float), baseEntity.get_vertices(), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, base->GetVertexSize() * sizeof(float), base->GetVertices(), GL_STATIC_DRAW);
 
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), nullptr);
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -55,18 +58,21 @@ namespace Mi {
 
             glBindBuffer(GL_ARRAY_BUFFER, transformationsVBO);
             glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * transformations.size(), &transformations[0][0], GL_STATIC_DRAW);
+
             glEnableVertexAttribArray(3);
-            glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
             glEnableVertexAttribArray(4);
-            glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(1 * sizeof(glm::vec4)));
             glEnableVertexAttribArray(5);
-            glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
             glEnableVertexAttribArray(6);
+            glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+            glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(1 * sizeof(glm::vec4)));
+            glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
             glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
             glVertexAttribDivisor(3, 1);
             glVertexAttribDivisor(4, 1);
             glVertexAttribDivisor(5, 1);
             glVertexAttribDivisor(6, 1);
+
             glBindVertexArray(0);
         }
 
@@ -76,7 +82,7 @@ namespace Mi {
 
         void Render(Shader& shader) {
             int count = transformations.size();
-            int size = baseEntity.get_vertex_length() / 8;
+            int size = base->GetVertexSize() / 8;
             shader.use();
             glBindVertexArray(vao);
 

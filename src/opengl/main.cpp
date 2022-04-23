@@ -28,25 +28,47 @@ int main() {
     Mi::Shader uiShader         = Mi::Shader::Create("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
     Mi::Shader standard         = Mi::Shader::Create("standard/vMain.glsl", "standard/fMain.glsl", "standard");
 
-    Mi::Engine::MiCoreAddShader(standard);
+    Mi::Engine::MiCoreAddShader(shadowShader);
+    Mi::Engine::MiCoreAddShader(instancedShader);
 
     Mi::System* _s = Mi::ParticleSystem::Create();
+    Mi::InstancedRenderer r = Mi::InstancedRenderer::Create(new Mi::CubeRenderer(RenderBuffer::Create()),
+                                                            false,
+                                                            "INSTANCED TEST");
+
+    for (int x = 0; x < 100; x++) {
+        for (int y = 0; y < 100; y++) {
+            r.AddTransformation(glm::vec3(x, 0.f, y), glm::vec3(0.f), glm::vec3(1.0f));
+        }
+    }
+    r.AssignShader(instancedShader);
+    r.LinkTransformations();
+
+    Mi::Engine::MiCoreSceneAddInstancedRenderer(scene1, r);
 
     Mi::Inheritable::Keyboard* k = new MainKeyboard(scene1);
     Mi::Engine::MiCoreSetSubKeyboard(k);
 
-    glm::vec2 cubeSize = glm::vec2(10, 40);
-    int xzSize = 5;
-    
-    for (int x = 0; x < 100; x++) {
-        for (int y = 0; y < 100; y++) {
-            Mi::Renderable r = Mi::Renderable::Create();
-            r.position = glm::vec3(x, sin(x), y);
-            r.AttachAttribute(new Mi::CubeRenderer(RenderBuffer::Create()));
-            r.shaderToUse = standard.shaderName;
-            scene1->AddEntity(r);
+    Mi::Renderable a = Mi::Renderable::Create();
+    a.AttachRenderer(new Mi::TerrainRenderer(RenderBuffer::Create()));
+    Mi::TerrainRenderer* renderer = a.TryGetRenderer<Mi::TerrainRenderer*>();
+
+    RenderBuffer rb = RenderBuffer::Create();
+
+    for (int x = 0; x < 11; x++) {
+        for (int z = 0; z < 11; z++) {
+            Mi::Renderable empty = Mi::Renderable::Create();
+            empty.position = glm::vec3(x - 5, renderer->GetHeightAt(glm::vec2(x - 5, z - 5)), z - 5);
+            empty.rotation = glm::vec3(0, 0, 0);
+            empty.AttachRenderer(new Mi::CubeRenderer(rb));
+            empty.shaderName = shadowShader.shaderName;
+            scene1->AddEntity(empty);
         }
     }
+
+
+    a.shaderName = standard.shaderName;
+    scene1->AddEntity(a);
 
     Mi::Engine::MiCoreAddScene(scene1);
     Mi::Engine::MiCoreStartMainLoop(scene1->scene_name);

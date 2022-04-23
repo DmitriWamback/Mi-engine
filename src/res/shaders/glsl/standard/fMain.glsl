@@ -5,6 +5,12 @@ uniform sampler2D test;
 
 in vec2 uv;
 
+in VERTEX {
+    vec3 normal;
+    vec3 fragp;
+    vec2 uv;
+} i;
+
 void main() {
-    fragc = vec4(0.6, 0.7, 0.5, 1.0) * texture(test, uv);
+    fragc = vec4(i.normal, 1.0);
 }

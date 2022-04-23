@@ -55,15 +55,15 @@ namespace Mi {
         glm::vec3 look_target;
         glm::vec3 local_up;
 
-        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left              = -10.0, 
-                                            float right             =  10.0, 
-                                            float top               =  10.0, 
-                                            float bottom            = -10.0,
-                                            float zfar              = 10000.0,
-                                            float znear             = 0.1,
-                                            glm::vec3 position           = glm::vec3(4600.0, 2000.0, 2000.0), 
-                                            glm::vec3 look_target        = glm::vec3(0.0), 
-                                            glm::vec3 local_up           = glm::vec3(0.0, 1.0, 0.0)) {
+        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left                   = -10.0, 
+                                            float right                  =  10.0, 
+                                            float top                    =  10.0, 
+                                            float bottom                 = -10.0,
+                                            float zfar                   =  10000.0,
+                                            float znear                  =  0.1,
+                                            glm::vec3 position           =  glm::vec3(460.0f, 200.0f, 200.0f), 
+                                            glm::vec3 look_target        =  glm::vec3(0.0f), 
+                                            glm::vec3 local_up           =  glm::vec3(0.0f, 1.0f, 0.0f)) {
 
             this->left = left;
             this->right = right;
@@ -144,19 +144,19 @@ namespace Mi {
             znear = perspective_prop.znear;
         }
 
-        glm::vec3 get_start_position() {
+        glm::vec3 GetStartPosition() {
             return start_position;
         }
 
-        glm::vec3 get_start_target() {
+        glm::vec3 GetStartTarget() {
             return start_target;
         }
 
-        glm::vec3 get_current_position() {
+        glm::vec3 GetCurrentPosition() {
             return position;
         }
 
-        glm::vec3 get_current_target() {
+        glm::vec3 GetCurrentTarget() {
             return target;
         }
 

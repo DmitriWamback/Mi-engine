@@ -27,7 +27,7 @@ vec3 ComputeFog(float d, vec3 fogColor, vec3 fragp);
 
 void main() {
 
-    if (i.fragp.y < biasOffset * 15) discard;
+    //if (i.fragp.y < biasOffset * 15) discard;
 
     vec3 lightPosition = vec3(20, 12, 0);
     vec3 lightDir = normalize(lightPosition);
@@ -49,4 +49,5 @@ void main() {
 
     if (fogDist < 1) fragc.rgb += fog;
     else fragc.rgb = fog;
+    fragc.rgb = vec3(1.0, 0.0, 0.0);
 }

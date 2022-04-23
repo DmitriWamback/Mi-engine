@@ -22,7 +22,7 @@ namespace Mi {
         glm::mat4 model_matrix;
 
     public:
-        std::string shaderToUse;
+        std::string shaderName;
         std::string wireframeShaderToUse;
         std::string name;
 
@@ -35,6 +35,7 @@ namespace Mi {
         glm::vec3 size;
         glm::vec3 velocity;
 
+        std::vector<Mi::RRenderer*>  renderers;
         std::vector<Mi::RAttribute*> attributes;
         
         Mi::Enum::ENTITYTYPE type;
@@ -56,12 +57,34 @@ namespace Mi {
             //glm::mat4 r = miGLM::eulerAngles(rotation);
             glm::mat4 s = scale(glm::mat4(1.f), size / 2.0f);
             glm::mat4 t = translate(glm::mat4(1.f), position);
-            model_matrix = t * s;
+            glm::mat4 r = MiGLM::eulerAngles(rotation);
+            model_matrix = t * s * r;
         }
 
         template<class T>
-        T GetAttribute() {
+        T GetAttributeOfType() {
+            for (int i = 0; i < attributes.size(); i++) {
+                if (dynamic_cast<T>(attributes[i])) {
 
+                }
+            }
+        }
+
+        template<class T>
+        T TryGetRenderer() {
+            try {
+                for (int i = 0; i < renderers.size(); i++) {
+                    if (dynamic_cast<T>(renderers[i])) {
+                        return dynamic_cast<T>(renderers[i]);
+                    }
+                }
+            }
+            catch (std::exception& e) {}
+            return nullptr;
+        }
+
+        void AttachRenderer(Mi::RRenderer* attrib) {
+            renderers.push_back(attrib);
         }
 
         void AttachAttribute(Mi::RAttribute* attrib) {
@@ -70,10 +93,10 @@ namespace Mi {
 
         void render(Mi::Shader &shader) {
             create_model_matrix();
+            shader.use();
             shader.setMatr4("model", model_matrix);
-            for (int i = 0; i < attributes.size(); i++) {
-                attributes[i]->__ATTRUPDATE(shader);
-            }
+            for (int i = 0; i < attributes.size(); i++) attributes[i]->__ATTRUPDATE(shader);
+            for (int i = 0; i < renderers.size(); i++) renderers[i]->__ATTRUPDATE(shader);
         }
 
         void Move() {
