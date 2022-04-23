@@ -12,7 +12,7 @@ in VERTEX {
 
 uniform sampler2D tex;
 uniform bool has_tex = false;
-uniform vec3 color = vec3(1.0);
+uniform vec3 color = vec3(1.0, 0.0, 1.0);
 
 uniform float farplane;
 uniform vec3 camera_position;

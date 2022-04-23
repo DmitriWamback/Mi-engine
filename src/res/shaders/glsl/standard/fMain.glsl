@@ -12,5 +12,5 @@ in VERTEX {
 } i;
 
 void main() {
-    fragc = vec4(i.normal, 1.0);
+    fragc = vec4(vec3(102, 153, 0)/255.0, 1.0);
 }

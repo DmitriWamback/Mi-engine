@@ -13,6 +13,7 @@ class MainScene: public Mi::Inheritable::Scene {
 private:
     Mi::Inheritable::Framebuffer* fb;
     Mi::Texture tex;
+    Mi::DeferredRenderer* dr;
 
 public:
 
@@ -26,6 +27,12 @@ public:
         tex = Mi::Texture::Create("src/res/images/brick.jpg");
         Mi::StaticCamera cam = Mi::StaticCamera(Mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
         AddStaticCamera(cam);
+
+        dr = Mi::DeferredRenderer::Create();
+
+        Mi::Renderable t = Mi::Renderable::Create();
+        t.AttachRenderer(new Mi::CubeRenderer(RenderBuffer::Create()));
+        dr->AddRenderable(t);
     }
 
     void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
@@ -42,9 +49,15 @@ public:
         currentPos = camera.position / 20.0f;
         currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
+        dr->Render(camera);
+        std::map<const char*, uint32_t> t = dr->GetBuffers(camera);
+
         Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
         depthMap.Bind(0);
-        tex.Bind(1);
+        //tex.Bind(1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, t[MI_DEFERRED_RENDER_POSITION_KEY]);
+
         ResetViewport();
 
         Mi::InstancedRenderer r = FindRendererByName("INSTANCED TEST");

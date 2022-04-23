@@ -77,7 +77,7 @@ namespace Mi {
             glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.IndexBufferObject);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int) - 6, &indices[0], GL_STATIC_DRAW);
 
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
@@ -122,7 +122,7 @@ namespace Mi {
             glBindVertexArray(buffer.VertexArrayObject);
             glBindBuffer(GL_ARRAY_BUFFER, buffer.VertexBufferObject);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.IndexBufferObject);
-            glDrawElements(Triangle, indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_LINES, indices.size() - 6, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     };

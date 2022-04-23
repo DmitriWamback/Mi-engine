@@ -4,7 +4,7 @@ namespace Mi {
     public:
 
         std::map<const char*, uint32_t> color_buffers;
-        std::vector<int> attachments;
+        std::vector<uint32_t> attachments;
         uint32_t fbo;
         uint32_t rbo;
 
