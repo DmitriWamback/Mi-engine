@@ -1,6 +1,9 @@
 #include "libs.h"
 #define MI_ENGINE_OPENGL
 
+int RENDERABLE_COUNT = 0;
+#define __MI_UPDATE_GLOBAL_RENDERABLE_COUNT() RENDERABLE_COUNT++
+
 GLenum RENDER_OPTION = GL_TRIANGLES;
 GLFWwindow* main_window;
 

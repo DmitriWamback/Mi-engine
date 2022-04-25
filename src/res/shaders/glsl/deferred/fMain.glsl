@@ -3,6 +3,7 @@
 layout (location = 0) out vec4 _albedo;
 layout (location = 1) out vec4 _normal;
 layout (location = 2) out vec4 _position;
+layout (location = 3) out vec4 _depth;
 
 in VERTEX {
     vec3 fragp;
@@ -24,4 +25,5 @@ void main() {
 
     _normal = vec4(i.normal, 1.0);
     _position = vec4(i.fragp, 1.0);
+    _depth = vec4(normalize(camera_position - i.fragp)/farplane, 1.0);
 }

@@ -1,5 +1,17 @@
 #define MAX_VERTICES 100000
 
+#define RENDERABLE_ALBEDO_TEXTURE0  0
+#define RENDERABLE_ALBEDO_TEXTURE1  1
+#define RENDERABLE_ALBEDO_TEXTURE2  2
+#define RENDERABLE_ALBEDO_TEXTURE3  3
+#define RENDERABLE_ALBEDO_TEXTURE4  4
+
+#define RENDERABLE_ALBEDO_KEY0  "_albedo0"
+#define RENDERABLE_ALBEDO_KEY1  "_albedo1"
+#define RENDERABLE_ALBEDO_KEY2  "_albedo2"
+#define RENDERABLE_ALBEDO_KEY3  "_albedo3"
+#define RENDERABLE_ALBEDO_KEY4  "_albedo4"
+
 /* 
 -- ENTITY --
 The entity is a base class for rendering hard-coded vertex placements
@@ -26,6 +38,8 @@ namespace Mi {
         std::string wireframeShaderToUse;
         std::string name;
 
+        std::map<int, Mi::Texture> textures;
+
         bool usesDepthBuffer;
         bool shouldRender;
         float opacity;
@@ -43,12 +57,16 @@ namespace Mi {
         static Renderable Create() {
 
             Renderable tempRenderable;
+
+            tempRenderable.name = "Obj" + std::to_string(RENDERABLE_COUNT);
             tempRenderable.shouldRender = true;
             tempRenderable.usesDepthBuffer = true;
             tempRenderable.position = glm::vec3(1.0f);
             tempRenderable.rotation = glm::vec3(0.0f);
             tempRenderable.velocity = glm::vec3(0.0f);
             tempRenderable.size = glm::vec3(1.0f);
+
+            __MI_UPDATE_GLOBAL_RENDERABLE_COUNT();
 
             return tempRenderable;
         }
@@ -91,10 +109,30 @@ namespace Mi {
             attributes.push_back(attrib);
         }
 
+        void SetTexture(int index, Mi::Texture tex) {
+            if (index < 5 && index > -1) textures[index] = tex;
+            else LOG_OUT("index exceeded the limit for texture usage");
+        }
+
+        void SetTexture(int index, const char* fileName) {
+            if (index < 5 && index > -1) textures[index] = Mi::Texture::Create(fileName);
+            else LOG_OUT("index exceeded the limit for texture usage");
+        }
+
         void render(Mi::Shader &shader) {
             create_model_matrix();
             shader.use();
             shader.setMatr4("model", model_matrix);
+            shader.setInt(RENDERABLE_ALBEDO_KEY0, RENDERABLE_ALBEDO_TEXTURE0);
+            shader.setInt(RENDERABLE_ALBEDO_KEY1, RENDERABLE_ALBEDO_TEXTURE1);
+            shader.setInt(RENDERABLE_ALBEDO_KEY2, RENDERABLE_ALBEDO_TEXTURE2);
+            shader.setInt(RENDERABLE_ALBEDO_KEY3, RENDERABLE_ALBEDO_TEXTURE3);
+            shader.setInt(RENDERABLE_ALBEDO_KEY4, RENDERABLE_ALBEDO_TEXTURE4);
+
+            for (std::map<int, Mi::Texture>::iterator i = textures.begin(); i != textures.end(); i++) {
+                i->second.Bind(i->first);
+            }
+
             for (int i = 0; i < attributes.size(); i++) attributes[i]->__ATTRUPDATE(shader);
             for (int i = 0; i < renderers.size(); i++) renderers[i]->__ATTRUPDATE(shader);
         }

@@ -24,7 +24,7 @@ public:
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
         fb = new Mi::Depthbuffer(1000, 1000);
-        tex = Mi::Texture::Create("src/res/images/brick.jpg");
+        tex = Mi::Texture::Create("src/res/images/diamondplate.jpg");
         Mi::StaticCamera cam = Mi::StaticCamera(Mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
         AddStaticCamera(cam);
 
@@ -32,6 +32,10 @@ public:
 
         Mi::Renderable t = Mi::Renderable::Create();
         t.AttachRenderer(new Mi::CubeRenderer(RenderBuffer::Create()));
+
+        Mi::Renderable terrain = FindRenderable("Terrain");
+        terrain.SetTexture(0, "src/res/images/brick.jpg");
+
         dr->AddRenderable(t);
     }
 
@@ -50,13 +54,12 @@ public:
         currentPos = glm::vec3(floor(currentPos.x), 0, floor(currentPos.z));
 
         dr->Render(camera);
-        std::map<const char*, uint32_t> t = dr->GetBuffers(camera);
+        std::map<const char*, uint32_t> textures = dr->GetBuffers(camera);
 
         Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
-        depthMap.Bind(0);
+        //depthMap.Bind(0);
         //tex.Bind(1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, t[MI_DEFERRED_RENDER_POSITION_KEY]);
+        //Mi::Texture::AttemptBind(textures["_normal"], 1);
 
         ResetViewport();
 
@@ -72,6 +75,7 @@ public:
         // rendering entities
         for (int en = 0; en < renderableCollection.size(); en++) {
             Mi::Renderable entity = renderableCollection[en];
+            entity.SetTexture(0, tex);
             Mi::Shader shader = Mi::Engine::MiCoreFindShader(entity.shaderName);
             shader.use();
 
@@ -89,8 +93,8 @@ public:
             stC.set_target(stC.GetStartTarget() + camera.position);
 
             shader.setVec3("directional_shadow_light_position", stC.GetCurrentPosition() - stC.GetCurrentTarget());
-            shader.setInt("main_tex", 1);
-            shader.setInt("depthMap", 0);
+            //shader.setInt("main_tex", 1);
+            //shader.setInt("depthMap", 0);
             shader.setInt("skybox", 2);
             shader.setFloat("biasOffset", biasOffset);
             shader.setFloat("sCameraFarPlane", stC.zfar);

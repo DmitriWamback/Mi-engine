@@ -50,6 +50,11 @@ namespace Mi {
             glActiveTexture(GL_TEXTURE0 + index);
             glBindTexture(GL_TEXTURE_2D, tex_id);
         }
+
+        static void AttemptBind(uint32_t bindingId, int index) {
+            glActiveTexture(GL_TEXTURE0 + index);
+            glBindTexture(GL_TEXTURE_2D, bindingId);
+        } 
     };
 
     class RenderTexture {

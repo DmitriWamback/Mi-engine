@@ -51,6 +51,8 @@ int main() {
 
     Mi::Renderable a = Mi::Renderable::Create();
     a.AttachRenderer(new Mi::TerrainRenderer(RenderBuffer::Create()));
+    a.size = glm::vec3(.5f);
+    a.name = "Terrain";
     Mi::TerrainRenderer* renderer = a.TryGetRenderer<Mi::TerrainRenderer*>();
 
     RenderBuffer rb = RenderBuffer::Create();
@@ -58,7 +60,7 @@ int main() {
     for (int x = 0; x < 11; x++) {
         for (int z = 0; z < 11; z++) {
             Mi::Renderable empty = Mi::Renderable::Create();
-            empty.position = glm::vec3(x - 5, 0, z - 5);
+            empty.position = glm::vec3(x+5, 0, z+5);
             empty.rotation = glm::vec3(0, 0, 0);
             empty.AttachRenderer(new Mi::CubeRenderer(rb));
             empty.shaderName = shadowShader.shaderName;

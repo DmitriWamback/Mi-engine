@@ -14,7 +14,7 @@ uniform vec3 directional_shadow_light_position;
 uniform vec3 camera_position;
 uniform vec3 mouse_ray;
 uniform sampler2D depthMap;
-uniform sampler2D main_tex;
+uniform sampler2D _albedo0;
 
 #define MAX_PCF_SHADOW 4
 #define MIN_SHADOW_BRIGHTNESS 0.2
@@ -78,7 +78,7 @@ void main() {
     float dotD = max(dot(lightDirection, nSN), 0.0);
     float n    = max(dot(nDSLP, nSN), 0.55);
     float _dotD = dot(lightDirection, nSN);
-    vec4 main = texture(main_tex, i.uv / TEXTURE_SCALE);
+    vec4 main = texture(_albedo0, i.uv / TEXTURE_SCALE);
 
     //float noiseIntensity = Map(noise_layer(i.fragp, 0.5, 2.0, 4, 3.0, 1.0), -1.0, 1.0, 0.1, 0.3);
     vec3 objectColor = main.rgb;

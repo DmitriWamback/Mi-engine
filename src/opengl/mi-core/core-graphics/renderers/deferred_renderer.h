@@ -23,9 +23,10 @@ namespace Mi {
         
         // Creates a default Deferred Renderer
         // IMPORTANT:
-        // The color attachment 0 is used for the albedo property
-        // The color attachment 1 is used for the normal property
-        // The color attachment 2 is used for the position property
+        // • The color attachment 0 is used for the albedo property
+        // • The color attachment 1 is used for the normal property
+        // • The color attachment 2 is used for the position property
+        // • The color attachment 3 is used for the depth property
         static DeferredRenderer* Create() {
             Mi::Shader ds = Mi::Shader::Create("deferred/vMain.glsl", "deferred/fMain.glsl", "DEFERRED STANDARD");
             DeferredRenderer* renderer = new DeferredRenderer();
@@ -35,6 +36,7 @@ namespace Mi {
             cbuf.AddColorAttachment(0, MI_DEFERRED_RENDER_ALBEDO_KEY);      // albedo        (index specified in the fragment shader) => layout (location = 0) out [...]
             cbuf.AddColorAttachment(1, MI_DEFERRED_RENDER_NORMAL_KEY);      // normal        (index specified in the fragment shader) => layout (location = 1) out [...]
             cbuf.AddColorAttachment(2, MI_DEFERRED_RENDER_POSITION_KEY);    // position      (index specified in the fragment shader) => layout (location = 2) out [...]
+            cbuf.AddColorAttachment(3, MI_DEFERRED_RENDER_DEPTH_KEY);
 
             renderer->c_buffer = cbuf;
             return renderer;
@@ -76,8 +78,6 @@ namespace Mi {
 
             // Computing the postprocessing effects and storing their textures
             //if (effects.size() > 0) for (int i = 0; i < effects.size(); i++) postprocessing_effects.push_back(effects[i]->Compute(buffers));
-
-
         }
     };
 }

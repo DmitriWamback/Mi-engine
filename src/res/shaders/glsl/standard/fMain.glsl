@@ -1,7 +1,7 @@
 #version 330 core
 
 out vec4 fragc;
-uniform sampler2D test;
+uniform sampler2D _albedo0;
 
 in vec2 uv;
 
@@ -12,5 +12,5 @@ in VERTEX {
 } i;
 
 void main() {
-    fragc = vec4(vec3(102, 153, 0)/255.0, 1.0);
+    fragc = texture(_albedo0, i.uv * 10);
 }

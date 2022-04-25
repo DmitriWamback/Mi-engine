@@ -16,29 +16,29 @@ namespace Mi {
             std::vector<glm::vec3> n;
             std::vector<glm::vec3> f;
 
-            int nbthreads = 10;
-
+            float seed = std::rand()%1000000;
+            LOG_OUT(seed);
             // creating vertices
             for (int x = 0; x < size; x++) {
                 for (int z = 0; z < size; z++) {
 
                     int i = z + x * size;
-                    float h = Mi::abs_noise_layer((float)x/114.f, (float)z/114.f, 2.f, 0.5f, 1002.23f, 10) * 50.f;
+                    float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, seed, 10) * 12.f;
 
                     heights[x][z] = h;
 
-                    v.push_back(glm::vec3(((float)x - size/2)*terrainSize, 
+                    v.push_back(glm::vec3(((float)x - size/2) * terrainSize, 
                                           h, 
-                                          ((float)z - size/2)*terrainSize));
+                                          ((float)z - size/2) * terrainSize));
 
                     if (x != size - 1 && z != size - 1) {
                         indices.push_back(i);
-                        indices.push_back(size + i + 1);
+                        indices.push_back(i + 1);
                         indices.push_back(size + i);
 
-                        indices.push_back(i);
                         indices.push_back(i + 1);
-                        indices.push_back(size + i + 1);
+                        indices.push_back(i + size + 1);   
+                        indices.push_back(i + size);
                     }
                 }
             }
@@ -50,8 +50,8 @@ namespace Mi {
                 glm::vec3 v2 = v[indices[i*3+1]];
                 glm::vec3 v3 = v[indices[i*3+2]];
 
-                glm::vec3 normal = Mi::CalculateNormal(v1, v2, v3);
-                n.push_back(normal);
+                glm::vec3 normal1 = Mi::CalculateNormal(v1, v2, v3);
+                n.push_back(normal1);
             }
 
             // combining vertices and normals
@@ -65,11 +65,16 @@ namespace Mi {
             }
 
             // putting them into a float vector
-            for (int i = 0; i < f.size(); i++) {
+            for (int i = 0; i < f.size()/2; i++) {
                 
-                vertices.push_back(f[i].x);
-                vertices.push_back(f[i].y);
-                vertices.push_back(f[i].z);
+                vertices.push_back(f[i*2].x);
+                vertices.push_back(f[i*2].y);
+                vertices.push_back(f[i*2].z);
+                vertices.push_back(f[i*2+1].x);
+                vertices.push_back(f[i*2+1].y);
+                vertices.push_back(f[i*2+1].z);
+                vertices.push_back((f[i*2].x + size/2) / (size * terrainSize));
+                vertices.push_back((f[i*2].z + size/2) / (size * terrainSize));
             }
 
             glBindVertexArray(buffer.VertexArrayObject);
@@ -77,12 +82,14 @@ namespace Mi {
             glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.IndexBufferObject);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int) - 6, &indices[0], GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, (indices.size()-1) * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), NULL);
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+            glEnableVertexAttribArray(2);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), NULL);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
             glBindVertexArray(0);
         }
 
@@ -114,7 +121,7 @@ namespace Mi {
                                        glm::vec2(xCoord, zCoord));
             }
 
-            return res - 100;
+            return res;
         }
         
         void Update(Mi::Shader& shader) {
@@ -122,7 +129,7 @@ namespace Mi {
             glBindVertexArray(buffer.VertexArrayObject);
             glBindBuffer(GL_ARRAY_BUFFER, buffer.VertexBufferObject);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.IndexBufferObject);
-            glDrawElements(GL_LINES, indices.size() - 6, GL_UNSIGNED_INT, 0);
+            glDrawElements(Triangle, indices.size() - 6, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     };
