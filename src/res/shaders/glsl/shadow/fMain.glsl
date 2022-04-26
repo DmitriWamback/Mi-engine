@@ -20,6 +20,7 @@ uniform sampler2D _albedo0;
 #define MIN_SHADOW_BRIGHTNESS 0.2
 
 uniform float biasOffset = 1.0;
+uniform float opacity;
 uniform float sCameraFarPlane;
 uniform samplerCube skybox;
 
@@ -132,6 +133,8 @@ void main() {
         fragc.rgb += fog;
     else
         fragc.rgb = fog;
+
+    fragc.w = opacity;
 
     // VISUALIZE MOUSE RAY
     // fragc.rgb += vec3(1.0, 0.0, 0.0) * max(dot(-normalize(camera_position - i.fragp), mouse_ray), 0.0);

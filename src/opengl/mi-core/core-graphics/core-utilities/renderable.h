@@ -60,6 +60,7 @@ namespace Mi {
 
             tempRenderable.name = "Obj" + std::to_string(RENDERABLE_COUNT);
             tempRenderable.shouldRender = true;
+            tempRenderable.opacity = 1.0f;
             tempRenderable.usesDepthBuffer = true;
             tempRenderable.position = glm::vec3(1.0f);
             tempRenderable.rotation = glm::vec3(0.0f);
@@ -129,12 +130,19 @@ namespace Mi {
             shader.setInt(RENDERABLE_ALBEDO_KEY3, RENDERABLE_ALBEDO_TEXTURE3);
             shader.setInt(RENDERABLE_ALBEDO_KEY4, RENDERABLE_ALBEDO_TEXTURE4);
 
+            if (opacity < 0.f) opacity = 0.f;
+            shader.setFloat("opacity", opacity);
+
             for (std::map<int, Mi::Texture>::iterator i = textures.begin(); i != textures.end(); i++) {
                 i->second.Bind(i->first);
             }
 
             for (int i = 0; i < attributes.size(); i++) attributes[i]->__ATTRUPDATE(shader);
-            for (int i = 0; i < renderers.size(); i++) renderers[i]->__ATTRUPDATE(shader);
+            if (opacity > 0.f) for (int i = 0; i < renderers.size(); i++) renderers[i]->__ATTRUPDATE(shader);
+
+            for (std::map<int, Mi::Texture>::iterator i = textures.begin(); i != textures.end(); i++) {
+                Texture::Unbind(i->first);
+            }
         }
 
         void Move() {

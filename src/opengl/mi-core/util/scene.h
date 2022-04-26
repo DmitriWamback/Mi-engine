@@ -75,13 +75,15 @@ namespace Mi { namespace Inheritable {
             return renderers[0];
         }
 
-        Mi::Renderable FindRenderable(std::string name) {
+        Mi::Renderable* FindRenderable(std::string name) {
             for (int i = 0; i < renderableCollection.size(); i++) {
-                if (renderableCollection[i].name == name) return renderableCollection[i];
+                if (renderableCollection[i].name == name) {
+                    return &renderableCollection[i];
+                }
             }
 
             LOG_OUT("couldn't find renderable: " + name);
-            return Mi::Renderable();
+            return new Mi::Renderable();
         }
 
         Mi::UI::UIRenderer FindUIRendererByName(std::string name) {
@@ -133,6 +135,8 @@ namespace Mi { namespace Inheritable {
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             glCullFace(GL_BACK);
+
+            ResetViewport();
 
             return Mi::RenderTexture(framebuffer->tex_id);
         }

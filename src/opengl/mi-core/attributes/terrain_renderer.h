@@ -17,7 +17,6 @@ namespace Mi {
             std::vector<glm::vec3> f;
 
             float seed = std::rand()%1000000;
-            LOG_OUT(seed);
             // creating vertices
             for (int x = 0; x < size; x++) {
                 for (int z = 0; z < size; z++) {

@@ -60,7 +60,8 @@ int main() {
     for (int x = 0; x < 11; x++) {
         for (int z = 0; z < 11; z++) {
             Mi::Renderable empty = Mi::Renderable::Create();
-            empty.position = glm::vec3(x+5, 0, z+5);
+            empty.position = glm::vec3(x+5, 30, z+5);
+            empty.opacity = sin(x) + cos(z);
             empty.rotation = glm::vec3(0, 0, 0);
             empty.AttachRenderer(new Mi::CubeRenderer(rb));
             empty.shaderName = shadowShader.shaderName;
