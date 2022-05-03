@@ -26,8 +26,8 @@ namespace Mi {
             std::ifstream _vs, _fs;
             std::stringstream vss, fss;
 
-            _vs.open(std::string("src/res/shaders/glsl/").append(vertexShaderPath));
-            _fs.open(std::string("src/res/shaders/glsl/").append(fragmentShaderPath));
+            _vs.open(std::string("src/res/shaders/glsl/sources/").append(vertexShaderPath));
+            _fs.open(std::string("src/res/shaders/glsl/sources/").append(fragmentShaderPath));
             vss << _vs.rdbuf();
             fss << _fs.rdbuf();
 
@@ -36,28 +36,11 @@ namespace Mi {
 
             const char* _vSRC = _vss.c_str();
             const char* _fSRC = _fss.c_str();
+            const char* vertexShaderImports   = GLSLImport(_vSRC);
+            const char* fragmentShaderImports = GLSLImport(_fSRC);
 
-            int nbVertexShaderImports    = 0;
-            int nbFragmentShaderImports  = 0;
-            char** vertexShaderImports   = load_shader_imports(&nbVertexShaderImports, _vSRC);
-            char** fragmentShaderImports = load_shader_imports(&nbFragmentShaderImports, _fSRC);
-
-            std::string vFullSource = _vSRC;
-            std::string fFullSource = _fSRC;
-            
-            for (int i = 0; i < nbVertexShaderImports; i++) {
-                importExternalShader(&vFullSource, _vSRC, vertexShaderImports[i]);
-            }   
-
-            for (int i = 0; i < nbFragmentShaderImports; i++) {
-                importExternalShader(&fFullSource, _fSRC, fragmentShaderImports[i]);
-            }
-
-            const char* vSRC = vFullSource.c_str();
-            const char* fSRC = fFullSource.c_str();
-
-            glShaderSource(vertexShader, 1, &vSRC, NULL);
-            glShaderSource(fragmentShader, 1, &fSRC, NULL);
+            glShaderSource(vertexShader, 1, &vertexShaderImports, NULL);
+            glShaderSource(fragmentShader, 1, &fragmentShaderImports, NULL);
             glCompileShader(vertexShader);
             glCompileShader(fragmentShader);
 

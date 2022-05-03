@@ -1,3 +1,6 @@
 [submodule "src/shared/MISP/MISP"]
 	path = src/shared/MISP/MISP
 	url = https://github.com/DmitriWamback/MISP
+[submodule "src/mi-extern/modules/Mi-lib"]
+	path = src/mi-extern/modules/Mi-lib
+	url = https://github.com/DmitriWamback/Mi-lib

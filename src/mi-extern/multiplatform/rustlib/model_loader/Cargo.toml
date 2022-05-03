@@ -1,9 +1,0 @@
-
-[package]
-name = "mi_model_loader"
-version = "0.1.0"
-author = "Dmitri Wamback"
-
-[lib]
-crate-type = ["cdylib"]
-path = "src/lib.rs"

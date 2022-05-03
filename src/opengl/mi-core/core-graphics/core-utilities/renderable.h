@@ -121,7 +121,9 @@ namespace Mi {
         }
 
         void render(Mi::Shader &shader) {
+
             create_model_matrix();
+
             shader.use();
             shader.setMatr4("model", model_matrix);
             shader.setInt(RENDERABLE_ALBEDO_KEY0, RENDERABLE_ALBEDO_TEXTURE0);

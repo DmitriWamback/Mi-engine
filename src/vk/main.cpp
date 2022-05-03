@@ -1,10 +1,10 @@
-#include "MiCore/engine.h"
+#include "mi-core/engine.h"
 
 int main() {
 
     try {
-        vmi_engine::vMiEngineBegin(1200, 800);
-        vmi_engine::vMiEngineStartMainLoop();
+        Mi::Engine::vMiEngineBegin(1200, 800);
+        Mi::Engine::vMiEngineStartMainLoop();
     }
     catch(const std::exception& e) {}
 }
