@@ -10,5 +10,5 @@
 extern "C" {
     uint32_t* load_model_indices(const char* file_path, int* index_count, int type);
     const float* load_model_vertices(const char* file_path, int* vertex_count, int type);
-    const char* GLSLImport(const char* shaderSource);
+    const char* GLSLImport(const char* shaderSource, const char* shaderPath);
 }

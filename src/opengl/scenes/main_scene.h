@@ -64,7 +64,7 @@ public:
         rs.use();
         rs.setMatr4("projection", camera.projection);
         rs.setMatr4("view", camera.view);
-        r.Render(rs);
+        //r.Render(rs);
 
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
         // rendering entities

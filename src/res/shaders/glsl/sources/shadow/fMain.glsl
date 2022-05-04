@@ -27,22 +27,11 @@ uniform samplerCube skybox;
 #define TEXTURE_SCALE 2.0
 
 // INCLDUING FILES
-#pragma(include("pbr.glsl"))
-#pragma(include("directional_shadow.glsl"))
-#pragma(include("perlin_noise.glsl"))
-#pragma(include("fog.glsl"))
-#pragma(include("math.glsl"))
-
-// DEFINING FUNCTIONS
-float distributionGGX(float a, float r);
-float geometrySmith(float a, float b, float r);
-vec3 fresnelSchlick(float a, vec3 b);
-float CalculateShadow(sampler2D depth, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane);
-float CalculatePCFShadows(sampler2D depth, vec4 a, vec3 b, float c, int d, vec3 n, vec3 l);
-float noise(float x, float y, float z);
-float GetDistance(vec3 fragp, vec3 cam_p, float d);
-float Map(float v, float fmin, float fmax, float tmin, float tmax);
-vec3 ComputeFog(float d, vec3 fogColor, vec3 fragp);
+#INCLUDE "../../libraries/pbr.glsl"
+#INCLUDE "../../libraries/directional_shadow.glsl"
+#INCLUDE "../../libraries/perlin_noise.glsl"
+#INCLUDE "../../libraries/fog.glsl"
+#INCLUDE "../../libraries/math.glsl"
 
 float noise_layer(vec3 p, float persistance, float lacunarity, int octaves, float freq, float ampl) {
 

@@ -36,8 +36,8 @@ namespace Mi {
 
             const char* _vSRC = _vss.c_str();
             const char* _fSRC = _fss.c_str();
-            const char* vertexShaderImports   = GLSLImport(_vSRC);
-            const char* fragmentShaderImports = GLSLImport(_fSRC);
+            const char* vertexShaderImports   = GLSLImport(_vSRC, std::string("src/res/shaders/glsl/sources/").append(vertexShaderPath).c_str());
+            const char* fragmentShaderImports = GLSLImport(_fSRC, std::string("src/res/shaders/glsl/sources/").append(fragmentShaderPath).c_str());
 
             glShaderSource(vertexShader, 1, &vertexShaderImports, NULL);
             glShaderSource(fragmentShader, 1, &fragmentShaderImports, NULL);
