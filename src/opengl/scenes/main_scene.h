@@ -35,7 +35,9 @@ public:
 
         Mi::Renderable* terrain = FindRenderable("Terrain");
         terrain->SetTexture(0, "src/res/images/brick.jpg");
-        terrain->SetTexture(1, "src/res/images/diamondplate.jpg");
+        terrain->SetTexture(1, "src/res/images/normal.jpg");
+        terrain->rotation = glm::vec3(45.0, 0.0, 45.0);
+        terrain->position = glm::vec3(0.0, 0.0, 20.0);
         terrain->opacity = 1.f;
 
         dr->AddRenderable(t);
@@ -74,6 +76,9 @@ public:
 
         for (int en = 0; en < solids.size(); en++) {
             Mi::Renderable entity = solids[en];
+            Mi::Shader s = Mi::Engine::MiCoreFindShader(entity.shaderName);
+            s.use();
+            s.setVec3("camera_position", camera.position);
             Render(entity);
         }
 

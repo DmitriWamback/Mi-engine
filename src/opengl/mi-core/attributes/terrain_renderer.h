@@ -22,7 +22,8 @@ namespace Mi {
                 for (int z = 0; z < size; z++) {
 
                     int i = z + x * size;
-                    float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, seed, 10) * 12.f;
+                    //float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, seed, 10) * 12.f;
+                    float h = 0;
 
                     heights[x][z] = h;
 
@@ -66,7 +67,7 @@ namespace Mi {
             // putting them into a float vector
             for (int i = 0; i < f.size()/2; i++) {
                 
-                vertices.push_back(f[i*2].x);
+                vertices.push_back(f[i*2].x); 
                 vertices.push_back(f[i*2].y);
                 vertices.push_back(f[i*2].z);
                 vertices.push_back(f[i*2+1].x);
@@ -76,19 +77,74 @@ namespace Mi {
                 vertices.push_back((f[i*2].z + size/2) / (size * terrainSize));
             }
 
+            std::vector<float> t;
+
+            for (int i = 0; i < indices.size()/3; i++) {
+
+                glm::vec3 p1 = glm::vec3(vertices[indices[i*3]*8],
+                                         vertices[indices[i*3]*8+1],
+                                         vertices[indices[i*3]*8+2]);
+
+                glm::vec3 p2 = glm::vec3(vertices[indices[i*3+1]*8],
+                                         vertices[indices[i*3+1]*8+1],
+                                         vertices[indices[i*3+1]*8+2]);
+
+                glm::vec3 p3 = glm::vec3(vertices[indices[i*3+2]*8],
+                                         vertices[indices[i*3+2]*8+1],
+                                         vertices[indices[i*3+2]*8+2]);
+
+                glm::vec2 u1 = glm::vec2(vertices[indices[i*3]*8+6],
+                                         vertices[indices[i*3]*8+7]) * (float)size * (float)terrainSize;
+                glm::vec2 u2 = glm::vec2(vertices[indices[i*3+1]*8+6],
+                                         vertices[indices[i*3+1]*8+7])  * (float)size * (float)terrainSize;
+                glm::vec2 u3 = glm::vec2(vertices[indices[i*3+2]*8+6],
+                                         vertices[indices[i*3+2]*8+7])  * (float)size * (float)terrainSize;
+
+                glm::vec3 edge1 = p2 - p1;
+                glm::vec3 edge2 = p3 - p1;
+                glm::vec2 duv1 = u2 - u1;
+                glm::vec2 duv2 = u3 - u1;
+
+                float f = 1.f / (duv1.x * duv2.y - duv2.x * duv1.y);
+                glm::vec3 tangent = glm::vec3(0);
+                glm::vec3 bitangent = glm::vec3(0);
+                tangent.x = f * (duv2.y * edge1.x - duv1.y * edge2.x);
+                tangent.y = f * (duv2.y * edge1.y - duv1.y * edge2.y);
+                tangent.z = f * (duv2.y * edge1.z - duv1.y * edge2.z);
+                bitangent.x = f * (-duv2.x * edge1.x + duv1.x * edge2.x);
+                bitangent.y = f * (-duv2.x * edge1.y + duv1.x * edge2.y);
+                bitangent.z = f * (-duv2.x * edge1.z + duv1.x * edge2.z);
+
+                t.push_back(tangent.x); 
+                t.push_back(tangent.y); 
+                t.push_back(tangent.z);
+                t.push_back(bitangent.x); 
+                t.push_back(bitangent.y); 
+                t.push_back(bitangent.z);
+            }
+
+            uint32_t tangency;
+            glGenBuffers(1, &tangency);
+
             glBindVertexArray(buffer.VertexArrayObject);
             glBindBuffer(GL_ARRAY_BUFFER, buffer.VertexBufferObject);
             glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
-
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.IndexBufferObject);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, (indices.size()-1) * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
             glEnableVertexAttribArray(2);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), NULL);
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
             glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+            glBindBuffer(GL_ARRAY_BUFFER, tangency);
+            glBufferData(GL_ARRAY_BUFFER, t.size() * sizeof(float), &t[0], GL_STATIC_DRAW);
+            glEnableVertexAttribArray(3);
+            glEnableVertexAttribArray(4);
+            glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), NULL);
+            glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.IndexBufferObject);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, (indices.size()-1) * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
             glBindVertexArray(0);
         }
 
