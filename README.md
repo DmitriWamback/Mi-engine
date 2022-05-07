@@ -69,8 +69,7 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
     out vec4 fragc;
 
     // including files
-    #pragma(include("B.glsl"))
-    vec3 red(); // defining functions to use
+    #INCLUDE "B.glsl"
     
     void main() {
         fragc = vec4(red(), 1.0);
@@ -94,10 +93,8 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
     #version VERSION
 
     out vec4 fragc;
-
     // including files
-    #pragma(include("B.glsl"))
-    vec3 yellow(); // defining functions to use
+    #INCLUDE "B.glsl"
     
     void main() {
         fragc = vec4(yellow(), 1.0);
