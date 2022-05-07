@@ -22,8 +22,8 @@ namespace Mi {
                 for (int z = 0; z < size; z++) {
 
                     int i = z + x * size;
-                    float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, seed, 10) * 12.f * terrainSize;
-                    //float h = 0;
+                    //float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, seed, 10) * 12.f * terrainSize;
+                    float h = 0;
 
                     heights[x][z] = h;
 
