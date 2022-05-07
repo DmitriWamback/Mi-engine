@@ -36,6 +36,7 @@ public:
         Mi::Renderable* terrain = FindRenderable("Terrain");
         terrain->SetTexture(0, "src/res/images/brick.jpg");
         terrain->SetTexture(1, "src/res/images/normal.jpg");
+        terrain->SetTexture(2, "src/res/images/heightmap.jpeg");
         terrain->rotation = glm::vec3(45.0, 0.0, 45.0);
         terrain->position = glm::vec3(0.0, 0.0, 20.0);
         terrain->opacity = 1.f;
@@ -56,17 +57,15 @@ public:
 
         dr->Render(camera);
         std::map<const char*, uint32_t> textures = dr->GetBuffers(camera);
-        //depthMap.Bind(0);
-        //tex.Bind(1);
-        //Mi::Texture::AttemptBind(textures["_normal"], 1);
-
+        ResetViewport();
+        
         Mi::InstancedRenderer r = FindRendererByName("INSTANCED TEST");
         Mi::Shader rs = Mi::Engine::MiCoreFindShader(r.shaderName);
-
+        
         rs.use();
         rs.setMatr4("projection", camera.projection);
         rs.setMatr4("view", camera.view);
-        //r.Render(rs);
+        r.Render(rs);
 
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
         // rendering entities

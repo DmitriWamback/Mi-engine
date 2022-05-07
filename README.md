@@ -44,6 +44,7 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
     <li>(GLSL) including external files</li>
     <li>Model loader (OBJ format)</li>
     <li>Instanced rendering</li>
+    <li>Normal mapping</li>
 </ul>
 
 ## CURRENT "IN DEVELOPMENT" UTILITIES
@@ -55,6 +56,7 @@ Mi is an interactive game & graphics engine built from OpenGL for Windows, MacOS
     <li>[NEW] Post Processing</li>
     <li>[NEW] Particle System</li>
     <li>[NEW] Renderable Attributes</li>
+    <li>Parallax mapping</li>
 </ul>
 
 ## IMPORTING EXTERNAL GLSL FILES

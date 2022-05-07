@@ -37,8 +37,10 @@ namespace Mi {
 
         void AddTransformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 size) {
             glm::mat4 model;
-            model = glm::translate(glm::mat4(1.0f), position);
-            model = glm::scale(model, size/2.f);
+            glm::mat4 s = scale(glm::mat4(1.f), size / 2.0f);
+            glm::mat4 t = translate(glm::mat4(1.f), position);
+            glm::mat4 r = MiGLM::eulerAngles(rotation);
+            model = t * s * r;
             transformations.push_back(model);
         }
 
