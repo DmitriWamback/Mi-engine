@@ -1,5 +1,51 @@
 namespace Mi {
 
+    class Transform {
+    public:
+        glm::vec3 position;
+        glm::vec3 rotation;
+        glm::vec3 scale;
+
+        glm::mat4 CreateModel() {
+            glm::mat4 s = glm::scale(glm::mat4(1.f), scale / 2.0f);
+            glm::mat4 t = glm::translate(glm::mat4(1.f), position);
+            glm::mat4 r = MiGLM::eulerAngles(rotation);
+            return t * s * r;
+        }
+    };
+
+    class RenderCollection {
+    public:
+        std::string name;
+        Mi::RRenderer* renderer;
+
+        std::map<std::string, Transform> transformations;
+        std::vector<std::string> t_names;
+        uint32_t vao;
+        uint32_t vertexbuf;
+        uint32_t transforms;
+        uint32_t opacity;
+
+        static RenderCollection Create() {
+
+            RenderCollection collection = RenderCollection();
+            return RenderCollection();
+        }
+
+        void SetRenderer(Mi::RRenderer* renderer) {
+            this->renderer = renderer;
+        }
+
+        void AddTransformation(Transform transform, std::string name) {
+            transformations[name] = transform;
+            t_names.push_back(name);
+        }
+
+        void LinkTransformations() {
+
+        }
+    };
+
     class InstancedRenderer: Mi::Renderer {
     public:
 
@@ -9,6 +55,8 @@ namespace Mi {
         uint32_t vao;
         Mi::Texture tex;
         bool hasTexture;
+
+        std::vector<RenderCollection> renderCollections;
 
         Mi::RRenderer* base;
         std::string shaderName;
@@ -20,6 +68,8 @@ namespace Mi {
         static InstancedRenderer Create(Mi::RRenderer* base, bool indexed, std::string name) {
 
             InstancedRenderer r = InstancedRenderer();
+
+            r.tex = Mi::Texture::Create("src/res/images/grass.png");
 
             glGenVertexArrays(1, &r.vao);
             glGenBuffers(1, &r.verticesVBO);
@@ -83,14 +133,17 @@ namespace Mi {
         }
 
         void Render(Shader& shader) {
+            //glDisable(GL_CULL_FACE);
+            glCullFace(GL_BACK);
             int count = transformations.size();
             int size = base->GetVertexSize() / 8;
             shader.use();
             glBindVertexArray(vao);
 
-            if (hasTexture) tex.Bind(0);
+            tex.Bind(0);
             glDrawArraysInstanced(RENDER_OPTION, 0, size, count);
             glBindVertexArray(0);
+            glEnable(GL_CULL_FACE);
         }
     };
 }

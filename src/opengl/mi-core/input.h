@@ -1,5 +1,12 @@
-#define GetKeyDown(key) glfwGetKey(main_window, key)
-#define GetMouseDown(button) glfwGetMouseButton(main_window, button)
+#define MOUSE_BUTTON_RIGHT          GLFW_MOUSE_BUTTON_RIGHT
+#define MOUSE_BUTTON_LEFT           GLFW_MOUSE_BUTTON_LEFT
+#define KEY_UP                      GLFW_PRESS
+#define KEY_DOWN                    GLFW_RELEASE
+
+#define GetKeyDown(key)             glfwGetKey(main_window, key) == KEY_UP
+#define GetKeyUp(key)               glfwGetKey(main_window, key) == KEY_DOWN
+#define GetMouseButtonDown(key)     glfwGetMouseButton(main_window, key) == KEY_UP
+#define GetMouseButtonUp(key)       glfwGetMouseButton(main_window, key) == KEY_DOWN
 
 namespace Mi { namespace Inheritable {
     class Keyboard {

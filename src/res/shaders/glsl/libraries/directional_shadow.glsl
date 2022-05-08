@@ -12,7 +12,7 @@ float CalculateShadow(sampler2D depthMap, vec3 normal, vec4 fragpl, vec3 lightPo
     float p = dot(normal, normalize(normalize(lightPosition) - fragp));
     
     // BIAS = 0.005 ÷ CAMERA ZFAR
-    float bias = 0.06*0.39 / cameraFarPlane;
+    float bias = 0.06*0.9 / cameraFarPlane;
     float a_bias = max(bias * (1.0 - p), bias);
     shadow = current-a_bias > closest ? 1.0 : 0.0;
 
@@ -21,7 +21,7 @@ float CalculateShadow(sampler2D depthMap, vec3 normal, vec4 fragpl, vec3 lightPo
     return shadow;
 }
 
-float CalculatePCFShadows(sampler2D depthMap, vec4 fragpl, vec3 fragp, float cameraFarPlane, int halfKernalWidth, vec3 normal, vec3 lightPosition) {
+float CalculatePCFShadows(sampler2D depthMap, vec3 normal, vec4 fragpl, vec3 lightPosition, vec3 fragp, float cameraFarPlane, int halfKernalWidth) {
 
     vec4 projectionCoords = (fragpl.xyzw) * 0.5 + 0.5;
 

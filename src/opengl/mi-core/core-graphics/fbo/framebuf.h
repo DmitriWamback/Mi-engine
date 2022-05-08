@@ -50,10 +50,10 @@ namespace Mi {
 
             glBindTexture(GL_TEXTURE_2D, tex_id);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, this->WIDTH, this->HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); // MIRROR is probably equivalent to GL_MIRRORED_REPEAT
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); // COMPARISON_MIN_MAG_MIP_LINEAR
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             //glDepthFunc(GL_LEQUAL);
             float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
             glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
@@ -61,7 +61,7 @@ namespace Mi {
             glBindFramebuffer(GL_FRAMEBUFFER, fbo);
             glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, tex_id, 0);
             glDrawBuffer(GL_NONE);
-            //glReadBuffer(GL_NONE);
+            glReadBuffer(GL_NONE);
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }

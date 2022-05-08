@@ -23,7 +23,7 @@ public:
 
     // TEXTURE, FRAMEBUFFER + OTHER OPENGL DEFINITIONS HERE
     void MiEngineBegun() {
-        fb = new Mi::Depthbuffer(1000, 1000);
+        fb = new Mi::Depthbuffer(3000, 3000);
         tex = Mi::Texture::Create("src/res/images/diamondplate.jpg");
         Mi::StaticCamera cam = Mi::StaticCamera(Mi::STATICCAMERAPROPERTIES_ORTHOGRAPHIC(), "Depth");
         AddStaticCamera(cam);
@@ -34,11 +34,12 @@ public:
         t.AttachRenderer(new Mi::CubeRenderer(RenderBuffer::Create()));
 
         Mi::Renderable* terrain = FindRenderable("Terrain");
-        terrain->SetTexture(0, "src/res/images/brick.jpg");
+        terrain->SetTexture(0, "src/res/images/Unknown.jpeg");
         terrain->SetTexture(1, "src/res/images/normal.jpg");
         terrain->SetTexture(2, "src/res/images/heightmap.jpeg");
-        terrain->rotation = glm::vec3(45.0, 0.0, 45.0);
-        terrain->position = glm::vec3(0.0, 0.0, 20.0);
+        terrain->rotation = glm::vec3(0.0, 0.0, 0.0);
+        terrain->position = glm::vec3(0.0, 0.0, 0.0);
+        terrain->size = glm::vec3(1.0f);
         terrain->opacity = 1.f;
 
         dr->AddRenderable(t);
@@ -58,7 +59,7 @@ public:
         dr->Render(camera);
         std::map<const char*, uint32_t> textures = dr->GetBuffers(camera);
         ResetViewport();
-        
+
         Mi::InstancedRenderer r = FindRendererByName("INSTANCED TEST");
         Mi::Shader rs = Mi::Engine::MiCoreFindShader(r.shaderName);
         
@@ -66,6 +67,15 @@ public:
         rs.setMatr4("projection", camera.projection);
         rs.setMatr4("view", camera.view);
         r.Render(rs);
+
+        if (GetKeyDown(GLFW_KEY_E)) {
+            Mi::Renderable* r = FindRenderable("Terrain");
+            r->rotation.y += 0.2;
+        }
+        if (GetKeyDown(GLFW_KEY_Q)) {
+            Mi::Renderable* r = FindRenderable("Terrain");
+            r->rotation.y -= 0.2;
+        }
 
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
         // rendering entities
@@ -91,37 +101,38 @@ public:
         
 
         Mi::StaticCamera stC = FindStaticCameraByName("Depth");
+
+        glm::mat4 a = glm::lookAt(glm::vec3(200.f, 100.f, 100.f) + camera.position, glm::vec3(0.f) + camera.position, glm::vec3(0.0f, 1.f, 0.f));
+        stC.view = a;
+
         stC.set_position(stC.GetStartPosition() + camera.position);
         stC.set_target(stC.GetStartPosition() + camera.position);
 
-        Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC, fb, false);
+        Mi::RenderTexture depthMap = LoadSceneThroughFramebuffer(stC.projection, a, fb, false);
         ResetViewport();
 
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
 
         Mi::Shader shader = Mi::Engine::MiCoreFindShader(entity.shaderName);
+        
+        glCullFace(GL_BACK);
         shader.use();
-
         shader.setVec3("mouse_ray", mouseRay);
         shader.setVec3("camera_position", camera.position);
+
         shader.setMatr4("projection", camera.projection);
         shader.setMatr4("view", camera.view);
         shader.setMatr4("lightSpaceMatrix_projection", stC.projection);
-        shader.setMatr4("lightSpaceMatrix_view", stC.view);
-
-        glm::vec3 _cam;
-        if (stC.GetCurrentPosition() - glm::vec3(camera.position.x, 0, camera.position.z) == stC.GetStartPosition()) _cam = stC.GetStartTarget();
-        else _cam = stC.GetCurrentPosition();
-        stC.set_position(stC.GetStartPosition() + camera.position);
-        stC.set_target(stC.GetStartTarget() + camera.position);
-
+        shader.setMatr4("lightSpaceMatrix_view", a);
         shader.setVec3("directional_shadow_light_position", stC.GetCurrentPosition() - stC.GetCurrentTarget());
         //shader.setInt("main_tex", 1);
         //shader.setInt("depthMap", 0);
+        depthMap.Bind(3);
         shader.setInt("skybox", 2);
         shader.setFloat("biasOffset", biasOffset);
         shader.setFloat("sCameraFarPlane", stC.zfar);
 
         entity.render(shader);
+        glEnable(GL_CULL_FACE);
     }
 };

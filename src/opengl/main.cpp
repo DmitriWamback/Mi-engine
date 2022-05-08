@@ -32,43 +32,46 @@ int main() {
     Mi::Engine::MiCoreAddShader(instancedShader);
 
     Mi::System* _s = Mi::ParticleSystem::Create();
-    Mi::InstancedRenderer r = Mi::InstancedRenderer::Create(new Mi::CubeRenderer(RenderBuffer::Create()),
+    RenderBuffer renderbuf = RenderBuffer::Create();
+    Mi::InstancedRenderer r = Mi::InstancedRenderer::Create(new Mi::QuadRenderer(renderbuf),
                                                             false,
                                                             "INSTANCED TEST");
-
-    for (int x = 0; x < 100; x++) {
-        for (int y = 0; y < 100; y++) {
-            r.AddTransformation(glm::vec3(x, 0.f, y), glm::vec3(0.f), glm::vec3(1.0f));
-        }
-    }
-    r.AssignShader(instancedShader);
-    r.LinkTransformations();
-
-    Mi::Engine::MiCoreSceneAddInstancedRenderer(scene1, r);
 
     Mi::Inheritable::Keyboard* k = new MainKeyboard(scene1);
     Mi::Engine::MiCoreSetSubKeyboard(k);
 
     Mi::Renderable a = Mi::Renderable::Create();
     a.AttachRenderer(new Mi::TerrainRenderer(RenderBuffer::Create()));
-    a.size = glm::vec3(.5f);
+    a.size = glm::vec3(10.5f);
     a.name = "Terrain";
     Mi::TerrainRenderer* renderer = a.TryGetRenderer<Mi::TerrainRenderer*>();
 
-    RenderBuffer rb = RenderBuffer::Create();
+    for (int x = 0; x < 100; x++) {
+        for (int y = 0; y < 100; y++) {
+            
+            float height = Mi::noise(x / 13.f, y / 13.f, 145.3f) + 1.f;
+            float px = x + std::rand()%2 - 1.f - 50;
+            float pz = y + std::rand()%2 - 1.f - 50;
 
-    for (int x = 0; x < 31; x++) {
-        for (int z = 0; z < 31; z++) {
-            Mi::Renderable empty = Mi::Renderable::Create();
-            empty.position = glm::vec3(x+5, 30, z+5);
-            //empty.opacity = sin(x) + cos(z);
-            empty.rotation = glm::vec3(0, 0, 0);
-            empty.AttachRenderer(new Mi::CubeRenderer(rb));
-            empty.shaderName = shadowShader.shaderName;
-            scene1->AddEntity(empty);
+            float p = renderer->GetHeightAt(glm::vec2(px, pz));
+
+            if (Mi::noise(x / 13.f, y / 13.f, 145.3f) > -0.5f) {
+                r.AddTransformation(glm::vec3(px, p + height/2, pz), 
+                                    glm::vec3(0.f, std::rand()%10000, 0.f), 
+                                    glm::vec3(1.0f, height, 1.0f));
+            }
         }
     }
+    r.AssignShader(instancedShader);
+    r.LinkTransformations();
+    Mi::Engine::MiCoreSceneAddInstancedRenderer(scene1, r);
 
+
+    Mi::Renderable b = Mi::Renderable::Create();
+    b.AttachRenderer(new Mi::CubeRenderer(renderbuf));
+    scene1->AddEntity(b);
+
+    RenderBuffer rb = RenderBuffer::Create();
 
     a.shaderName = standard.shaderName;
     scene1->AddEntity(a);

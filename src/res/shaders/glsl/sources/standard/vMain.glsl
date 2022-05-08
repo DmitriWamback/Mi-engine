@@ -22,7 +22,7 @@ out VERTEX {
 void main() {
     uv = auv;
 
-    o.normal = normal;
+    o.normal = normalize(mat3(transpose(inverse(model))) * normal);
     o.fragp = (model * vec4(position, 1.0)).xyz;
     o.uv = auv;
 

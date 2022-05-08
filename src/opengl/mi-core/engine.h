@@ -18,6 +18,10 @@ namespace Mi { namespace Engine {
 #define ConnectedWireframe                              GL_LINE_STRIP
 #define Point                                           GL_POINTS
 
+void GetMousePosition(double* x, double* y) {
+    glfwGetCursorPos(main_window, x, y);
+}
+
 
 #define LOG_OUT(a) std::cout << a << '\n'
 #define LOG_OUT2(a, b) std::cout << a << ' ' << b << '\n'
@@ -117,6 +121,8 @@ namespace Engine {
 }}
 
 
+#include "core-graphics/texture/texture.h"
+#include "core-graphics/texture/cubemap.h"
 #include <MIPHYSICS/physicsbox.h>
 #include <MIPOSTPROCESSING/effect.h>
 #include <MIATTRIBUTE/renderbuf.h>
@@ -124,6 +130,7 @@ namespace Engine {
 
 #include "attributes/cube_renderer.h"
 #include "attributes/terrain_renderer.h"
+#include "attributes/quad_renderer.h"
 
 #include "core-graphics/colorbuf/colorbuf.h"
 #include "util/camera.h"

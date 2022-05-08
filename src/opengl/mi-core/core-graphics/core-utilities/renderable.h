@@ -74,7 +74,7 @@ namespace Mi {
 
         void create_model_matrix() {
             //glm::mat4 r = miGLM::eulerAngles(rotation);
-            glm::mat4 s = scale(glm::mat4(1.f), size / 2.0f);
+            glm::mat4 s = scale(glm::mat4(1.f), size);
             glm::mat4 t = translate(glm::mat4(1.f), position);
             glm::mat4 r = MiGLM::eulerAngles(rotation);
             model_matrix = t * s * r;

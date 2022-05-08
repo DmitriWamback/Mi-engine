@@ -6,7 +6,7 @@ namespace Mi {
         std::vector<unsigned int> indices;
         static int size;
         static float terrainSize;
-        float heights[1000][1000]; // size = 1000 (line 105)
+        float heights[1000][1000]; // size = 1000 (line 192)
 
         TerrainRenderer(RenderBuffer buf) {
             this->buffer = buf;
@@ -17,13 +17,14 @@ namespace Mi {
             std::vector<glm::vec3> f;
 
             float seed = std::rand()%1000000;
+            LOG_OUT(seed);
             // creating vertices
             for (int x = 0; x < size; x++) {
                 for (int z = 0; z < size; z++) {
 
                     int i = z + x * size;
-                    //float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, seed, 10) * 12.f * terrainSize;
-                    float h = 0;
+                    float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, 823431.f, 10) * 5.2f;
+                    //h = 0;
 
                     heights[x][z] = h;
 
@@ -152,8 +153,8 @@ namespace Mi {
             
             float gridSquare = terrainSize;
 
-            float x = xzPosition.x + size/2;
-            float z = xzPosition.y + size/2;
+            float x = xzPosition.x + (size/2) * terrainSize;
+            float z = xzPosition.y + (size/2) * terrainSize;
 
             int gridX = (int)floor(x / gridSquare);
             int gridZ = (int)floor(z / gridSquare);
@@ -180,15 +181,15 @@ namespace Mi {
         }
         
         void Update(Mi::Shader& shader) {
-
+            
             glBindVertexArray(buffer.VertexArrayObject);
             glBindBuffer(GL_ARRAY_BUFFER, buffer.VertexBufferObject);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.IndexBufferObject);
-            glDrawElements(Triangle, indices.size() - 6, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, indices.size() - 6, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     };
 
     int TerrainRenderer::size = 1000;
-    float TerrainRenderer::terrainSize = 1.0f;
+    float TerrainRenderer::terrainSize = 0.1f;
 }

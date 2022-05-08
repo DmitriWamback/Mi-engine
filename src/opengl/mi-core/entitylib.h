@@ -1,7 +1,4 @@
 #include "core-graphics/fbo/framebuf.h"
-
-#include "core-graphics/texture/texture.h"
-#include "core-graphics/texture/cubemap.h"
 #include "core-graphics/core-utilities/renderable.h"
 #include "core-graphics/meshes/mesh.h"
 #include "util/skybox.h"

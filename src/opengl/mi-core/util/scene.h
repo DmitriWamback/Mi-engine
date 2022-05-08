@@ -21,8 +21,6 @@ namespace Mi { namespace Inheritable {
 
         static Mi::Camera camera;
         Shader depthShader;
-
-        glm::vec3 camera_pos;
         std::string scene_name;
 
         Scene() {}
@@ -106,12 +104,45 @@ namespace Mi { namespace Inheritable {
             
         }
 
+        Mi::RenderTexture LoadSceneThroughFramebuffer(glm::mat4 projection, glm::mat4 view, Mi::Inheritable::Framebuffer* framebuffer, bool includesInstancing) {
+
+            glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
+            glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
+            
+            if (framebuffer->type == Mi::Enum::BUFTYPE_DEPTH) {
+
+                //glCullFace(GL_FRONT);
+                depthShader.use();
+                depthShader.setMatr4("lightSpaceMatrix_projection", projection);
+                depthShader.setMatr4("lightSpaceMatrix_view", view);
+                glClear(GL_DEPTH_BUFFER_BIT);
+
+                if (includesInstancing) {
+                    depthShader.setInt("isInstanced", 1);
+                    for (int i = 0; i < renderers.size(); i++) {
+                        renderers.at(i).Render(depthShader);
+                    }
+                }
+                
+                depthShader.setInt("isInstanced", 0);
+                for (int i = 0; i < renderableCollection.size(); i++) {
+                    Renderable entity = renderableCollection[i];
+                    if (entity.usesDepthBuffer) entity.render(depthShader);
+                }
+            }
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glCullFace(GL_BACK);
+
+            ResetViewport();
+
+            return Mi::RenderTexture(framebuffer->tex_id);
+        }
+
         virtual Mi::RenderTexture LoadSceneThroughFramebuffer(Mi::StaticCamera cam, Mi::Inheritable::Framebuffer* framebuffer, bool includeInstancing) {
             
             glViewport(0, 0, framebuffer->WIDTH, framebuffer->HEIGHT);
             glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
-            camera_pos = cam.position;
-            
+        
             if (framebuffer->type == Mi::Enum::BUFTYPE_DEPTH) {
 
                 glCullFace(GL_FRONT);
@@ -128,7 +159,7 @@ namespace Mi { namespace Inheritable {
                 }
                 
                 depthShader.setInt("isInstanced", 0);
-                for (int i = 0; i < nb_entities; i++) {
+                for (int i = 0; i < renderableCollection.size(); i++) {
                     Renderable entity = renderableCollection[i];
                     if (entity.usesDepthBuffer) entity.render(depthShader);
                 }

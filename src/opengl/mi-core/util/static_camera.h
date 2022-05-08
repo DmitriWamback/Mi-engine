@@ -55,13 +55,13 @@ namespace Mi {
         glm::vec3 look_target;
         glm::vec3 local_up;
 
-        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left                   = -10.0, 
-                                            float right                  =  10.0, 
-                                            float top                    =  10.0, 
-                                            float bottom                 = -10.0,
-                                            float zfar                   =  10000.0,
-                                            float znear                  =  0.1,
-                                            glm::vec3 position           =  glm::vec3(460.0f, 200.0f, 200.0f), 
+        STATICCAMERAPROPERTIES_ORTHOGRAPHIC(float left                   = -60.0f, 
+                                            float right                  =  60.0f, 
+                                            float top                    =  60.0f, 
+                                            float bottom                 = -60.0f,
+                                            float zfar                   =  10000.0f,
+                                            float znear                  =  0.1f,
+                                            glm::vec3 position           =  glm::vec3(200.0f, 200.0f, 200.0f), 
                                             glm::vec3 look_target        =  glm::vec3(0.0f), 
                                             glm::vec3 local_up           =  glm::vec3(0.0f, 1.0f, 0.0f)) {
 
@@ -107,12 +107,13 @@ namespace Mi {
 
             projection = glm::ortho(orthographic_prop.left, 
                                     orthographic_prop.right, 
-                                   -orthographic_prop.bottom, 
-                                   -orthographic_prop.top,
+                                    orthographic_prop.bottom, 
+                                    orthographic_prop.top,
                                     orthographic_prop.znear,
                                     orthographic_prop.zfar);
 
-            view = glm::lookAt(orthographic_prop.position, orthographic_prop.look_target, orthographic_prop.local_up);
+            LOG_OUT3(orthographic_prop.local_up.x, orthographic_prop.local_up.y, orthographic_prop.local_up.z);
+            view = glm::lookAt(glm::vec3(100.f), glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
             position = orthographic_prop.position;
             target = orthographic_prop.look_target;
             start_position = position;

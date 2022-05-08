@@ -16,12 +16,5 @@ uniform mat4 model;
 uniform int isInstanced;
 
 void main() {
-
-    if (isInstanced == 0)
-        gl_Position = lightSpaceMatrix_projection * lightSpaceMatrix_view * model * vec4(position, 1.0);
-
-    else if (isInstanced == 1) {
-        mat4 m = mat4(r1, r2, r3, r4);
-        gl_Position = lightSpaceMatrix_projection * lightSpaceMatrix_view * m * vec4(position, 1.0);
-    }
+    gl_Position = lightSpaceMatrix_projection * lightSpaceMatrix_view * model * vec4(position, 1.0);
 }
