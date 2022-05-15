@@ -6,7 +6,7 @@ namespace Mi {
         std::vector<unsigned int> indices;
         static int size;
         static float terrainSize;
-        float heights[1000][1000]; // size = 1000 (line 192)
+        float heights[500][500]; // size = 1000 (line 192)
 
         TerrainRenderer(RenderBuffer buf) {
             this->buffer = buf;
@@ -190,6 +190,6 @@ namespace Mi {
         }
     };
 
-    int TerrainRenderer::size = 1000;
-    float TerrainRenderer::terrainSize = 0.1f;
+    int TerrainRenderer::size = 500;
+    float TerrainRenderer::terrainSize = 0.2f;
 }

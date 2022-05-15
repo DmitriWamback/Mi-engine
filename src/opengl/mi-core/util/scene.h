@@ -16,6 +16,8 @@ namespace Mi { namespace Inheritable {
         int nb_entities;
         int nb_cameras;
 
+        std::vector<Mi::IO::Font> fonts;
+
         std::vector<Mi::Renderable> renderableCollection;
         Mi::StaticCamera static_cameras[__SCENE_MAX_STATIC_CAMERAS];
 
@@ -178,11 +180,11 @@ namespace Mi { namespace Inheritable {
             int height;
             glfwGetWindowSize(main_window, &width, &height);
 
-#if defined(__APPLE__)
+#if defined(MI_APPLE_IMPLEMENTATION)
 
             if (width > height) glViewport(0, -abs(width-height), width*2, width*2);
             else glViewport(-abs(width-height), 0, height*2, height*2);
-#else
+#elif defined(MI_WINDOWS_IMPLEMENTATION)
         
             if (width > height) glViewport(0, -abs(width-height)/2, width, width);
             else glViewport(-abs(width-height)/2, 0, height, height);

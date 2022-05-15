@@ -24,5 +24,6 @@ g++ --std=c++17 -framework OpenGL -framework OpenAL -I $INCLUDES \
                 -I src/vendor/include \
                 -I src/shared \
                 $CMD \
+                $(freetype-config --libs) \
                 src/opengl/main.cpp
 ./a.out

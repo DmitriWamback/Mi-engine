@@ -1,7 +1,9 @@
-#define MI_DEFERRED_RENDER_ALBEDO_KEY   "_albedo"
-#define MI_DEFERRED_RENDER_NORMAL_KEY   "_normal"
-#define MI_DEFERRED_RENDER_POSITION_KEY "_position"
-#define MI_DEFERRED_RENDER_DEPTH_KEY    "_depth"
+#define MI_DEFERRED_RENDER_ALBEDO_KEY       "_albedo"
+#define MI_DEFERRED_RENDER_NORMAL_KEY       "_normal"
+#define MI_DEFERRED_RENDER_POSITION_KEY     "_position"
+#define MI_DEFERRED_RENDER_DEPTH_KEY        "_depth"
+#define MI_DEFERRED_RENDER_METALLIC_KEY     "_metallic"
+#define MI_DEFERRED_RENDER_ROUGHNESS_KEY    "_roughness"
 
 namespace Mi { namespace Enum {
 
@@ -37,6 +39,8 @@ namespace Mi {
             cbuf.AddColorAttachment(1, MI_DEFERRED_RENDER_NORMAL_KEY);      // normal        (index specified in the fragment shader) => layout (location = 1) out [...]
             cbuf.AddColorAttachment(2, MI_DEFERRED_RENDER_POSITION_KEY);    // position      (index specified in the fragment shader) => layout (location = 2) out [...]
             cbuf.AddColorAttachment(3, MI_DEFERRED_RENDER_DEPTH_KEY);
+            cbuf.AddColorAttachment(4, MI_DEFERRED_RENDER_METALLIC_KEY);
+            cbuf.AddColorAttachment(5, MI_DEFERRED_RENDER_ROUGHNESS_KEY);
 
             renderer->c_buffer = cbuf;
             return renderer;

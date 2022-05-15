@@ -1,6 +1,34 @@
 #include "libs.h"
 #define MI_ENGINE_OPENGL
 
+#if defined(_WIN32)
+    #if defined(_WIN64)
+        #define MI_WINDOWS_IMPLEMENTATION
+    #else
+        #error "Cannot run x86"
+    #endif
+#elif defined(__APPLE__) || defined(__MACH__)
+    #define MI_APPLE_IMPLEMENTATION
+
+#elif defined(__linux__)
+    #define MI_LINUX_IMPLEMENTATION
+
+#else
+    #error "Unknown platform cannot be supported"
+#endif
+
+#include <Mi-Registry/errors.h>
+
+#define KEY_UP                  GLFW_PRESS
+#define KEY_DOWN                GLFW_RELEASE
+#define MOUSE_BUTTON_RIGHT      GLFW_MOUSE_BUTTON_RIGHT
+#define MOUSE_BUTTON_LEFT       GLFW_MOUSE_BUTTON_LEFT
+
+#define GetKeyDown(key)             glfwGetKey(main_window, key) == KEY_UP
+#define GetKeyUp(key)               glfwGetKey(main_window, key) == KEY_DOWN
+#define GetMouseButtonDown(key)     glfwGetMouseButton(main_window, key) == KEY_UP
+#define GetMouseButtonUp(key)       glfwGetMouseButton(main_window, key) == KEY_DOWN
+
 int RENDERABLE_COUNT = 0;
 #define __MI_UPDATE_GLOBAL_RENDERABLE_COUNT() RENDERABLE_COUNT++
 
@@ -33,8 +61,10 @@ void GetMousePosition(double* x, double* y) {
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <MISND/audioplayer.h>
+#include <Mi-Registry/Mi-Audio/registry.h>
 #include <unordered_map>
+#include <ft2build.h>
+#include <Mi-Registry/Mi-Font/registry.h>
 
 #include "util/math.h"
 
@@ -101,7 +131,7 @@ namespace Mi { namespace Input {
 #include "util/vec_util.h"
 #include "util/glm_additions.h"
 #include "perlin_noise.h"
-#include <MIDUINO/serialport.h>
+#include <Mi-Registry/Mi-Serial-Communication/registry.h>
 #include "core-graphics/shader.h"
 
 namespace Mi { namespace Core {
@@ -123,10 +153,9 @@ namespace Engine {
 
 #include "core-graphics/texture/texture.h"
 #include "core-graphics/texture/cubemap.h"
-#include <MIPHYSICS/physicsbox.h>
-#include <MIPOSTPROCESSING/effect.h>
-#include <MIATTRIBUTE/renderbuf.h>
-#include <MIATTRIBUTE/attribute.h>
+#include <Mi-Registry/Mi-Physics/registry.h>
+#include <Mi-Registry/Mi-Post-Processing/registry.h>
+#include <Mi-Registry/Mi-Attrib/registry.h>
 
 #include "attributes/cube_renderer.h"
 #include "attributes/terrain_renderer.h"
@@ -145,8 +174,7 @@ namespace Engine {
 #include "input.h"
 #include "util/t_sort.h"
 #define MI_LIBRARIES_LOADED
-#include <MISP/misp.h>
-#include <MIBINDING/mibind.h>
+#include <Mi-Registry/Mi-Bindings/resgistry.h>
 #include "effects/effects.h"
 
 namespace Mi { namespace Input {

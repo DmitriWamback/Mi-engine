@@ -24,6 +24,7 @@ g++ -arch x86_64 -I $GLFW_INC \
                 -I src/vendor/includes \
                 -I src/shared \
                 $CMD \
+                $(freetype-config --libs) \
                 src/main.cpp
 
 ./a.out

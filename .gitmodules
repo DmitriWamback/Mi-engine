@@ -4,3 +4,6 @@
 [submodule "src/mi-extern/modules/Mi-lib"]
 	path = src/mi-extern/modules/Mi-lib
 	url = https://github.com/DmitriWamback/Mi-lib
+[submodule "src/shared/Mi-Registry"]
+	path = src/shared/Mi-Registry
+	url = https://github.com/DmitriWamback/Mi-Registry
