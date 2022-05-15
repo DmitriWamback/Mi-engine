@@ -160,6 +160,7 @@ namespace Engine {
 #include "attributes/cube_renderer.h"
 #include "attributes/terrain_renderer.h"
 #include "attributes/quad_renderer.h"
+#include "attributes/text_renderer.h"
 
 #include "core-graphics/colorbuf/colorbuf.h"
 #include "util/camera.h"
