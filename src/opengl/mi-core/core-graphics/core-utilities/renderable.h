@@ -29,6 +29,11 @@ namespace Mi { namespace Enum {
 
 namespace Mi {
 
+    typedef struct p_Components {
+        std::vector<Mi::RRenderer*> renderers;
+        std::vector<Mi::RAttribute*> attributes;
+    } p_Components;
+
     class Renderable {
     private:
         glm::mat4 model_matrix;

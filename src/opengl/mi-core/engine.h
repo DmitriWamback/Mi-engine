@@ -5,7 +5,7 @@
     #if defined(_WIN64)
         #define MI_WINDOWS_IMPLEMENTATION
     #else
-        #error "Cannot run x86"
+        #error "MI::ERROR::PLATFORM: Cannot run x86"
     #endif
 #elif defined(__APPLE__) || defined(__MACH__)
     #define MI_APPLE_IMPLEMENTATION
@@ -14,7 +14,7 @@
     #define MI_LINUX_IMPLEMENTATION
 
 #else
-    #error "Unknown platform cannot be supported"
+    #error "MI::ERROR::PLATFORM: Unknown platform. Cannot support unknown platform."
 #endif
 
 #include <Mi-Registry/errors.h>

@@ -3,8 +3,8 @@
 int main() {
 
     try {
-        Mi::Engine::vMiEngineBegin(1200, 800);
-        Mi::Engine::vMiEngineStartMainLoop();
+        Mi::Engine::Begin(1200, 800);
+        Mi::Engine::StartMainLoop();
     }
     catch(const std::exception& e) {}
 }

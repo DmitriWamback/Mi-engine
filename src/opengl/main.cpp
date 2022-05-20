@@ -71,6 +71,11 @@ int main() {
     b.AttachRenderer(new Mi::CubeRenderer(renderbuf));
     scene1->AddEntity(b);
 
+    Mi::Renderable text = Mi::Renderable::Create();
+    text.name = "TEXT";
+    text.AttachRenderer(new Mi::TextRenderer(RenderBuffer::Create()));
+    scene1->AddEntity(text);
+
     RenderBuffer rb = RenderBuffer::Create();
 
     a.shaderName = standard.shaderName;

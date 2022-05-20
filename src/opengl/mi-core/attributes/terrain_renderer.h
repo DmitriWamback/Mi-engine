@@ -23,7 +23,7 @@ namespace Mi {
                 for (int z = 0; z < size; z++) {
 
                     int i = z + x * size;
-                    float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, 823431.f, 10) * 5.2f;
+                    float h = Mi::abs_noise_layer(x/134.f, z/134.f, 2.f, .5f, 823431.f, 10) * 10.4f;
                     //h = 0;
 
                     heights[x][z] = h;

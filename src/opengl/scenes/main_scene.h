@@ -43,6 +43,10 @@ public:
         terrain->opacity = 1.f;
 
         dr->AddRenderable(t);
+
+        Mi::TextRenderer* textRenderer = FindRenderable("TEXT")->TryGetRenderer<Mi::TextRenderer*>();
+        textRenderer->font = Mi::IO::Font::Create("src/RobotoFlex-Regular.ttf");
+        textRenderer->text = "Hello";
     }
 
     void SceneMainLoop(glm::vec2 motion, glm::vec2 rotation) {
