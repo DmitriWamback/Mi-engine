@@ -99,6 +99,9 @@ public:
             Mi::Renderable entity = transparent[en];
             Render(entity);
         }
+
+        Mi::TextRenderer* textRenderer = FindRenderable("TEXT")->TryGetRenderer<Mi::TextRenderer*>();
+        textRenderer->text = "Hello" + std::to_string(glfwGetTime());
     }
 
     void Render(Mi::Renderable entity) {
