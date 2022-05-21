@@ -4,6 +4,10 @@ layout(location = 0) in vec4 in_attr;
 
 out vec2 uv;
 
+uniform mat4 projection;
+uniform mat4 view;
+uniform mat4 model;
+
 void main() {
 
     uv = in_attr.zw;

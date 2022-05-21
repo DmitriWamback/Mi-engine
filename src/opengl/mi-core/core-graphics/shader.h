@@ -12,6 +12,8 @@ namespace Mi {
         int program;
         std::string shaderName;
 
+        std::unordered_map<std::string, uint32_t> uniformCache;
+
         Shader() {}
 
         static Shader Create(const char* vertexShaderPath, const char* fragmentShaderPath, std::string name) {
@@ -80,22 +82,22 @@ namespace Mi {
         }
 
         void setMatr4(std::string name, glm::mat4 &matr) {
-            int loc = glGetUniformLocation(program, name.c_str());
+            int loc = GetUniform(name);
             glUniformMatrix4fv(loc, 1, GL_FALSE, &matr[0][0]);
         }
 
         void setVec3(std::string name, glm::vec3 vect) {
-            int loc = glGetUniformLocation(program, name.c_str());
+            int loc = GetUniform(name);
             glUniform3f(loc, vect.x, vect.y, vect.z);
         }
 
         void setInt(std::string name, int a) {
-            int loc = glGetUniformLocation(program, name.c_str());
+            int loc = GetUniform(name);
             glUniform1i(loc, a);
         }
 
         void setFloat(std::string name, float a) {
-            int loc = glGetUniformLocation(program, name.c_str());
+            int loc = GetUniform(name);
             glUniform1f(loc, a);
         }
 
@@ -114,6 +116,16 @@ namespace Mi {
 
         void use() {
             glUseProgram(program);
+        }
+private:
+
+        uint32_t GetUniform(std::string name) {
+            if (uniformCache.find(name) != uniformCache.end()) 
+                return uniformCache[name];
+
+            uint32_t location = glGetUniformLocation(program, name.c_str());
+            uniformCache[name] = location;
+            return location;
         }
     };
 }

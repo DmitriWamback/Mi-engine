@@ -3,6 +3,7 @@
 out vec4 fragc;
 in vec2 uv;
 uniform sampler2D tex;
+uniform vec3 color;
 
 void main() {
 
@@ -10,4 +11,5 @@ void main() {
     if (o < 0.6) discard;
 
     fragc = vec4(vec3(1.0), o);
+    fragc.rgb *= color;
 }

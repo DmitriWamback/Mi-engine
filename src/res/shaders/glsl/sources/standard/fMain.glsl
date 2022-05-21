@@ -36,6 +36,7 @@ void main() {
     vec3 diffuse = color * diff + shadow_ambient * (1 - diff);
     vec3 col = ComputeNormalMap(_albedo1, color, vec3(0.7, 0.9, 0.6), i.uv * 10.0);
     
+    //fragc = vec4(diffuse * (1 - shadow), 1.0);
     fragc = vec4(color * shadow + ((vec3(0.15, 0.15, 0.35) + color)/2) * (1 - shadow), 1.0);
     //fragc.rgb *= texture(_albedo0, i.uv * 32).rgb;
 }

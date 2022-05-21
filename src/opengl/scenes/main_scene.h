@@ -45,7 +45,7 @@ public:
         dr->AddRenderable(t);
 
         Mi::TextRenderer* textRenderer = FindRenderable("TEXT")->TryGetRenderer<Mi::TextRenderer*>();
-        textRenderer->font = Mi::IO::Font::Create("src/RobotoFlex-Regular.ttf");
+        textRenderer->font = Mi::IO::Font::Create("src/Cinzel-Regular.ttf");
         textRenderer->text = "Hello";
     }
 
@@ -100,8 +100,10 @@ public:
             Render(entity);
         }
 
+        // Setting Text
         Mi::TextRenderer* textRenderer = FindRenderable("TEXT")->TryGetRenderer<Mi::TextRenderer*>();
-        textRenderer->text = "Hello" + std::to_string(glfwGetTime());
+        textRenderer->text = "Time: " + std::to_string(glfwGetTime()/3.f);
+        textRenderer->color = glm::vec3(1.f, 1.f, 0.f);
     }
 
     void Render(Mi::Renderable entity) {

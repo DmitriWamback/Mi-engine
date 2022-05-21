@@ -7,6 +7,7 @@ namespace Mi {
         Mi::Shader textShader;
         std::string text;
         static glm::vec2 fontSize;
+        static glm::vec3 color;
         
         TextRenderer(RenderBuffer buf) {
             
@@ -28,6 +29,7 @@ namespace Mi {
             glm::vec2 position = glm::vec2(0.5f);
 
             textShader.use();
+            textShader.setVec3("color", color);
             glBindVertexArray(buffer.VertexArrayObject);
             float xOff = 0.f;
             float width = 0.f;
@@ -71,4 +73,5 @@ namespace Mi {
     };
 
     glm::vec2 TextRenderer::fontSize = glm::vec2(0.0008f);
+    glm::vec3 TextRenderer::color    = glm::vec3(1.f);
 }

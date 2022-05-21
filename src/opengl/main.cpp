@@ -46,8 +46,8 @@ int main() {
     a.name = "Terrain";
     Mi::TerrainRenderer* renderer = a.TryGetRenderer<Mi::TerrainRenderer*>();
 
-    for (int x = 0; x < 200; x++) {
-        for (int y = 0; y < 200; y++) {
+    for (int x = 0; x < 20; x++) {
+        for (int y = 0; y < 20; y++) {
             
             float height = Mi::noise(x / 13.f, y / 13.f, 145.3f) + 1.f;
             float px = (x + std::rand()%2 - 1.f)/2.f - 50;
