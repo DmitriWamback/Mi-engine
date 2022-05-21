@@ -3,7 +3,7 @@
 <p>Features:</p>
 <strong>General Graphics:</strong>
 <ul>
-    <li>Shaders (Regular, Gemoetry + Compute Shaders coming soon)</li>
+    <li>Shaders (Regular, Geometry + Compute Shaders coming soon)</li>
     <li>Framebuffers</li>
     <li>3D environments</li>
     <li>Systems (Particle System, etc.) <- In Development</li>
