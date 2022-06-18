@@ -1,17 +1,5 @@
 #define MAX_VERTICES 100000
 
-#define RENDERABLE_ALBEDO_TEXTURE0  0
-#define RENDERABLE_ALBEDO_TEXTURE1  1
-#define RENDERABLE_ALBEDO_TEXTURE2  2
-#define RENDERABLE_ALBEDO_TEXTURE3  3
-#define RENDERABLE_ALBEDO_TEXTURE4  4
-
-#define RENDERABLE_ALBEDO_KEY0  "_albedo0"
-#define RENDERABLE_ALBEDO_KEY1  "_albedo1"
-#define RENDERABLE_ALBEDO_KEY2  "_albedo2"
-#define RENDERABLE_ALBEDO_KEY3  "_albedo3"
-#define RENDERABLE_ALBEDO_KEY4  "_albedo4"
-
 /* 
 -- ENTITY --
 The entity is a base class for rendering hard-coded vertex placements

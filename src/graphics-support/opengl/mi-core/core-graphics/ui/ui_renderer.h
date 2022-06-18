@@ -29,7 +29,7 @@ namespace Mi { namespace UI {
             for (int i = 0; i < nbElements; i++) {
                 Mi::Inheritable::UIElement* elem = _uiElements[i];
                 glDepthMask(GL_TRUE);
-                elem->Render(Mi::Engine::MiCoreFindShader(elem->shaderName));
+                elem->Render(Mi::Engine::FindShader(elem->shaderName));
             }
         }
     };

@@ -65,7 +65,7 @@ public:
         ResetViewport();
 
         Mi::InstancedRenderer r = FindRendererByName("INSTANCED TEST");
-        Mi::Shader rs = Mi::Engine::MiCoreFindShader(r.shaderName);
+        Mi::Shader rs = Mi::Engine::FindShader(r.shaderName);
         
         rs.use();
         rs.setMatr4("projection", camera.projection);
@@ -89,7 +89,7 @@ public:
 
         for (int en = 0; en < solids.size(); en++) {
             Mi::Renderable entity = solids[en];
-            Mi::Shader s = Mi::Engine::MiCoreFindShader(entity.shaderName);
+            Mi::Shader s = Mi::Engine::FindShader(entity.shaderName);
             s.use();
             s.setVec3("camera_position", camera.position);
             Render(entity);
@@ -122,7 +122,7 @@ public:
 
         glm::vec3 mouseRay = camera.GetMouseRayNormalized();
 
-        Mi::Shader shader = Mi::Engine::MiCoreFindShader(entity.shaderName);
+        Mi::Shader shader = Mi::Engine::FindShader(entity.shaderName);
         
         glCullFace(GL_BACK);
         shader.use();

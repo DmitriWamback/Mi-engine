@@ -24,6 +24,18 @@
 #define MOUSE_BUTTON_RIGHT      GLFW_MOUSE_BUTTON_RIGHT
 #define MOUSE_BUTTON_LEFT       GLFW_MOUSE_BUTTON_LEFT
 
+#define RENDERABLE_ALBEDO_TEXTURE0  0
+#define RENDERABLE_ALBEDO_TEXTURE1  1
+#define RENDERABLE_ALBEDO_TEXTURE2  2
+#define RENDERABLE_ALBEDO_TEXTURE3  3
+#define RENDERABLE_ALBEDO_TEXTURE4  4
+
+#define RENDERABLE_ALBEDO_KEY0  "_albedo0"
+#define RENDERABLE_ALBEDO_KEY1  "_albedo1"
+#define RENDERABLE_ALBEDO_KEY2  "_albedo2"
+#define RENDERABLE_ALBEDO_KEY3  "_albedo3"
+#define RENDERABLE_ALBEDO_KEY4  "_albedo4"
+
 #define GetKeyDown(key)             glfwGetKey(main_window, key) == KEY_UP
 #define GetKeyUp(key)               glfwGetKey(main_window, key) == KEY_DOWN
 #define GetMouseButtonDown(key)     glfwGetMouseButton(main_window, key) == KEY_UP
@@ -141,7 +153,7 @@ namespace Mi { namespace Core {
 }
 namespace Engine {
 
-    Mi::Shader MiCoreFindShader(std::string name) {
+    Mi::Shader FindShader(std::string name) {
         if (Mi::Core::allShaders.find(name) != Mi::Core::allShaders.end()) {
             return Mi::Core::allShaders[name];
         }
@@ -151,11 +163,14 @@ namespace Engine {
 }}
 
 
+#include "util/camera.h"
 #include "core-graphics/texture/texture.h"
 #include "core-graphics/texture/cubemap.h"
 #include <Mi-Registry/Mi-Physics/registry.h>
 #include <Mi-Registry/Mi-Post-Processing/registry.h>
 #include <Mi-Registry/Mi-Attrib/registry.h>
+
+#include "core-graphics/material.h"
 
 #include "attributes/cube_renderer.h"
 #include "attributes/terrain_renderer.h"
@@ -163,7 +178,6 @@ namespace Engine {
 #include "attributes/text_renderer.h"
 
 #include "core-graphics/colorbuf/colorbuf.h"
-#include "util/camera.h"
 #include "entitylib.h"
 #include "core-graphics/ui/ui_element.h"
 #include "core-graphics/ui/ui_button.h"
@@ -200,54 +214,54 @@ namespace Mi { namespace Engine {
     Mi::Audio::AudioPlayer audioPlayer;
 
     // Adds a static camera to a given scene
-    void MiCoreAddStaticCamera(Mi::Inheritable::Scene* scene, Mi::StaticCamera camera) {
+    void AddStaticCamera(Mi::Inheritable::Scene* scene, Mi::StaticCamera camera) {
         //scene->AddStaticCamera(camera);
     }
 
     // Adds a serial port for serial communication
-    void MiCoreAddSerialPort(Mi::Hardware::Serialport port, std::string name) {
+    void AddSerialPort(Mi::Hardware::Serialport port, std::string name) {
         Mi::Core::ports[name] = port;
     }
 
     // Assigns an entity a shader to use when being rendered
-    void MiCoreEntityAssignShader(Mi::Renderable entity, Mi::Shader shader) {
+    void EntityAssignShader(Mi::Renderable entity, Mi::Shader shader) {
         entity.shaderName = shader.shaderName;
     }
 
-    void MiCoreSceneAddUIRenderer(Mi::Inheritable::Scene* scene, Mi::UI::UIRenderer renderer) {
+    void SceneAddUIRenderer(Mi::Inheritable::Scene* scene, Mi::UI::UIRenderer renderer) {
         //scene->AddUIRenderer(renderer);
     }
 
-    void MiCoreEntityAssignWireframeShader(Mi::Renderable entity, Mi::Shader shader) {
+    void EntityAssignWireframeShader(Mi::Renderable entity, Mi::Shader shader) {
         entity.wireframeShaderToUse = shader.shaderName;
     }
 
     // Adds an audio source to the engine
-    void MiCoreAddAudioSource(Mi::Audio::AudioSource source) {
+    void AddAudioSource(Mi::Audio::AudioSource source) {
         Mi::Core::sources[source.name] = source;
     }
 
     // Plays a given audio source
-    void MiCorePlaySource(std::string source_name) {
+    void PlaySource(std::string source_name) {
 
     }
     
     // Stops playing a given audio source
-    void MiCoreStopSource(std::string source_name) {
+    void StopSource(std::string source_name) {
 
     }
 
-    void MiCoreAddScene(Mi::Inheritable::Scene* scene) {
+    void AddScene(Mi::Inheritable::Scene* scene) {
         Mi::Core::scenes[scene->scene_name] = scene;
     }
 
     // Adds a shader to the engine
-    void MiCoreAddShader(Mi::Shader shader) {
+    void AddShader(Mi::Shader shader) {
         Mi::Core::allShaders[shader.shaderName] = shader;
     }
 
     // Adds an entity to a scene
-    void MiCoreSceneAddEntity(Mi::Inheritable::Scene* scene, Mi::Renderable entity) {
+    void SceneAddEntity(Mi::Inheritable::Scene* scene, Mi::Renderable entity) {
         if (Mi::Core::scenes.find(scene->scene_name) == Mi::Core::scenes.end()) {
             //scene->AddEntity(entity);
             Mi::Core::scenes[scene->scene_name] = scene;
@@ -257,20 +271,20 @@ namespace Mi { namespace Engine {
         }
     }
 
-    void MiCoreSceneAddInstancedRenderer(Mi::Inheritable::Scene* scene, Mi::InstancedRenderer renderer) {
+    void SceneAddInstancedRenderer(Mi::Inheritable::Scene* scene, Mi::InstancedRenderer renderer) {
         scene->AddInstancedRenderer(renderer);
     }
 
-    void MiCoreSetSubKeyboard(Mi::Inheritable::Keyboard* keyboard) {
+    void SetSubKeyboard(Mi::Inheritable::Keyboard* keyboard) {
         Mi::Input::subKeyboard = keyboard;
     }
 
-    void MiCoreSetSubMouse(Mi::Inheritable::Mouse* mouse) {
+    void SetSubMouse(Mi::Inheritable::Mouse* mouse) {
         Mi::Input::subMouse = mouse;
     }
 
     // Runs the engine with a given scene identification
-    void MiCoreStartMainLoop(std::string scene_to_render) {
+    void StartMainLoop(std::string scene_to_render) {
         Mi::Inheritable::Scene* scene = Mi::Core::scenes[scene_to_render];
 
         scene->__MI_ENGINE_BEGUN();
@@ -325,7 +339,7 @@ namespace Mi { namespace Engine {
         glEnable(GL_CULL_FACE);
         glEnable(GL_MULTISAMPLE);
 
-        MiCoreAddShader(Mi::Shader::Create("standard/vMain.glsl", "standard/fMain.glsl", "STANDARD"));  
+        AddShader(Mi::Shader::Create("standard/vMain.glsl", "standard/fMain.glsl", "STANDARD"));  
 
         glfwSetCursorPosCallback(main_window, Mi::Input::mouseMove);
         glfwSetMouseButtonCallback(main_window, Mi::Input::mouseDown);

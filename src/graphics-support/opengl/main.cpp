@@ -28,8 +28,8 @@ int main() {
     Mi::Shader uiShader         = Mi::Shader::Create("ui/uvMain.glsl", "ui/ufMain.glsl", "UI SHADER");
     Mi::Shader standard         = Mi::Shader::Create("standard/vMain.glsl", "standard/fMain.glsl", "standard");
 
-    Mi::Engine::MiCoreAddShader(shadowShader);
-    Mi::Engine::MiCoreAddShader(instancedShader);
+    Mi::Engine::AddShader(shadowShader);
+    Mi::Engine::AddShader(instancedShader);
 
     Mi::System* _s = Mi::ParticleSystem::Create();
     RenderBuffer renderbuf = RenderBuffer::Create();
@@ -38,7 +38,7 @@ int main() {
                                                             "INSTANCED TEST");
 
     Mi::Inheritable::Keyboard* k = new MainKeyboard(scene1);
-    Mi::Engine::MiCoreSetSubKeyboard(k);
+    Mi::Engine::SetSubKeyboard(k);
 
     Mi::Renderable a = Mi::Renderable::Create();
     a.AttachRenderer(new Mi::TerrainRenderer(RenderBuffer::Create()));
@@ -64,7 +64,7 @@ int main() {
     }
     r.AssignShader(instancedShader);
     r.LinkTransformations();
-    Mi::Engine::MiCoreSceneAddInstancedRenderer(scene1, r);
+    Mi::Engine::SceneAddInstancedRenderer(scene1, r);
 
 
     Mi::Renderable b = Mi::Renderable::Create();
@@ -81,6 +81,6 @@ int main() {
     a.shaderName = standard.shaderName;
     scene1->AddEntity(a);
 
-    Mi::Engine::MiCoreAddScene(scene1);
-    Mi::Engine::MiCoreStartMainLoop(scene1->scene_name);
+    Mi::Engine::AddScene(scene1);
+    Mi::Engine::StartMainLoop(scene1->scene_name);
 }
