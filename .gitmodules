@@ -7,3 +7,6 @@
 [submodule "src/shared/Mi-Registry"]
 	path = src/shared/Mi-Registry
 	url = https://github.com/DmitriWamback/Mi-Registry
+[submodule "src/shared/imgui"]
+	path = src/shared/imgui
+	url = https://github.com/ocornut/imgui
