@@ -5,3 +5,4 @@ a.out
 *.lock
 *.mtl
 __pycache__
+src/main/mac-build
