@@ -284,7 +284,7 @@ namespace Mi { namespace Engine {
     }
 
     // Runs the engine with a given scene identification
-    void StartMainLoop(std::string scene_to_render) {
+    void StartMainLoop(std::string scene_to_render, std::function<void()> callback) {
         Mi::Inheritable::Scene* scene = Mi::Core::scenes[scene_to_render];
 
         scene->__MI_ENGINE_BEGUN();
@@ -312,6 +312,7 @@ namespace Mi { namespace Engine {
             oldTime = currentTime;
 
             scene->RenderAll(Mi::Input::movement_motion, Mi::Input::camera_rotation_movement);
+            callback();
 
             Mi::Input::camera_rotation_movement = glm::vec2(0.0);
             glfwPollEvents();

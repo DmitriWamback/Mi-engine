@@ -6,6 +6,8 @@
 
 Mi::Inheritable::Scene* scene1 = new MainScene("Hello");
 
+void callback() {}
+
 int main() {
 
     Mi::Engine::MiCoreBegin(1200, 800, "Mi");
@@ -82,5 +84,5 @@ int main() {
     scene1->AddEntity(a);
 
     Mi::Engine::AddScene(scene1);
-    Mi::Engine::StartMainLoop(scene1->scene_name);
+    Mi::Engine::StartMainLoop(scene1->scene_name, callback);
 }

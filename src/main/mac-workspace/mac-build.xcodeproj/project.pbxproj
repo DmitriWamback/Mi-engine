@@ -21,6 +21,9 @@
 		FCFAA88F285E7CEA002C640C /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFAA882285E7C3F002C640C /* libglfw.3.3.dylib */; };
 		FCFAA890285E7CEA002C640C /* libglfw.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFAA880285E7C3F002C640C /* libglfw.3.dylib */; };
 		FCFAA891285E7CEA002C640C /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFAA881285E7C3F002C640C /* libglfw.dylib */; };
+		FCFAA893285E96D9002C640C /* libmain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFAA892285E96D9002C640C /* libmain.a */; };
+		FCFAA895285E98A8002C640C /* imgui_impl_glfw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FCFAA894285E98A8002C640C /* imgui_impl_glfw.cpp */; };
+		FCFAA897285E98F3002C640C /* imgui_impl_opengl3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FCFAA896285E98F3002C640C /* imgui_impl_opengl3.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,6 +57,11 @@
 		FCFAA886285E7C44002C640C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		FCFAA888285E7C48002C640C /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		FCFAA88A285E7C50002C640C /* scUBlibsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = scUBlibsndfile.a; path = ../../../vendor/OSX/sndfile/scUBlibsndfile.a; sourceTree = "<group>"; };
+		FCFAA892285E96D9002C640C /* libmain.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmain.a; path = "../../../mi-libs/libmain.a"; sourceTree = "<group>"; };
+		FCFAA894285E98A8002C640C /* imgui_impl_glfw.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_impl_glfw.cpp; path = sources/imgui_impl_glfw.cpp; sourceTree = "<group>"; };
+		FCFAA896285E98F3002C640C /* imgui_impl_opengl3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_impl_opengl3.cpp; path = sources/imgui_impl_opengl3.cpp; sourceTree = "<group>"; };
+		FCFAA898285E9D8F002C640C /* style.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = style.m; sourceTree = "<group>"; };
+		FCFAA89A285EA100002C640C /* style.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = style.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +76,7 @@
 				FCFAA88E285E7CEA002C640C /* libGLEW.dylib in Frameworks */,
 				FCFAA88F285E7CEA002C640C /* libglfw.3.3.dylib in Frameworks */,
 				FCFAA890285E7CEA002C640C /* libglfw.3.dylib in Frameworks */,
+				FCFAA893285E96D9002C640C /* libmain.a in Frameworks */,
 				FCFAA891285E7CEA002C640C /* libglfw.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,6 +87,8 @@
 		FCFAA853285E724B002C640C = {
 			isa = PBXGroup;
 			children = (
+				FCFAA896285E98F3002C640C /* imgui_impl_opengl3.cpp */,
+				FCFAA894285E98A8002C640C /* imgui_impl_glfw.cpp */,
 				FCFAA866285E7285002C640C /* sources */,
 				FCFAA85E285E724B002C640C /* mac-build */,
 				FCFAA85D285E724B002C640C /* Products */,
@@ -96,7 +107,9 @@
 		FCFAA85E285E724B002C640C /* mac-build */ = {
 			isa = PBXGroup;
 			children = (
+				FCFAA89A285EA100002C640C /* style.mm */,
 				FCFAA875285E7456002C640C /* main.mm */,
+				FCFAA898285E9D8F002C640C /* style.m */,
 			);
 			path = "mac-build";
 			sourceTree = "<group>";
@@ -117,6 +130,7 @@
 		FCFAA877285E7C39002C640C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FCFAA892285E96D9002C640C /* libmain.a */,
 				FCFAA88A285E7C50002C640C /* scUBlibsndfile.a */,
 				FCFAA888285E7C48002C640C /* OpenAL.framework */,
 				FCFAA886285E7C44002C640C /* OpenGL.framework */,
@@ -193,6 +207,8 @@
 				FCFAA86F285E72EC002C640C /* imgui.cpp in Sources */,
 				FCFAA870285E72EC002C640C /* imgui_draw.cpp in Sources */,
 				FCFAA876285E7456002C640C /* main.mm in Sources */,
+				FCFAA897285E98F3002C640C /* imgui_impl_opengl3.cpp in Sources */,
+				FCFAA895285E98A8002C640C /* imgui_impl_glfw.cpp in Sources */,
 				FCFAA871285E72EC002C640C /* imgui_demo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,10 +337,13 @@
 					sources,
 					"\"$(SRCROOT)/../../../graphics-support/opengl\"",
 					"\"$(SRCROOT)/../../../vendor/OSX/include\"",
+					"\"$(SRCROOT)/../../../vendor/include\"",
+					"\"$(SRCROOT)/../../../shared\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendor/OSX/glfw\"",
 					"\"$(SRCROOT)/../../../vendor/OSX/glew\"",
+					"\"$(SRCROOT)/../../../mi-libs\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = "";
@@ -343,10 +362,13 @@
 					sources,
 					"\"$(SRCROOT)/../../../graphics-support/opengl\"",
 					"\"$(SRCROOT)/../../../vendor/OSX/include\"",
+					"\"$(SRCROOT)/../../../vendor/include\"",
+					"\"$(SRCROOT)/../../../shared\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendor/OSX/glfw\"",
 					"\"$(SRCROOT)/../../../vendor/OSX/glew\"",
+					"\"$(SRCROOT)/../../../mi-libs\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = "";
