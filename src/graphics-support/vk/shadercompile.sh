@@ -1,1 +1,0 @@
-glslc src/res/shaders/vk/triangle/vMain.vert -o out.vert.spv
