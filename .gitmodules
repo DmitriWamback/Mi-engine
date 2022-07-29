@@ -1,0 +1,12 @@
+[submodule "vendor/Mi-lib"]
+	path = vendor/Mi-lib
+	url = https://github.com/DmitriWamback/Mi-lib
+[submodule "vendor/Mi-Registry"]
+	path = vendor/Mi-Registry
+	url = https://github.com/DmitriWamback/Mi-Registry
+[submodule "vendor/imgui"]
+	path = vendor/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "vendor/glm"]
+	path = vendor/glm
+	url = https://www.github.com/g-truc/glm.git
