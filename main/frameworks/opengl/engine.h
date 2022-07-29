@@ -71,6 +71,7 @@ namespace Mi::Core {
 #endif
             callback();
 
+
             glfwPollEvents();
             glfwSwapBuffers(Mi::Util::MicoreMainwindow);
         }
