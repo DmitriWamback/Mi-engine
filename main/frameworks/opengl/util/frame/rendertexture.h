@@ -1,0 +1,6 @@
+namespace Mi {
+
+    class RenderTexture {
+
+    };
+}
