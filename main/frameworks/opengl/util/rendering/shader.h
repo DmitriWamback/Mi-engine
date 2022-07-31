@@ -6,6 +6,8 @@ namespace Mi {
         std::map<std::string, int> locationCache;
 
         static Shader Create();
+
+        void setFloat(std::string location, float value);
     };
 
     Shader Shader::Create() {

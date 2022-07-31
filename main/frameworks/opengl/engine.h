@@ -18,8 +18,8 @@
 #include <vector>
 
 #define MI_ENGINE_OPENGL
-#define LOGOUT(x)      std::cout << x << '\n'
-#define MI_ASSERT(msg) throw std::runtime_error(msg)
+//#define LOGOUT(x)      std::cout << x << '\n'
+//#define MI_ASSERT(msg) throw std::runtime_error(msg)
 
 namespace __mi { namespace __internal {
     bool __mi_GAME_DEVELOPMENT_STAGE = true;
@@ -41,7 +41,7 @@ namespace __mi { namespace __internal {
 
 int MI_ENTITY_COUNT = 0;
 #define __MI_INCREMENT_ENTITY_COUNT() MI_ENTITY_COUNT++
-#define __MI_BUILD_RELEASE __mi::__internal::__mi_compile_and_build_release()
+#define __MI_BUILD_RELEASE() __mi::__internal::__mi_compile_and_build_release()
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -57,6 +57,8 @@ namespace Mi { namespace Util {
 #include "util/rendering/shader.h"
 #include "util/frame/texture.h"
 #include "util/rendering/material.h"
+
+#include "util/frame/colorbuffer.h"
 
 namespace Mi { namespace Storage {
 
@@ -77,7 +79,7 @@ namespace Mi {
 namespace Mi { namespace Core {
 
     void CreateContext(int windowWidth, int windowHeight) {
-        if (!glfwInit()) MI_ASSERT("GLFW failed to initialize");
+        if (!glfwInit()) std::cout << "GLFW failed to initialize\n"; //MI_ASSERT("GLFW failed to initialize");
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);

@@ -10,5 +10,6 @@ namespace Mi {
         glm::vec3 color;
         std::map<std::string, Mi::Texture> textures;
         bool illuminate;
+
     } Material;
 }
